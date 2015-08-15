@@ -37,6 +37,25 @@ $config = [
                 ],
             ],
         ],
+        'urlManager' => [
+            'showScriptName' => false,
+            'enablePrettyUrl' => true,
+            'rules' => [
+                [
+                    'class' => \yii\rest\UrlRule::className(),
+                    'controller'    => ['category' => 'category', 'article' => 'article', 'user' => 'user'],
+                    'extraPatterns' => [
+                        'GET {email}'       => 'get-email',
+                        'GET current'       => 'current',
+                        'GET {id}/articles' => 'list',
+                    ],
+                    'tokens' => [
+                        '{id}'      => '<id:\d+>',
+                        '{email}'   => '<email:.+@.+>'
+                    ]
+                ],
+            ],
+        ],
         'db' => require(__DIR__ . '/db.php'),
     ],
     'params' => $params,

@@ -9,7 +9,7 @@ angular.module 'crm'
         $('<div/>').html(str).text()
       isEmail : (email) ->
         if value.match(/^[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/)
-          then true
+          true
         else
           false
       confirm : (content, callback)->

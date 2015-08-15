@@ -6,7 +6,7 @@ angular.module "crm"
         AuthService.saveAccessToken(res.data.accessToken);
         AuthService.loginByAccessToken(res.data.accessToken).then (user) ->
             $scope.setCurrentUser(user)
-            $('#sign-in-modal').modal('hide')
+            $modalInstance.dismiss('cancel')
       ,
       (res)->
         $scope.userForm.password.$invalid = true

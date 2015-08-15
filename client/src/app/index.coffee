@@ -6,10 +6,10 @@ angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngRes
         templateUrl: "app/controllers/main/main.html",
         controller: "MainCtrl"
       .state "account",
-        url: '/account',
-        templateUrl: "app/account/account.html",
-        controller: "AccountCtrl"
+        url: '/chat',
+        templateUrl: "app/controllers/chat/index.html",
+        controller: "ChatCtrl"
     $locationProvider.html5Mode true
     $urlRouterProvider.otherwise '/'
-  .constant('API_BASE_URL', 'http://api.warphp.com')
+  .constant('API_BASE_URL', 'http://www.warcrm.com')
   .constant('PRE_PAGE_COUNT', 10);

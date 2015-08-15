@@ -1,13 +1,13 @@
 angular.module 'crm'
 .service 'SessionService', ($cookieStore)->
-    this.accessToken = $cookieStore.get 'access_token';
+    this.accessToken = $cookieStore.get 'accessToken';
 
     this.create = (accessToken)->
       this.accessToken = accessToken
-      $cookieStore.put 'access_token', accessToken
+      $cookieStore.put 'accessToken', accessToken
 
     this.destroy = ()->
       this.accessToken = null
-      $cookieStore.remove 'access_token'
+      $cookieStore.remove 'accessToken'
 
     this;

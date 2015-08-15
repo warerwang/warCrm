@@ -1,0 +1,107 @@
+<div id="user-list" class="col-md-3">
+    <ul class="nav nav-pills nav-stacked">
+        <li ng-repeat="user in users"><a ng-click="chatWith($index)">{{user.status}} -  {{user.name}}</a></li>
+    </ul>
+</div>
+<div id="chat-content" class="col-md-9">
+    <div class="chat-header">Chat with {{chat.name}}</div>
+    <div class="chat-container">
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+        <div class="message">
+            <div class="avatar"><img src="" /></div>
+            <a class="sender" href=""> Yadong w</a>
+            <i>1 day ago</i>
+            <div class="message_content">dddddd</div>
+        </div>
+    </div>
+    <div id="messages-input-container" class="chat-footer">
+        <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" style="height: 42px;">
+            <i class="ts_icon ts_icon_plus_thick"></i>
+        </a>
+        <form id="message-form" style="height: 42px;">
+            <a class="emo_menu cursor-pointer" aria-label="Emoji menu">
+                <i class="fa fa-smile-o"></i>
+            </a>
+            <textarea id="message-input" class="with-emoji-menu" maxlength="" aria-label="Message input for Direct message with slackbot" style="overflow-y: hidden; height: 38px;" autocorrect="off" autocomplete="off" spellcheck="true"></textarea>
+            <div id="message-input-message" class=""><span></span></div>
+            <input type="file" id="file-upload" class="offscreen" multiple="multiple" aria-hidden="true">
+        </form>
+    </div>
+</div>
