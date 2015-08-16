@@ -19,12 +19,12 @@ angular.module 'crm'
 
     connect = {
       init: ()->
-        websocket = new WebSocket(wsServer);
+        websocket = new WebSocket(wsServer)
         websocket.onopen = (evt)->
-          console.log("Connected to WebSocket server.");
+          console.log("Connected to WebSocket server.")
 
         websocket.onclose = (evt)->
-          console.log('Error occured: ' + evt.data);
+          console.log('Error occured: ' + evt.data)
 
         websocket.onerror = (evt)->
           console.log evt

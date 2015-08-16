@@ -1,4 +1,4 @@
-angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap']
+angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap', 'luegg.directives']
   .config ($stateProvider, $urlRouterProvider, $locationProvider) ->
     $stateProvider
       .state "home",

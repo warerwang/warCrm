@@ -33,7 +33,7 @@ angular.module "crm"
     $scope.showSignUpModal = ()->
       $('#sign-up-modal').modal('show')
       false
-    ConnectService.init();
+    ConnectService.init()
 
     ConnectService.websocket.onmessage = (messageEvent)->
       data = $.parseJSON messageEvent.data
