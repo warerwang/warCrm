@@ -22,7 +22,7 @@ angular.module 'crm'
 
       rebound : (key, callback, time)->
         if typeof timer[key] != 'undefined'
-            clearTimeout(timer[key])
+          clearTimeout(timer[key])
         timer[key] = setTimeout( ()->
           callback()
         , time)

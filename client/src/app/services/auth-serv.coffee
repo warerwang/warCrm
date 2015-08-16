@@ -9,8 +9,9 @@ angular.module 'crm'
 
     authService.loginByAccessToken = (accessToken)->
       $http.get API_BASE_URL + '/user/current?access-token=' + accessToken
-      .then (res)->
-        res.data
+        .then (res)->
+          authService.currentUser = res.data
+          authService.currentUser
 
     authService.isAuthenticated = ()->
       !!SessionService.accessToken
@@ -18,4 +19,4 @@ angular.module 'crm'
     authService.saveAccessToken = (accessToken)->
       SessionService.create(accessToken)
 
-    authService;
+    authService

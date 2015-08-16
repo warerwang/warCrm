@@ -50,7 +50,7 @@ body,html{
     .emo_menu {
       position: absolute;
       z-index: 1;
-      right: 0;
+      right: 120px;
       top: 0;
       width: 40px;
       height: 42px;
@@ -66,6 +66,16 @@ body,html{
       -moz-transition: all 50ms ease-out .0000001ms;
       transition: all 50ms ease-out .0000001ms;
     }
+    .btn-sender {
+      position: absolute;
+      z-index: 1;
+      right: 0;
+      top: 1px;
+      width: 120px;
+      height: 40px;
+//      line-height: 42px;
+    }
+
   }
   .chat-container{
     top: 20px;
@@ -152,6 +162,23 @@ body,html{
   position: absolute;
 }
 
+.online,.offline,.busy{
+    width: 10px;
+    height: 10px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    display: inline-block;
+}
+.online{
+  background: green;
+}
+.offline{
+  background: #cccccc;
+}
+.busy{
+  background: yellow;
+}
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */

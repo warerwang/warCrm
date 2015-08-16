@@ -1,94 +1,17 @@
 <div id="user-list" class="col-md-3">
     <ul class="nav nav-pills nav-stacked">
-        <li ng-repeat="user in users"><a ng-click="chatWith($index)">{{user.status}} -  {{user.name}}</a></li>
+        <li ng-repeat="chat in chats"><a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}"><div class="{{chat.getStatus()}}"></div> {{chat.name}}</a></li>
     </ul>
 </div>
 <div id="chat-content" class="col-md-9">
     <div class="chat-header">Chat with {{chat.name}}</div>
     <div class="chat-container">
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
-        </div>
-        <div class="message">
-            <div class="avatar"><img src="" /></div>
-            <a class="sender" href=""> Yadong w</a>
-            <i>1 day ago</i>
-            <div class="message_content">dddddd</div>
+
+        <div class="message" ng-repeat="message in messages">
+            <div class="avatar"><img src="{{message.getSender().avatar}}" /></div>
+            <a class="sender" href="/user/{{message.getSender().id}}">{{message.getSender().nickName}}</a>
+            <i>{{message.createTime}}</i>
+            <div class="message_content">{{message.content}}</div>
         </div>
     </div>
     <div id="messages-input-container" class="chat-footer">
@@ -99,7 +22,9 @@
             <a class="emo_menu cursor-pointer" aria-label="Emoji menu">
                 <i class="fa fa-smile-o"></i>
             </a>
-            <textarea id="message-input" class="with-emoji-menu" maxlength="" aria-label="Message input for Direct message with slackbot" style="overflow-y: hidden; height: 38px;" autocorrect="off" autocomplete="off" spellcheck="true"></textarea>
+
+            <textarea id="message-input" class="with-emoji-menu" ng-model="message"></textarea>
+            <button type="button" class="btn btn-primary btn-sender" ng-click="sendMessage()">发送</button>
             <div id="message-input-message" class=""><span></span></div>
             <input type="file" id="file-upload" class="offscreen" multiple="multiple" aria-hidden="true">
         </form>

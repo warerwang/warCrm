@@ -2,6 +2,7 @@
 
 namespace app\models\base;
 
+use app\components\Model;
 use Yii;
 
 /**
@@ -22,7 +23,7 @@ use Yii;
  * @property string $loginTime
  * @property integer $status
  */
-class UsersBase extends \yii\db\ActiveRecord
+class UsersBase extends Model
 {
     /**
      * @inheritdoc

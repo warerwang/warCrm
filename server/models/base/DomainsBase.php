@@ -2,6 +2,7 @@
 
 namespace app\models\base;
 
+use app\components\Model;
 use Yii;
 
 /**
@@ -14,7 +15,7 @@ use Yii;
  * @property string $log
  * @property integer $status
  */
-class DomainsBase extends \yii\db\ActiveRecord
+class DomainsBase extends Model
 {
     /**
      * @inheritdoc

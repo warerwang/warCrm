@@ -52,7 +52,7 @@ class UserController extends RestController
 
     public function actionIndex ()
     {
-
+        return User::find()->where(['did' => 1])->all();
     }
 
     /**

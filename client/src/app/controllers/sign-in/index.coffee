@@ -3,10 +3,9 @@ angular.module "crm"
     $scope.submit = ()->
       AuthService.login $scope.email, $scope.password
       .then (res)->
-        AuthService.saveAccessToken(res.data.accessToken);
+        AuthService.saveAccessToken(res.data.accessToken)
         AuthService.loginByAccessToken(res.data.accessToken).then (user) ->
-            $scope.setCurrentUser(user)
-            $modalInstance.dismiss('cancel')
+          $modalInstance.close(user)
       ,
       (res)->
         $scope.userForm.password.$invalid = true
@@ -14,4 +13,4 @@ angular.module "crm"
         $scope.userForm.password.error = res.data.message
 
     $scope.close = ()->
-      $modalInstance.dismiss('cancel');
+      $modalInstance.dismiss('cancel')

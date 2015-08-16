@@ -5,11 +5,11 @@ angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngRes
         url: "/",
         templateUrl: "app/controllers/main/main.html",
         controller: "MainCtrl"
-      .state "account",
-        url: '/chat',
+      .state "chat",
+        url: '/chat/:id',
         templateUrl: "app/controllers/chat/index.html",
         controller: "ChatCtrl"
     $locationProvider.html5Mode true
     $urlRouterProvider.otherwise '/'
   .constant('API_BASE_URL', 'http://www.warcrm.com')
-  .constant('PRE_PAGE_COUNT', 10);
+  .constant('PRE_PAGE_COUNT', 10)
