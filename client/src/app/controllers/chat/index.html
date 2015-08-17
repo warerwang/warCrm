@@ -6,7 +6,6 @@
 <div id="chat-content" class="col-md-9">
     <div class="chat-header">Chat with {{chat.name}}</div>
     <div class="chat-container" scroll-glue>
-
         <div class="message" ng-repeat="message in messages">
             <div class="avatar"><img src="{{message.getSender().avatar}}" /></div>
             <a class="sender" href="/user/{{message.getSender().id}}">{{message.getSender().nickName}}</a>
@@ -22,7 +21,6 @@
             <a class="emo_menu cursor-pointer" aria-label="Emoji menu">
                 <i class="fa fa-smile-o"></i>
             </a>
-
             <textarea id="message-input" class="with-emoji-menu" ng-model="message" ng-keypress="enterSubmit($event)"></textarea>
             <button type="button" class="btn btn-primary btn-sender" ng-click="sendMessage()">发送</button>
             <div id="message-input-message" class=""><span></span></div>

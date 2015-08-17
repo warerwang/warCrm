@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var debug = require('gulp-debug');
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']

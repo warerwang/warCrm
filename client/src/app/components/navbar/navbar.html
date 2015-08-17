@@ -6,15 +6,21 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
-        <li class="active"><a ng-href="/">Home</a></li>
-        <li><a ng-href="/chat/">Chat</a></li>
-        <li><a ng-href="">Contact</a></li>
+        <li><a ng-href="/chat/" ng-show="isAuthorized">Chat</a></li>
+        <li><a ng-href="" ng-show="isAuthorized">Contact</a></li>
       </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <li>Current date: {{ date | date:'yyyy-MM-dd' }}</li>
+    <ul class="nav navbar-nav navbar-right" dropdown>
         <li><a ng-href="#" ng-hide="isAuthorized" ng-click="showSignModal()">登陆</a></li>
-        <!--<li><a ng-href="#" ng-hide="isAuthorized" ng-click="showSignUpModal()">申请</a></li>-->
-        <li><a ng-href="#" ng-show="isAuthorized" ng-click="signOut()"><span ng-bind="currentUser.email"></span> 退出</a></li>
+        <li><a ng-href="#" ng-hide="isAuthorized" ng-click="showSignUpModal()">申请</a></li>
+        <li><a ng-href="/admin/" ng-show="isAuthorized && currentUser.isAdmin">管理</a></li>
+        <li class="dropdown" dropdown ng-show="isAuthorized">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle><span ng-bind="currentUser.email"></span> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/profile/">修改资料</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" ng-click="signOut()"> 退出</a></li>
+            </ul>
+        </li>
     </ul>
     </div>
   </div>
