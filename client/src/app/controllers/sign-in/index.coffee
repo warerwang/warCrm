@@ -4,8 +4,8 @@ angular.module "crm"
       AuthService.login $scope.email, $scope.password
       .then (res)->
         AuthService.saveAccessToken(res.data.accessToken)
-        AuthService.loginByAccessToken(res.data.accessToken).then (user) ->
-          $modalInstance.close(user)
+        AuthService.loginByAccessToken(res.data.accessToken).then (res) ->
+          $modalInstance.close(res.data)
       ,
       (res)->
         $scope.userForm.password.$invalid = true

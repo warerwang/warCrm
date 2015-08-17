@@ -2,20 +2,20 @@
 
 namespace app\models\base;
 
-use app\components\Model;
 use Yii;
 
 /**
  * This is the model class for table "domains".
  *
- * @property integer $id
+ * @property string $id
  * @property string $domain
  * @property string $name
  * @property string $description
- * @property string $log
+ * @property string $logo
  * @property integer $status
+ * @property string $createTime
  */
-class DomainsBase extends Model
+class DomainsBase extends \app\components\Model
 {
     /**
      * @inheritdoc
@@ -31,10 +31,12 @@ class DomainsBase extends Model
     public function rules()
     {
         return [
-            [['id', 'domain', 'name', 'description', 'log'], 'required'],
-            [['id', 'status'], 'integer'],
+            [['id', 'domain', 'name', 'description', 'logo'], 'required'],
+            [['status'], 'integer'],
+            [['createTime'], 'safe'],
+            [['id'], 'string', 'max' => 20],
             [['domain'], 'string', 'max' => 64],
-            [['name', 'description', 'log'], 'string', 'max' => 256]
+            [['name', 'description', 'logo'], 'string', 'max' => 256]
         ];
     }
 
@@ -48,8 +50,9 @@ class DomainsBase extends Model
             'domain' => 'Domain',
             'name' => 'Name',
             'description' => 'Description',
-            'log' => 'Log',
+            'logo' => 'Logo',
             'status' => 'Status',
+            'createTime' => 'Create Time',
         ];
     }
 }

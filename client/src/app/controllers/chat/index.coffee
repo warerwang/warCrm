@@ -1,20 +1,27 @@
 angular.module "crm"
-  .controller "ChatCtrl", ($scope, UserService, $stateParams, ConnectService) ->
-    UserService.getUsers().then (users)->
-      $scope.users = users
-
+  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService) ->
     id = $stateParams.id
-    UserService.getRecentChat().then (chats)->
-      $scope.chats = chats
+
+    afterLoadPreData = ()->
+      $scope.users = UserService.getUsers()
+      $scope.chats = UserService.getRecentChat()
+      $scope.message = ''
+
       if id != ''
         $scope.chat = UserService.getChat id
         $scope.chat.getHistoryMessage().then (messages)->
           $scope.messages = messages
 
-    $scope.message = ''
+    if WebService.isLoadedPreData
+      afterLoadPreData()
+    $scope.$on EVENT_PREDATA_LOADED_SUCCESS, ()->
+      afterLoadPreData()
+
+
     $scope.sendMessage = ()->
       $scope.chat.sendMessage($scope.message)
       $scope.message = ''
+
     $scope.enterSubmit = (event)->
       if event.keyCode == 13
         $scope.sendMessage()

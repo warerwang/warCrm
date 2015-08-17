@@ -1,0 +1,58 @@
+<div class="col-xs-12">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">头像</label>
+            <div class="col-sm-10">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">邮箱</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{userRes.email}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">姓氏</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  placeholder="姓氏" ng-model="userRes.lastName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  placeholder="名" ng-model="userRes.firstName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">昵称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  placeholder="昵称" ng-model="userRes.nickName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">自我介绍</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="3" ng-model="userRes.description"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">创建时间</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{userRes.createTime}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">最后登陆时间</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{userRes.lastActivity}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" ng-click="save()">保存</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -54,6 +54,16 @@ $config = [
                         '{email}'   => '<email:.+@.+>'
                     ]
                 ],
+                [
+                    'class' => \yii\rest\UrlRule::className(),
+                    'controller'    => ['config' => 'config'],
+                    'patterns' => [
+                        'GET {subDomain}'  => 'index',
+                    ],
+                    'tokens' => [
+                        '{subDomain}'   => '<subDomain:[0-9a-zA-Z\-]+>'
+                    ]
+                ],
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),

@@ -62,6 +62,5 @@ angular.module 'crm'
       }
       jsonData = JSON.stringify(data)
       @websocket.send(jsonData)
-
-
+      
     connect

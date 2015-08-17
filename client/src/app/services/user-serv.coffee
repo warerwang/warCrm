@@ -1,10 +1,11 @@
 angular.module 'crm'
-  .factory 'UserService', (UserResource, AuthService, $q, MessageResource, ConnectService)->
+  .factory 'UserService', (UserResource, AuthService, $q, MessageResource, ConnectService, WebService)->
     userService = {}
 #    currentUser = AuthService.currentUser
     class User
       constructor: (options)->
         {@id, @email, @firstName, @lastName, @nickName, @avatar, @description, @isAdmin, @createTime, @lastActivity, @status} = options
+        @resource = options
       getStatus: ()->
         status = switch this.status
           when 1 then 'online'
@@ -44,43 +45,15 @@ angular.module 'crm'
       getSender: ()->
         userService.getUser this.sender
 
-
-
     userService.getUsers = ()->
-      deferred = $q.defer()
-      promise = deferred.promise
-      promise.then (data)->
-        data
-      ,
-      (data)->
-        data
-
-      if userService.users?
-        deferred.resolve(userService.users)
-      else
-        UserResource.get {}, (user)->
-          userService.users = (new User num for num in user)
-          deferred.resolve(userService.users)
-        ,
-        (data)->
-          deferred.reject(data)
-      promise
+      if !userService.users?
+        userService.users = (new User num for num in WebService.preData.users)
+      userService.users
 
     userService.getRecentChat = ()->
-      deferred = $q.defer()
-      promise = deferred.promise
-      promise.then (data)->
-        data
-
-      if userService.chats?
-        deferred.resolve(userService.chats)
-      else
-        userService.getUsers().then (users)->
-          userService.chats = (new Chat user for user in users when user.id != AuthService.currentUser.id)
-          deferred.resolve(userService.chats)
-
-      promise
-
+      if !userService.chats?
+        userService.chats = (new Chat user for user in WebService.preData.users when user.id != AuthService.currentUser.id)
+      userService.chats
 
     userService.setUsers = (users)->
       userService.users = users
@@ -93,9 +66,9 @@ angular.module 'crm'
       new Message options
 
     userService.getChat = (cid)->
-      (chat for chat in userService.chats when chat.id == cid)[0]
+      (chat for chat in userService.getRecentChat() when chat.id == cid)[0]
 
     userService.getUser = (uid)->
-      (user for user in userService.users when user.id == uid)[0]
+      return user for user in userService.getUsers() when user.id == uid
 
     userService

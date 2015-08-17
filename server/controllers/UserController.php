@@ -105,14 +105,11 @@ class UserController extends RestController
     public function actionUpdate ($id)
     {
         $request  = Yii::$app->request;
-        $nickname = $request->post('nickname');
         $user     = $this->findModel($id);
         $this->checkAccess($user);
-        if (Yii::$app->user->identity['group_id'] != User::GROUP_ADMIN) {
-            throw new UserException(UserException::PERMISSION_DENIED, UserException::PERMISSION_DENIED_CODE);
-        }
-        $user->nickname = $nickname;
-
+        $data = json_decode($request->rawBody, true);
+        $user->load($data, '');
+        $user->save();
         return $user;
     }
 
@@ -235,6 +232,11 @@ class UserController extends RestController
 
     }
 
+    /**
+     * @param $idOrEmail
+     *
+     * @return User
+     */
     private function findModel ($idOrEmail)
     {
         if (strpos($idOrEmail, '@') === false) {

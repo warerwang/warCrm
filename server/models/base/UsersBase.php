@@ -2,7 +2,6 @@
 
 namespace app\models\base;
 
-use app\components\Model;
 use Yii;
 
 /**
@@ -20,10 +19,11 @@ use Yii;
  * @property integer $did
  * @property integer $isAdmin
  * @property string $createTime
- * @property string $loginTime
+ * @property string $lastActivity
+ * @property string $accessToken
  * @property integer $status
  */
-class UsersBase extends Model
+class UsersBase extends \app\components\Model
 {
     /**
      * @inheritdoc
@@ -39,13 +39,13 @@ class UsersBase extends Model
     public function rules()
     {
         return [
-            [['id', 'email', 'firstName', 'lastName', 'nickName', 'avatar', 'description', 'password', 'salt', 'did', 'isAdmin', 'status'], 'required'],
+            [['id', 'email', 'firstName', 'lastName', 'nickName', 'description', 'did', 'isAdmin', 'accessToken', 'status'], 'required'],
             [['did', 'isAdmin', 'status'], 'integer'],
-            [['createTime', 'loginTime'], 'safe'],
+            [['createTime', 'lastActivity'], 'safe'],
             [['id', 'firstName', 'lastName'], 'string', 'max' => 20],
             [['email', 'avatar', 'description'], 'string', 'max' => 256],
             [['nickName'], 'string', 'max' => 40],
-            [['password'], 'string', 'max' => 32],
+            [['password', 'accessToken'], 'string', 'max' => 32],
             [['salt'], 'string', 'max' => 6]
         ];
     }
@@ -68,7 +68,8 @@ class UsersBase extends Model
             'did' => 'Did',
             'isAdmin' => 'Is Admin',
             'createTime' => 'Create Time',
-            'loginTime' => 'Login Time',
+            'lastActivity' => 'Last Activity',
+            'accessToken' => 'Access Token',
             'status' => 'Status',
         ];
     }
