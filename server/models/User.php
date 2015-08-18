@@ -3,6 +3,9 @@
 namespace app\models;
 
 use app\models\base\UsersBase;
+use yii\db\ActiveRecord;
+use yii\db\Exception;
+use yii\db\Query;
 use yii\web\IdentityInterface;
 
 class User extends UsersBase implements IdentityInterface
@@ -48,5 +51,32 @@ class User extends UsersBase implements IdentityInterface
     public function sendMessage ($cid, $content, $extraData = [])
     {
         return Message::create($cid, $content, $this->id, $this->did, $extraData);
+    }
+
+    public function beforeValidate ()
+    {
+        if(parent::beforeValidate()){
+            $this->salt = strval(rand(100000, 999999));
+            $this->password = md5($this->password . $this->salt);
+            $this->accessToken = md5(microtime(true) . $this->salt);
+            $this->lastActivity = (new \DateTime())->format("Y-m-d H:i:s");
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static function createUser ($did, $email, $password)
+    {
+        $user = new self();
+        $user->did = $did;
+        $user->email = $email;
+        $user->password = $password;
+        if($user->save()){
+            return $user;
+        }else{
+            print_r($user->errors);die;
+            throw new Exception('');
+        }
     }
 }

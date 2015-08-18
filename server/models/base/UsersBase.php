@@ -16,7 +16,7 @@ use Yii;
  * @property string $description
  * @property string $password
  * @property string $salt
- * @property integer $did
+ * @property string $did
  * @property integer $isAdmin
  * @property string $createTime
  * @property string $lastActivity
@@ -39,14 +39,16 @@ class UsersBase extends \app\components\Model
     public function rules()
     {
         return [
-            [['id', 'email', 'firstName', 'lastName', 'nickName', 'description', 'did', 'isAdmin', 'accessToken', 'status'], 'required'],
-            [['did', 'isAdmin', 'status'], 'integer'],
+            [['id', 'email', 'password', 'salt', 'did', 'accessToken'], 'required'],
+            [['isAdmin', 'status'], 'integer'],
             [['createTime', 'lastActivity'], 'safe'],
-            [['id', 'firstName', 'lastName'], 'string', 'max' => 20],
+            [['id', 'firstName', 'lastName', 'did'], 'string', 'max' => 20],
             [['email', 'avatar', 'description'], 'string', 'max' => 256],
             [['nickName'], 'string', 'max' => 40],
             [['password', 'accessToken'], 'string', 'max' => 32],
-            [['salt'], 'string', 'max' => 6]
+            [['salt'], 'string', 'max' => 6],
+            [['id'], 'unique'],
+            [['accessToken'], 'unique']
         ];
     }
 

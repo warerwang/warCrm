@@ -2,12 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\form\CreateDomainForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\web\ForbiddenHttpException;
 
 class SiteController extends Controller
 {
@@ -26,6 +28,34 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $request = Yii::$app->request;
+        $model = new CreateDomainForm();
+        if($request->isPost){
+            $model->load($request->post());
+            $isValidate = $model->validate();
+            if($request->post('submit') == 2){
+                $this->redirect('http://' . $model->domain . '.warcrm.com:3000');
+            }elseif($isValidate){
+                $this->redirect(['create-domain', 'domain' => $model->domain]);
+            }
+        }
+        return $this->render('index', ['model' => $model]);
+    }
+
+    public function actionCreateDomain ($domain)
+    {
+        $model = new CreateDomainForm();
+        $model->setScenario(CreateDomainForm::CREATE_STEP2);
+
+        $model->domain = $domain;
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $model->load($request->post());
+            if($model->createDomain()){
+                $this->redirect('http://' . $model->domain . '.warcrm.com:3000');
+            }
+        }
+
+        return $this->render('create-domain', ['model' => $model]);
     }
 }

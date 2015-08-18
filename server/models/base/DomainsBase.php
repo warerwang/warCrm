@@ -31,12 +31,15 @@ class DomainsBase extends \app\components\Model
     public function rules()
     {
         return [
-            [['id', 'domain', 'name', 'description', 'logo'], 'required'],
+            [['id', 'domain', 'name'], 'required'],
             [['status'], 'integer'],
-            [['createTime'], 'safe'],
             [['id'], 'string', 'max' => 20],
             [['domain'], 'string', 'max' => 64],
-            [['name', 'description', 'logo'], 'string', 'max' => 256]
+            [['name', 'description', 'logo'], 'string', 'max' => 256],
+            [['id'], 'unique'],
+            [['domain'], 'unique'],
+            ['domain', 'match', 'pattern' => '/[0-9a-zA-z\-]{5,64}/'],
+            [['name', 'description', 'logo'], 'safe'],
         ];
     }
 
@@ -46,13 +49,13 @@ class DomainsBase extends \app\components\Model
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'domain' => 'Domain',
-            'name' => 'Name',
-            'description' => 'Description',
+            'id' => '序号',
+            'domain' => '域名',
+            'name' => '团队名',
+            'description' => '简介',
             'logo' => 'Logo',
-            'status' => 'Status',
-            'createTime' => 'Create Time',
+            'status' => '状态',
+            'createTime' => '创建时间',
         ];
     }
 }

@@ -6,7 +6,8 @@ angular.module "crm"
                            $modal,
                            ConnectService,
                            UserService,
-                           WebService
+                           WebService,
+                           GlobalService,
                            EVENT_CONFIG_LOADED_SUCCESS,
                            EVENT_SIGN_IN_SUCCESS,
                            EVENT_PREDATA_LOADED_SUCCESS
@@ -15,8 +16,9 @@ angular.module "crm"
     $scope.isAuthorized = AuthService.isAuthenticated()
 
     WebService.loadWebConfig()
-      .then (config)->
-        WebService.config = config
+      .then (res)->
+        config = res.data
+        GlobalService.setConfig config
         WebService.isLoadConfig = true
         $scope.$broadcast EVENT_CONFIG_LOADED_SUCCESS, config
         if $scope.isAuthorized

@@ -50,9 +50,9 @@ class UserController extends RestController
         }
     }
 
-    public function actionIndex ()
+    public function actionIndex ($did)
     {
-        return User::find()->where(['did' => 1])->all();
+        return User::find()->where(['did' => $did])->all();
     }
 
     /**
