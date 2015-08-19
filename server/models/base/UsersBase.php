@@ -9,9 +9,9 @@ use Yii;
  *
  * @property string $id
  * @property string $email
- * @property string $firstName
- * @property string $lastName
+ * @property string $name
  * @property string $nickName
+ * @property string $phone
  * @property string $avatar
  * @property string $description
  * @property string $password
@@ -22,6 +22,7 @@ use Yii;
  * @property string $lastActivity
  * @property string $accessToken
  * @property integer $status
+ * @property integer $loginStatus
  */
 class UsersBase extends \app\components\Model
 {
@@ -39,15 +40,17 @@ class UsersBase extends \app\components\Model
     public function rules()
     {
         return [
-            [['id', 'email', 'password', 'salt', 'did', 'accessToken'], 'required'],
-            [['isAdmin', 'status'], 'integer'],
+            [['id', 'email', 'phone', 'password', 'salt', 'did', 'accessToken'], 'required'],
+            [['isAdmin', 'status', 'loginStatus'], 'integer'],
             [['createTime', 'lastActivity'], 'safe'],
-            [['id', 'firstName', 'lastName', 'did'], 'string', 'max' => 20],
+            [['id', 'name', 'did'], 'string', 'max' => 20],
             [['email', 'avatar', 'description'], 'string', 'max' => 256],
             [['nickName'], 'string', 'max' => 40],
+            [['phone'], 'string', 'max' => 15],
             [['password', 'accessToken'], 'string', 'max' => 32],
             [['salt'], 'string', 'max' => 6],
             [['id'], 'unique'],
+            ['email', 'unique', 'targetAttribute' => ['email', 'did']],
             [['accessToken'], 'unique']
         ];
     }
@@ -60,9 +63,9 @@ class UsersBase extends \app\components\Model
         return [
             'id' => 'ID',
             'email' => 'Email',
-            'firstName' => 'First Name',
-            'lastName' => 'Last Name',
+            'name' => 'Name',
             'nickName' => 'Nick Name',
+            'phone' => 'Phone',
             'avatar' => 'Avatar',
             'description' => 'Description',
             'password' => 'Password',
@@ -73,6 +76,7 @@ class UsersBase extends \app\components\Model
             'lastActivity' => 'Last Activity',
             'accessToken' => 'Access Token',
             'status' => 'Status',
+            'loginStatus' => 'Login Status',
         ];
     }
 }

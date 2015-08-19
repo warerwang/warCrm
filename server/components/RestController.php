@@ -8,6 +8,7 @@
 
 namespace app\components;
 
+use yii;
 use yii\filters\Cors;
 use yii\rest\Controller;
 use yii\filters\auth\CompositeAuth;
@@ -32,15 +33,27 @@ class RestController extends Controller
     public function behaviors ()
     {
         $behaviors = parent::behaviors();
-        if ($this->action->id != 'options' && !in_array($this->action->id, $this->safeActions)) {
-            $behaviors['authenticator'] = [
-                'class'       => CompositeAuth::className(),
-                'authMethods' => [
-                    HttpBearerAuth::className(),
-                    QueryParamAuth::className(),
-                ],
-            ];
+        $accessToken = Yii::$app->request->get('access-token');
+        if($this->action->id == 'options'){
+
+
+
+        }else{
+            if(in_array($this->action->id, $this->safeActions) && empty($accessToken)){
+
+            }else{
+                $behaviors['authenticator'] = [
+                    'class'       => CompositeAuth::className(),
+                    'authMethods' => [
+                        HttpBearerAuth::className(),
+                        QueryParamAuth::className(),
+                    ],
+                ];
+
+            }
         }
+
+
         $behaviors['corsFilter'] = [
             'class' => Cors::className(),
         ];

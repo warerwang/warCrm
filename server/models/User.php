@@ -11,9 +11,48 @@ use yii\web\IdentityInterface;
 class User extends UsersBase implements IdentityInterface
 {
     const EXPIRE_TIME = 3600;
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_EDIT   = 'edit';
     public static function findIdentity ($id)
     {
         return self::findOne($id);
+    }
+
+    public function fields ()
+    {
+        return [
+            'id',
+            'name',
+            'email',
+            'loginStatus',
+            'nickName',
+            'phone',
+            'avatar' => function(){
+                  if(empty($this->avatar)){
+                      return 'http://cdn.v2ex.com/gravatar/'.md5($this->email).'.png?default=mm';
+                  }else{
+                      return $this->avatar;
+                  }
+                },
+            'description',
+            'did',
+            'isAdmin',
+            'createTime',
+            'lastActivity',
+            'status',
+            'loginStatus'
+        ];
+    }
+
+    public function scenarios(){
+        return [
+            self::SCENARIO_CREATE => [
+                "email","password","did","name","phone","avatar","description","nickName"
+            ],
+            self::SCENARIO_EDIT => [
+                "password","name","phone","avatar","description","nickName"
+            ],
+        ];
     }
 
     /**
@@ -56,26 +95,36 @@ class User extends UsersBase implements IdentityInterface
     public function beforeValidate ()
     {
         if(parent::beforeValidate()){
-            $this->salt = strval(rand(100000, 999999));
-            $this->password = md5($this->password . $this->salt);
-            $this->accessToken = md5(microtime(true) . $this->salt);
-            $this->lastActivity = (new \DateTime())->format("Y-m-d H:i:s");
+            if ($this->isNewRecord) {
+                $this->salt = strval(rand(100000, 999999));
+                $this->password = md5($this->password . $this->salt);
+                $this->accessToken = md5(microtime(true) . $this->salt);
+                $this->lastActivity = (new \DateTime())->format("Y-m-d H:i:s");
+            }else{
+                if(!empty($this->password)){
+                    $this->salt = strval(rand(100000, 999999));
+                    $this->password = md5($this->password . $this->salt);
+                }else{
+                    $this->password = $this->oldAttributes['password'];
+                }
+            }
             return true;
         }else{
             return false;
         }
     }
 
-    public static function createUser ($did, $email, $password)
+    public static function createUser ($did, $email, $password, $nickName = '', $status = 0)
     {
         $user = new self();
         $user->did = $did;
         $user->email = $email;
         $user->password = $password;
+        $user->status = $status;
+        $user->nickName = $nickName;
         if($user->save()){
             return $user;
         }else{
-            print_r($user->errors);die;
             throw new Exception('');
         }
     }

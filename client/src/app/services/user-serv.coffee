@@ -4,14 +4,29 @@ angular.module 'crm'
 #    currentUser = AuthService.currentUser
     class User
       constructor: (options)->
-        {@id, @email, @firstName, @lastName, @nickName, @avatar, @description, @isAdmin, @createTime, @lastActivity, @status} = options
+        {@id, @email, @name, @phone, @nickName, @avatar, @description, @isAdmin, @createTime, @lastActivity, @status, @loginStatus} = options
         @resource = options
-      getStatus: ()->
-        status = switch this.status
+      getLoginStatus: ()->
+        status = switch @loginStatus
           when 1 then 'online'
           when 2 then 'offline'
           when 3 then 'busy'
           else 'deleted'
+      getName: ()->
+        if @nickName
+          @nickName
+        else if @name
+          @name
+        else
+          @email
+      getAvatar: (size)->
+        if size
+          avatar = @avatar + '&size='+size
+        else
+          avatar = @avatar
+
+        avatar
+
 
     class Chat
       constructor: (options)->
@@ -19,8 +34,13 @@ angular.module 'crm'
           @id = options.id + '-' + AuthService.currentUser.id
         else
           @id = AuthService.currentUser.id  + '-' +  options.id
-        @name = options.nickName
+        @user = options
         @messages = null
+
+      getName : ()->
+        @user.getName()
+      getLoginStatus : ()->
+        @user.getLoginStatus()
 
       getHistoryMessage: ()->
         _this = this
@@ -37,7 +57,8 @@ angular.module 'crm'
         promise
       sendMessage: (content, data)->
         ConnectService.sendMessage(this.id, content, data)
-
+      getAvatar: (size)->
+        @user.getAvatar(size)
 
     class Message
       constructor: (options)->
@@ -52,7 +73,7 @@ angular.module 'crm'
 
     userService.getRecentChat = ()->
       if !userService.chats?
-        userService.chats = (new Chat user for user in WebService.preData.users when user.id != AuthService.currentUser.id)
+        userService.chats = (new Chat user for user in userService.users when user.id != AuthService.currentUser.id)
       userService.chats
 
     userService.setUsers = (users)->
@@ -61,6 +82,12 @@ angular.module 'crm'
 
     userService.createUser = (options)->
       new User options
+
+    userService.addNewUser = (userData)->
+      WebService.preData.users.push userData
+      newUser = userService.createUser userData
+      userService.users.push newUser
+      newUser
 
     userService.createMessage = (options)->
       new Message options

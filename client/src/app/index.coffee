@@ -10,9 +10,30 @@ angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngRes
         templateUrl: "app/controllers/chat/index.html",
         controller: "ChatCtrl"
       .state "profile",
-        url: "/profile/:id",
-        templateUrl: "app/controllers/profile/index.html",
-        controller: "ProfileCtrl"
+          url: "/profile",
+          templateUrl: "app/controllers/profile/index.html",
+          controller: "ProfileCtrl"
+      .state "profile.user",
+          url: "/profile/:id",
+          templateUrl: "app/controllers/profile/index.html",
+          controller: "ProfileCtrl"
+      .state "admin",
+          url: "/admin",
+          templateUrl: "app/controllers/admin/admin.html",
+          controller: "AdminCtrl"
+      .state "adminUser",
+          url: "/admin/user",
+          controller: "AdminUserCtrl"
+          templateUrl: "app/controllers/admin/user/index.html",
+      .state "adminUser.list",
+          url: "/list",
+          templateUrl: "app/controllers/admin/user/list.html",
+      .state "adminUser.add",
+          url: "/add",
+          templateUrl: "app/controllers/admin/user/add.html",
+      .state "adminUser.edit",
+          url: "/edit/:id",
+          templateUrl: "app/controllers/admin/user/edit.html",
 
     $locationProvider.html5Mode true
     $urlRouterProvider.otherwise '/'

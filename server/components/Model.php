@@ -24,4 +24,9 @@ class Model extends ActiveRecord
             return true;
         }
     }
+
+    public function getFirstErrorContent()
+    {
+        return current($this->getFirstErrors());
+    }
 } 

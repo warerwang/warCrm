@@ -7,6 +7,7 @@ use app\exceptions\UserException;
 use app\models\User;
 use Yii;
 
+use yii\db\Exception;
 use yii\filters\ContentNegotiator;
 use yii\web\Response;
 
@@ -107,8 +108,13 @@ class UserController extends RestController
         $request  = Yii::$app->request;
         $user     = $this->findModel($id);
         $this->checkAccess($user);
+        $user->setScenario(User::SCENARIO_EDIT);
         $data = json_decode($request->rawBody, true);
         $user->load($data, '');
+        if(!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin){
+            $user->status = $data['status'];
+            $user->isAdmin = $data['isAdmin'];
+        }
         $user->save();
         return $user;
     }
@@ -151,11 +157,21 @@ class UserController extends RestController
     public function actionCreate ()
     {
         $request  = Yii::$app->request;
-        $email    = $request->post('email');
-        $password = $request->post('password');
-        $nickname = $request->post('nickname');
-
-        return User::create($email, $password, User::GROUP_USER, $nickname);
+        $data = json_decode($request->rawBody, true);
+        $user = new User();
+        $user->setScenario(User::SCENARIO_CREATE);
+        $user->load($data, '');
+        $user->did = $request->get('did');
+        if(!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin){
+            $user->status = 1;
+            $user->isAdmin = $data['isAdmin'];
+        }
+        if($user->save()){
+            return $user;
+        }else{
+            Yii::$app->response->statusCode = 500;
+            return $user->getFirstErrors();
+        }
     }
 
     /**

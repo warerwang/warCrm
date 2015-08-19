@@ -1,0 +1,73 @@
+<div class="col-xs-6 col-xs-offset-2" ng-controller="AdminUserCtrl">
+    <form class="form-horizontal" name="userForm">
+        <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && userForm.email.$dirty}">
+            <label class="col-sm-4 control-label">邮箱</label>
+            <div class="col-sm-8">
+                <input name="email" type="email" class="form-control"  placeholder="邮箱" ng-model="userRes.email" required>
+                <span class="help-block" ng-show="userForm.email.$invalid && userForm.email.$dirty">{{ userForm.email.error ? userForm.email.error : "请输入一个有效的邮箱"}}</span>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : userForm.password.$invalid && userForm.password.$dirty}">
+            <label class="col-sm-4 control-label">密码</label>
+            <div class="col-sm-8">
+                <input name="password" type="password" class="form-control"  placeholder="密码" ng-model="userRes.password">
+                <span class="help-block" ng-show="userForm.password.$invalid && userForm.password.$dirty">{{ userForm.password.error}}</span>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && userForm.name.$dirty}">
+            <label class="col-sm-4 control-label">姓名</label>
+            <div class="col-sm-8">
+                <input name="name" type="text" class="form-control"  placeholder="姓名" ng-model="userRes.name">
+                <span class="help-block" ng-show="userForm.name.$invalid && userForm.name.$dirty">{{ userForm.name.error }}</span>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : userForm.nickName.$invalid && userForm.nickName.$dirty}">
+            <label class="col-sm-4 control-label">昵称</label>
+            <div class="col-sm-8">
+                <input name="nickName" type="text" class="form-control"  placeholder="昵称" ng-model="userRes.nickName">
+                <span class="help-block" ng-show="userForm.nickName.$invalid && userForm.nickName.$dirty">{{ userForm.nickName.error }}</span>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : userForm.phone.$invalid && userForm.phone.$dirty}">
+            <label class="col-sm-4 control-label">电话</label>
+            <div class="col-sm-8">
+                <input name="phone" type="phone" class="form-control"  placeholder="昵称" ng-model="userRes.phone">
+                <span class="help-block" ng-show="userForm.phone.$invalid && userForm.phone.$dirty">{{ userForm.phone.error }}</span>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : userForm.description.$invalid && userForm.description.$dirty}">
+            <label class="col-sm-4 control-label">个人介绍</label>
+            <div class="col-sm-8">
+                <textarea name="description" class="form-control"  placeholder="个人简介" ng-model="userRes.description"></textarea>
+                <span class="help-block" ng-show="userForm.description.$invalid && userForm.description.$dirty">{{ userForm.description.error }}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">是否管理员</label>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input name="isAdmin" type="radio" value="0" ng-model="userRes.isAdmin"> 普通成员
+                </label>
+                <label class="radio-inline">
+                    <input name="isAdmin" type="radio" value="1" ng-model="userRes.isAdmin"> 管理员
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">激活状态</label>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input name="status" type="radio" value="1" ng-model="userRes.status"> 激活
+                </label>
+                <label class="radio-inline">
+                    <input name="status" type="radio" value="0" ng-model="userRes.status"> 未激活
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+                <button type="submit" class="btn btn-default" ng-click="update(userForm.$valid)" ng-disabled="userForm.$invalid">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
