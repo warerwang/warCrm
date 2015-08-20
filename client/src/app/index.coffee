@@ -1,4 +1,4 @@
-angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap', 'luegg.directives']
+angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap', 'luegg.directives', 'toastr']
   .config ($stateProvider, $urlRouterProvider, $locationProvider) ->
     $stateProvider
       .state "home",
@@ -43,6 +43,8 @@ angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngRes
   .constant('EVENT_CONFIG_LOADED_SUCCESS', 'config-loaded-success')
   .constant('EVENT_SIGN_IN_SUCCESS', 'sign-in-success')
   .constant('EVENT_PREDATA_LOADED_SUCCESS', 'predata-loaded-success')
+  .constant('EVENT_DOMAIN_NOT_FOUND', 'domain-not-found')
+
 
 
 

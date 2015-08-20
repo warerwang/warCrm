@@ -9,8 +9,8 @@
     <div class="chat-header">Chat with {{chat.getName()}}</div>
     <div class="chat-container" scroll-glue>
         <div class="message" ng-repeat="message in messages">
-            <div class="avatar"><img src="{{message.getSender().getAvatar(36)}}" /></div>
-            <a class="sender" href="/user/{{message.getSender().id}}">{{message.getSender().nickName}}</a>
+            <div class="avatar"><img ng-src="{{message.getSender().getAvatar(36)}}" /></div>
+            <a class="sender" href="/user/{{message.getSender().id}}">{{message.getSender().getName()}}</a>
             <i>{{message.createTime}}</i>
             <div class="message_content">{{message.content}}</div>
         </div>

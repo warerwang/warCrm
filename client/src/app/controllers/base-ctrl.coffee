@@ -10,13 +10,16 @@ angular.module "crm"
                            GlobalService,
                            EVENT_CONFIG_LOADED_SUCCESS,
                            EVENT_SIGN_IN_SUCCESS,
-                           EVENT_PREDATA_LOADED_SUCCESS
+                           EVENT_PREDATA_LOADED_SUCCESS,
+                           API_BASE_URL
                             ) ->
     $scope.currentUser = null
     $scope.isAuthorized = AuthService.isAuthenticated()
+    $scope.absUrl = $location.absUrl()
 
     WebService.loadWebConfig()
       .then (res)->
+        $scope.domainExist = true
         config = res.data
         GlobalService.setConfig config
         WebService.isLoadConfig = true
@@ -24,39 +27,25 @@ angular.module "crm"
         if $scope.isAuthorized
           AuthService.loginByAccessToken SessionService.accessToken
           .then (res)->
-            afterSignIn res.data
+            $scope.afterSignIn res.data
           ,
           ()->
-            $scope.signOut()
+            SessionService.destroy()
+            $scope.isAuthorized = false
             #重定向到sign-in
+      , ()->
+        $scope.domainExist = false
+        $scope.subDomain = WebService.preDomain
+        $scope.API_BASE_URL = API_BASE_URL
+        $location.path('/')
 
-
-    $scope.absUrl = $location.absUrl()
 
     $scope.setCurrentUser = (user) ->
       $scope.currentUser = user
       AuthService.currentUser = user
       $scope.isAuthorized = AuthService.isAuthenticated()
 
-    $scope.signOut = ()->
-      SessionService.destroy()
-      AuthService.currentUser = null
-      $scope.isAuthorized = AuthService.isAuthenticated()
 
-
-    $scope.showSignModal = ()->
-      modalInstance = $modal.open {
-        animation: $scope.animationsEnabled,
-        templateUrl: 'sign-in-modal.html',
-        controller: 'SigninmodalCtrl'
-      }
-      modalInstance.result.then (resData)->
-        afterSignIn resData
-      false
-
-    $scope.showSignUpModal = ()->
-      $('#sign-up-modal').modal('show')
-      false
 
     regiesterOnMessage = ()->
       ConnectService.websocket.onmessage = (messageEvent)->
@@ -72,7 +61,7 @@ angular.module "crm"
         else
           throw new Error(messageEvent)
 
-    afterSignIn = (resData)->
+    $scope.afterSignIn = (resData)->
       currentUser = UserService.createUser resData
       $scope.setCurrentUser currentUser
       $scope.$broadcast EVENT_SIGN_IN_SUCCESS, currentUser
@@ -82,3 +71,4 @@ angular.module "crm"
         .then ()->
           WebService.isLoadedPreData = true
           $scope.$broadcast EVENT_PREDATA_LOADED_SUCCESS, currentUser
+

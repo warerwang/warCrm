@@ -1,31 +1,32 @@
 angular.module 'crm'
   .factory 'UserService', (UserResource, AuthService, $q, MessageResource, ConnectService, WebService)->
     userService = {}
-#    currentUser = AuthService.currentUser
     class User
       constructor: (options)->
-        {@id, @email, @name, @phone, @nickName, @avatar, @description, @isAdmin, @createTime, @lastActivity, @status, @loginStatus} = options
+        {@id} = options
         @resource = options
       getLoginStatus: ()->
-        status = switch @loginStatus
+        status = switch @resource.loginStatus
           when 1 then 'online'
           when 2 then 'offline'
           when 3 then 'busy'
           else 'deleted'
       getName: ()->
-        if @nickName
-          @nickName
-        else if @name
-          @name
+        if @resource.nickName
+          @resource.nickName
+        else if @resource.name
+          @resource.name
         else
-          @email
+          @resource.email
       getAvatar: (size)->
         if size
-          avatar = @avatar + '&size='+size
+          avatar = @resource.avatar + '&size='+size
         else
-          avatar = @avatar
+          avatar = @resource.avatar
 
         avatar
+      isAdmin: ()->
+        @resource.isAdmin
 
 
     class Chat
@@ -64,7 +65,7 @@ angular.module 'crm'
       constructor: (options)->
         {@id, @cid, @sender, @content, @createTime, @extraData} = options
       getSender: ()->
-        userService.getUser this.sender
+        userService.getUser @sender
 
     userService.getUsers = ()->
       if !userService.users?
