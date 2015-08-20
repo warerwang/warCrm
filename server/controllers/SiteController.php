@@ -58,4 +58,9 @@ class SiteController extends Controller
 
         return $this->render('create-domain', ['model' => $model]);
     }
+
+    public function actionTestMail ($email)
+    {
+        Yii::$app->mailer->sendMail($email, 'test');
+    }
 }
