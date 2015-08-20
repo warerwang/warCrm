@@ -11,6 +11,7 @@ namespace app\controllers;
 use app\components\RestController;
 use app\models\Domain;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 class ConfigController extends RestController
 {
@@ -18,6 +19,10 @@ class ConfigController extends RestController
 
     public function actionIndex ($subDomain = null)
     {
-        return Domain::find()->where(['domain' => $subDomain])->one();
+        $domain = Domain::findOne(['domain' => $subDomain]);
+        if(!$domain){
+            throw new NotFoundHttpException("域名不存在");
+        }
+        return $domain;
     }
 } 

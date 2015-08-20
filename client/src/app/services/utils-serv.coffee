@@ -1,5 +1,5 @@
 angular.module 'crm'
-  .factory 'UtilsServ', ()->
+  .factory 'UtilsServ', ($modal)->
     timer = {}
     Utils = {
       DATE_FORMAT_MMDDYYY : 1,
@@ -13,12 +13,27 @@ angular.module 'crm'
         else
           false
       confirm : (content, callback)->
-        $('#yat-confirm .modal-body .modal-body-content').html(content)
-        $('#yat-confirm').modal('show')
-        callbackOverride = ()->
-          $('#yat-confirm').modal('hide')
+        modalInstance = $modal.open {
+          templateUrl: 'confirm-modal.html'
+          controller: 'ConfirmModalCtrl'
+          resolve: {
+            content: ()->
+              console.log content
+              content
+          }
+        }
+        modalInstance.result.then ()->
           callback()
-        $('#yat-confirm .btn-primary').unbind('click').click(callbackOverride)
+        false
+
+
+
+#        $('#yat-confirm .modal-body .modal-body-content').html(content)
+#        $('#yat-confirm').modal('show')
+#        callbackOverride = ()->
+#          $('#yat-confirm').modal('hide')
+#          callback()
+#        $('#yat-confirm .btn-primary').unbind('click').click(callbackOverride)
 
       rebound : (key, callback, time)->
         if typeof timer[key] != 'undefined'

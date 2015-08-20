@@ -9,6 +9,7 @@ use Yii;
 
 use yii\db\Exception;
 use yii\filters\ContentNegotiator;
+use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
 /**
@@ -246,6 +247,18 @@ class UserController extends RestController
     public function actionUpdatePasswordByResetCode ($email, $code, $password)
     {
 
+    }
+
+    public function actionDelete ($id)
+    {
+        $model = $this->findModel($id);
+        $this->checkAccess($model);
+        if(Yii::$app->user->identity->isAdmin){
+            $model->delete();
+            return true;
+        }else{
+            throw new ForbiddenHttpException("权限不足.");
+        }
     }
 
     /**

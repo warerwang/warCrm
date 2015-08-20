@@ -40,7 +40,7 @@ class UsersBase extends \app\components\Model
     public function rules()
     {
         return [
-            [['id', 'email', 'phone', 'password', 'salt', 'did', 'accessToken'], 'required'],
+            [['id', 'email', 'password', 'salt', 'did', 'accessToken'], 'required'],
             [['isAdmin', 'status', 'loginStatus'], 'integer'],
             [['createTime', 'lastActivity'], 'safe'],
             [['id', 'name', 'did'], 'string', 'max' => 20],
