@@ -1,5 +1,5 @@
 angular.module 'crm'
-  .factory 'WebService', ($http, API_BASE_URL, $location, BASE_DOMAIN, $q, UserResource, GlobalService)->
+  .factory 'WebService', ($http, API_BASE_URL, $location, BASE_DOMAIN, $q, UserResource, GlobalService, NotificationService, AuthService)->
     host = $location.$$host
     index = host.length - BASE_DOMAIN.length - 1
     preDomain = host.substr(0, index).toLowerCase()
@@ -35,5 +35,17 @@ angular.module 'crm'
           deferred.reject(data)
 
         deferred.promise
+
+
+      checkIfSendNotification: (message)->
+        if !document.hidden?
+          return false
+
+        if AuthService.currentUser.id == message.getSender().id
+          return false
+
+        NotificationService.send('新消息', message.getContent(), message.getSender().getAvatar(), ()->
+          $location.path('/chat/' + message.cid)
+        )
     }
     web

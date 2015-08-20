@@ -66,7 +66,8 @@ angular.module 'crm'
         {@id, @cid, @sender, @content, @createTime, @extraData} = options
       getSender: ()->
         userService.getUser @sender
-
+      getContent: ()->
+        @content
     userService.getUsers = ()->
       if !userService.users?
         userService.users = (new User num for num in WebService.preData.users)

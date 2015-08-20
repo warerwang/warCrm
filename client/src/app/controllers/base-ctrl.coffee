@@ -51,7 +51,9 @@ angular.module "crm"
       ConnectService.websocket.onmessage = (messageEvent)->
         data = $.parseJSON messageEvent.data
         if data.type == ConnectService.MESSAGE_TYPE
-          $scope.$broadcast('new-message', UserService.createMessage data.message)
+          message = UserService.createMessage data.message
+          $scope.$broadcast('new-message', message)
+          WebService.checkIfSendNotification(message)
         else if data.type == ConnectService.BROADCAST_TYPE
 
         else if data.type == ConnectService.IQ_TYPE

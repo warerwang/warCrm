@@ -1,5 +1,5 @@
 angular.module "crm"
-  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService) ->
+  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr) ->
     id = $stateParams.id
 
     afterLoadPreData = ()->
@@ -17,17 +17,20 @@ angular.module "crm"
     $scope.$on EVENT_PREDATA_LOADED_SUCCESS, ()->
       afterLoadPreData()
 
-
     $scope.sendMessage = ()->
-      $scope.chat.sendMessage($scope.message)
-      $scope.message = ''
+      if $scope.message == ''
+        toastr.warning '不能发送空子符'
+      else
+        $scope.chat.sendMessage($scope.message)
+        $scope.message = ''
 
     $scope.enterSubmit = (event)->
       if event.keyCode == 13
         $scope.sendMessage()
-        false
+        event.preventDefault()
 
     $scope.$on 'new-message', (event, message)->
+
       if message.cid == id
         $scope.messages.push(message)
         $scope.$apply()
