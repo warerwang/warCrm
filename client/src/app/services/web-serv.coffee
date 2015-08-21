@@ -1,5 +1,5 @@
 angular.module 'crm'
-  .factory 'WebService', ($http, API_BASE_URL, $location, BASE_DOMAIN, $q, UserResource, GlobalService, NotificationService, AuthService)->
+  .factory 'WebService', ($http, API_BASE_URL, $location, BASE_DOMAIN, $q, UserResource, GlobalService, NotificationService, AuthService, ConnectService)->
     host = $location.$$host
     index = host.length - BASE_DOMAIN.length - 1
     preDomain = host.substr(0, index).toLowerCase()
@@ -20,6 +20,7 @@ angular.module 'crm'
         deferred = $q.defer()
 
         deferred.promise.then ()->
+          loadedCount = 0
           this.preData
         ,
         (data)->
@@ -47,5 +48,10 @@ angular.module 'crm'
         NotificationService.send('新消息', message.getContent(), message.getSender().getAvatar(), ()->
             $location.path('/chat/' + message.cid)
         )
+
+      resetSystem : ()->
+        @isLoadConfig = false
+        @isLoadedPreData = false
+        ConnectService.close()
     }
     web

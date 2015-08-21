@@ -14,7 +14,6 @@ angular.module "crm"
                            API_BASE_URL
                             ) ->
     $scope.currentUser = null
-    $scope.isAuthorized = AuthService.isAuthenticated()
     $scope.absUrl = $location.absUrl()
 
     WebService.loadWebConfig()
@@ -24,14 +23,13 @@ angular.module "crm"
         GlobalService.setConfig config
         WebService.isLoadConfig = true
         $scope.$broadcast EVENT_CONFIG_LOADED_SUCCESS, config
-        if $scope.isAuthorized
+        if $scope.getIsAuthorized()
           AuthService.loginByAccessToken SessionService.accessToken
           .then (res)->
             $scope.afterSignIn res.data
           ,
           ()->
             SessionService.destroy()
-            $scope.isAuthorized = false
             #重定向到sign-in
         else
           $location.path('/')
@@ -46,9 +44,9 @@ angular.module "crm"
     $scope.setCurrentUser = (user) ->
       $scope.currentUser = user
       AuthService.currentUser = user
-      $scope.isAuthorized = AuthService.isAuthenticated()
 
-
+    $scope.getIsAuthorized = ()->
+      AuthService.isAuthenticated()
 
     regiesterOnMessage = ()->
       ConnectService.websocket.onmessage = (messageEvent)->
