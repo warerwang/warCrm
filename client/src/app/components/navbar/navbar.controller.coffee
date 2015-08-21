@@ -1,5 +1,5 @@
 angular.module "crm"
-  .controller "NavbarCtrl", ($scope, GlobalService, EVENT_CONFIG_LOADED_SUCCESS, $modal, SessionService, AuthService, NotificationService, toastr) ->
+  .controller "NavbarCtrl", ($scope, GlobalService, EVENT_CONFIG_LOADED_SUCCESS, $modal, SessionService, AuthService, NotificationService, toastr, $location) ->
     $scope.webName = 'WarCrm'
     afterLoadConfig = ()->
       $scope.webName = GlobalService.config.name
@@ -23,6 +23,7 @@ angular.module "crm"
       SessionService.destroy()
       AuthService.currentUser = null
       $scope.isAuthorized = AuthService.isAuthenticated()
+      $location.path('/')
 
 
     $scope.showOpenNotification = ()->

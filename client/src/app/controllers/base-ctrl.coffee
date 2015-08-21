@@ -33,6 +33,9 @@ angular.module "crm"
             SessionService.destroy()
             $scope.isAuthorized = false
             #重定向到sign-in
+        else
+          $location.path('/')
+
       , ()->
         $scope.domainExist = false
         $scope.subDomain = WebService.preDomain
