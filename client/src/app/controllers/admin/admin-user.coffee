@@ -1,11 +1,7 @@
 angular.module "crm"
-  .controller "AdminUserCtrl", ($scope, UserService, EVENT_PREDATA_LOADED_SUCCESS, WebService, UtilsServ, toastr, $modal) ->
+  .controller "AdminUserCtrl", ($scope, UserService, EVENT_PREDATA_LOADED_SUCCESS, WebService, UtilsServ) ->
     afterLoadPreData = ()->
       $scope.users = UserService.getUsers()
-
-
-
-
 
     if WebService.isLoadedPreData
       afterLoadPreData()
