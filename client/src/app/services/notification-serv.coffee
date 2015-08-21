@@ -5,9 +5,9 @@ angular.module 'crm'
         if !icon?
           icon = '/logo.png'
         notification = new Notification title, {
-            icon: icon
-            body: content
-          }
+          icon: icon
+          body: content
+        }
         if callback?
           notification.onclick = ()->
             callback()

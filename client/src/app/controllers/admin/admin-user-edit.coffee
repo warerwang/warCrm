@@ -1,6 +1,14 @@
 angular.module "crm"
-  .controller "AdminUserEditCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, UserResource, GlobalService, $location, toastr) ->
-
+  .controller "AdminUserEditCtrl", ( $scope,
+                                     UserService,
+                                     $stateParams,
+                                     WebService,
+                                     UserResource,
+                                     GlobalService,
+                                     $location,
+                                     toastr
+                                     EVENT_PREDATA_LOADED_SUCCESS
+  ) ->
     uid = $stateParams.id
     afterLoadPreData = ()->
       $scope.users = UserService.getUsers()
@@ -12,7 +20,7 @@ angular.module "crm"
           $location.path('/admin/user/list')
       else  #添加
         $scope.userRes = new UserResource({did:GlobalService.config.id})
-        $scope.userRes.isAdmin = 0;
+        $scope.userRes.isAdmin = 0
 
     if WebService.isLoadedPreData
       afterLoadPreData()
@@ -26,7 +34,7 @@ angular.module "crm"
         UserService.addNewUser userData
         toastr.success('添加用户成功')
         $scope.userRes = new UserResource({did:GlobalService.config.id})
-        $scope.userRes.isAdmin = 0;
+        $scope.userRes.isAdmin = 0
         $scope.userForm.$setPristine()
       ,
       (res)->

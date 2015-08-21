@@ -7,11 +7,6 @@ angular.module 'crm'
         $('<div/>').text(str).html()
       htmlDecode : (str)->
         $('<div/>').html(str).text()
-      isEmail : (email) ->
-        if value.match(/^[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/)
-          true
-        else
-          false
       confirm : (content, callback)->
         modalInstance = $modal.open {
           templateUrl: 'confirm-modal.html'
@@ -26,14 +21,6 @@ angular.module 'crm'
           callback()
         false
 
-
-
-#        $('#yat-confirm .modal-body .modal-body-content').html(content)
-#        $('#yat-confirm').modal('show')
-#        callbackOverride = ()->
-#          $('#yat-confirm').modal('hide')
-#          callback()
-#        $('#yat-confirm .btn-primary').unbind('click').click(callbackOverride)
 
       rebound : (key, callback, time)->
         if typeof timer[key] != 'undefined'
