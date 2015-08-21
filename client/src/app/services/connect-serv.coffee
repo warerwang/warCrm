@@ -1,22 +1,6 @@
 angular.module 'crm'
   .factory 'ConnectService', (SessionService)->
     wsServer = 'ws://127.0.0.1:2345';
-
-
-#    websocket.onmessage = (messageEvent)->
-#      data = $.parseJSON messageEvent.data
-#      if data.type == connect.MESSAGE_TYPE
-##        $scope.$broadcast('dataloaded');
-#        console.log(data)
-#      else if data.type == connect.BROADCAST_TYPE
-#
-#      else if data.type == connect.IQ_TYPE
-#
-#      else if data.type == connect.AUTH_TYPE
-#        connect.sendAuth SessionService.accessToken
-#      else
-#        throw new Error(messageEvent)
-
     connect = {
       init: ()->
         websocket = new WebSocket(wsServer)
@@ -24,7 +8,8 @@ angular.module 'crm'
           console.log("Connected to WebSocket server.")
 
         websocket.onclose = (evt)->
-          console.log('Error occured: ' + evt.data)
+          console.log('close occured: ' + evt)
+          console.log evt
 
         websocket.onerror = (evt)->
           console.log evt
@@ -62,5 +47,9 @@ angular.module 'crm'
       }
       jsonData = JSON.stringify(data)
       @websocket.send(jsonData)
-      
+
+
+    connect.close = ()->
+      @websocket.close()
+
     connect

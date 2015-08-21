@@ -4,6 +4,7 @@ angular.module 'crm'
       get : {method:'GET', isArray:true},
       save : {method:'POST', url:API_BASE_URL + '/user?did=:did&access-token=:token'},
       update : {method:'PUT'}
+      query : {method:'GET', isArray:false},
     }
     actions = ['get','update', 'delete', 'query', 'save']
     resource = SessionService.wrapActions( resource, actions )

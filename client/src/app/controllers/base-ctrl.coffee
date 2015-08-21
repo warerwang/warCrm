@@ -58,6 +58,17 @@ angular.module "crm"
           $scope.$broadcast('new-message', message)
           WebService.checkIfSendNotification(message)
         else if data.type == ConnectService.BROADCAST_TYPE
+          broadcast = 'server-' + data.message
+          $scope.$broadcast(broadcast, data.extraData)
+          uid = data.extraData['uid']
+          if WebService.isLoadedPreData
+            user = UserService.getUser uid
+            if user
+              user.resource.$query {}, (res)->
+                user.resource = res
+                if uid == $scope.currentUser.id
+                  $scope.setCurrentUser user
+
 
         else if data.type == ConnectService.IQ_TYPE
 
@@ -70,10 +81,10 @@ angular.module "crm"
       currentUser = UserService.createUser resData
       $scope.setCurrentUser currentUser
       $scope.$broadcast EVENT_SIGN_IN_SUCCESS, currentUser
-      ConnectService.init()
-      regiesterOnMessage()
       WebService.loadData()
         .then ()->
+          ConnectService.init()
+          regiesterOnMessage()
           WebService.isLoadedPreData = true
           $scope.$broadcast EVENT_PREDATA_LOADED_SUCCESS, currentUser
 

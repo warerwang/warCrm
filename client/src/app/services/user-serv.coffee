@@ -8,8 +8,8 @@ angular.module 'crm'
       getLoginStatus: ()->
         status = switch @resource.loginStatus
           when 1 then 'online'
-          when 2 then 'offline'
-          when 3 then 'busy'
+          when 0 then 'offline'
+          when 2 then 'busy'
           else 'deleted'
       getName: ()->
         if @resource.nickName

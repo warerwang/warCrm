@@ -13,6 +13,11 @@ class User extends UsersBase implements IdentityInterface
     const EXPIRE_TIME = 3600;
     const SCENARIO_CREATE = 'create';
     const SCENARIO_EDIT   = 'edit';
+
+    const ONLINE = 1;
+    const OFFLINE = 0;
+    const BUSY = 2;
+
     public static function findIdentity ($id)
     {
         return self::findOne($id);
@@ -64,6 +69,9 @@ class User extends UsersBase implements IdentityInterface
     public static function findIdentityByAccessToken ($token, $type = null)
     {
         $user = self::find()->andWhere(['accessToken' => $token])->andWhere('lastActivity	> ' . (time() - self::EXPIRE_TIME))->one();
+        if($user){
+            $user->updateActivityTime();
+        }
         return $user;
     }
 
@@ -127,5 +135,17 @@ class User extends UsersBase implements IdentityInterface
         }else{
             throw new Exception('');
         }
+    }
+
+    public function updateActivityTime ()
+    {
+        $this->lastActivity = (new \DateTime())->format("Y-m-d H:i:s");
+        $this->save(false);
+    }
+
+    public function changeLoginStatus ($status)
+    {
+        $this->loginStatus = $status;
+        $this->save(false);
     }
 }

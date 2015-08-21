@@ -6,7 +6,7 @@
  */
 
 namespace app\commands;
-
+use yii;
 use app\models\Message;
 use app\models\User;
 use yii\console\Controller;
@@ -21,16 +21,26 @@ use Workerman\Worker;
  */
 class StartController extends Controller
 {
+    const REQUEST_TYPE_MESSAGE = 1;     //消息
+    const REQUEST_TYPE_BROADCAST = 2;   //广播
+    const REQUEST_TYPE_IQ = 3;          //请求
+    const REQUEST_TYPE_AUTH = 4;        //认证
+
+    const BROADCAST_LOGIN       = 'login';
+    const BROADCAST_LOGOUT      = 'logout';
+    const BROADCAST_USER_EDIT   = 'user-edit';
+    const BROADCAST_USER_ADD    = 'user-add';
+    const BROADCAST_USER_REMOVE = 'user-remove';
+
+    static $userConnectionMap = []; // did =>  user_id => connections的二维数组
+    static $identities = [];        // connection_id => user的一维数组
+
     public function actionIndex()
     {
-        global $identities, $userConnectionMap, $connectionMap;
-        $identities = [];
-        $userConnectionMap = [];
         $ws_worker = new Worker("websocket://0.0.0.0:2345");
 
         $ws_worker->onConnect = function($connection)
         {
-            global $connection_count;
             $connections[] = $connection;
             $data = [
                 'type' => 4,
@@ -39,55 +49,45 @@ class StartController extends Controller
             $connection->send(json_encode($data));
         };
 
-        // Emitted when data received
+        //收到消息
         $ws_worker->onMessage = function($connection, $jsonData)
         {
-            global $userConnectionMap, $identities, $connectionMap;
             $data = json_decode($jsonData, true);
-
-            if($data['type'] == 4){
+            if(empty($data)){
+                Yii::warning('收到的message, 不正确' . $jsonData);
+            }
+            //验证部分
+            if($data['type'] == self::REQUEST_TYPE_AUTH){
                 $accessToken = $data['accessToken'];
+                if(empty($accessToken)){
+                    Yii::warning('accessToken 不能为空.');
+                }
                 $user = User::findIdentityByAccessToken($accessToken);
                 if($user){
-                    $identities[$connection->id] = $user;
-                    if(!isset($userConnectionMap[$user->id])){
-                        $userConnectionMap[$user->id] = [];
+                    self::$identities[$connection->id] = $user;
+                    if(!isset(self::$userConnectionMap[$user->did])){
+                        self::$userConnectionMap[$user->did] = [];
                     }
-                    $userConnectionMap[$user->id][] = $connection;
-//                    $connectionMap[$connection->id] = $connection;
+                    if(!isset(self::$userConnectionMap[$user->did][$user->id])){
+                        self::$userConnectionMap[$user->did][$user->id] = [];
+                    }
+                    self::$userConnectionMap[$user->did][$user->id][] = $connection;
+                    //验证通过,
+                    $user->changeLoginStatus(User::ONLINE);
+                    $this->sendBroadCast($user->did, self::BROADCAST_LOGIN, ['uid' => $user->id]);
                 }else{
-                    $data = [
-                        'type' => 4,
-                        'message' => 'please Auth',
-                    ];
-                    $connection->close(json_encode($data));
+                    return $this->closeForAuth($connection, 'Auth Fail');
                 }
             }else{
-                if(!isset($identities[$connection->id])){
-                    $data = [
-                        'type' => 4,
-                        'message' => 'please Auth',
-                    ];
-                    $connection->close(json_encode($data));
+                if(!isset(self::$identities[$connection->id])){
+                    return $this->closeForAuth($connection, 'Please Auth First');
                 }
                 /** @var User $current */
-                $current = $identities[$connection->id];
-                if($data['type'] == 1){
-                    $message = $current->sendMessage($data['cid'], $data['content']);
+                $current = self::$identities[$connection->id];
 
-                $senderUsers = explode('-', $data['cid']);
-                $responseData = [
-                    'type' => 1,
-                    'message' => $message->attributes,
-                ];
-                foreach($senderUsers as $uid){
-                    if(!isset($userConnectionMap[$uid])) continue;
-                    foreach($userConnectionMap[$uid] as $conn){
-                        print_r($responseData);
-                        $conn->send(json_encode($responseData));
-                    }
-                }
 
+                if($data['type'] == self::REQUEST_TYPE_MESSAGE){
+                    $this->Messagehandler($connection, $current, $data);
                 }elseif($data['type'] == 2){
 
 
@@ -100,20 +100,127 @@ class StartController extends Controller
             }
         };
 
-
         $ws_worker->onClose = function($connection)
         {
-            global $identities, $userConnectionMap;
-            if(isset($identities[$connection->id])){
-                $user = $identities[$connection->id];
+            print_r($connection->id);
+            if(isset(self::$identities[$connection->id])){
+                echo "存在'identities'" . PHP_EOL;
+                /** @var User $user */
+                $user = self::$identities[$connection->id];
+                foreach(self::$userConnectionMap[$user->did] as $uid => $userConnects){
+                    if($uid == $user->id){
+                        echo "存在'userConnectionMap'" . PHP_EOL;
+                        foreach($userConnects as $k => $conn){
+                            if($conn->id == $connection->id){
+                                echo "存在'connection->id'" . PHP_EOL;
+                                $userConnects[$k] = null;
+                                unset($userConnects[$k]);
+                                $user->changeLoginStatus(0);
+                                $this->sendBroadCast($user->did, self::BROADCAST_LOGOUT, ['uid' => $user->id]);
+                                //todo 这里还有问题.
+                                if(count($userConnects) == 0){
+                                    echo "存在'count 0'" . PHP_EOL;
+                                }else{
+                                    /** @var \Workerman\Connection\ConnectionInterface $conn */
+                                    foreach($userConnects as $conn){
+                                        $conn->close();
+//                                        print_r($conn);
+                                    }
+                                    echo "任然有连接" . count($userConnects) . PHP_EOL;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 //todo 移除掉 $userConnectionMap里的Conn
 
-                $identities[$connection->id] = null;
-                unset($identities[$connection->id]);
+                self::$identities[$connection->id] = null;
+                unset(self::$identities[$connection->id]);
 
             }
         };
         // Run worker
         Worker::runAll();
     }
+
+    private function closeForAuth ($connection, $message)
+    {
+        $data = [
+            'type' => self::REQUEST_TYPE_AUTH,
+            'message' => $message,
+        ];
+        $connection->close(json_encode($data));
+    }
+
+    /**
+     * @param         $connection
+     * @param Message $message
+     * @param array   $extraData
+     */
+    private function sendMessage ($connection, $message , $extraData = [])
+    {
+        $responseData = [
+            'type'      => self::REQUEST_TYPE_MESSAGE,
+            'message'   => $message->attributes,
+            'extraData' => $extraData
+        ];
+        $connection->send(json_encode($responseData));
+    }
+
+    /**
+     * 发送广播
+     *
+     * @param String  $did       所要发送广播的域名的id
+     * @param  String $message   广播的内容(一般定义成一个key)
+     * @param array   $extraData 额外的数据
+     *
+     * @return bool
+     */
+    private function sendBroadCast ($did, $message, $extraData = [])
+    {
+        if(!self::$userConnectionMap[$did]){
+            return false;
+        }
+        $users = self::$userConnectionMap[$did];
+
+        $responseData = [
+            'type'      => self::REQUEST_TYPE_BROADCAST,
+            'message'   => $message,
+            'extraData' => $extraData
+        ];
+        foreach($users as $uid => $connections){
+            foreach($connections as $connection){
+                $connection->send(json_encode($responseData));
+            }
+        }
+    }
+
+    /**
+     * @param \Workerman\Connection\ConnectionInterface $connection
+     * @param User $current
+     * @param Array $data
+     */
+    private function Messagehandler ($connection, $current, $data)
+    {
+        $chat_id = $data['cid'];
+        //没有-是一个group聊天, 否则是一个一对一聊天
+        if(strpos($chat_id, '-') === false){
+
+
+        }else{
+            $senderUsers = explode('-', $data['cid']);
+            //todo 这里需要验证用户是否存在.
+
+            $message = $current->sendMessage($chat_id, $data['content']);
+
+            foreach($senderUsers as $uid){
+                if(!isset(self::$userConnectionMap[$current->did][$uid])) continue;
+                foreach(self::$userConnectionMap[$current->did][$uid] as $conn){
+                    $this->sendMessage($conn, $message);
+                }
+            }
+        }
+    }
+
 }

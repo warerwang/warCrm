@@ -45,7 +45,7 @@ angular.module 'crm'
           return false
 
         NotificationService.send('新消息', message.getContent(), message.getSender().getAvatar(), ()->
-          $location.path('/chat/' + message.cid)
+            $location.path('/chat/' + message.cid)
         )
     }
     web
