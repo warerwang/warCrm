@@ -116,8 +116,13 @@ class UserController extends RestController
             $user->status = $data['status'];
             $user->isAdmin = $data['isAdmin'];
         }
-        $user->save();
-        return $user;
+        if($user->save()){
+            return $user;
+        }else{
+            Yii::$app->response->statusCode = 500;
+            return $user->getFirstErrors();
+        }
+
     }
 
     /**

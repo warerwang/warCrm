@@ -5,11 +5,7 @@ angular.module 'crm'
       save : {method:'POST', url:API_BASE_URL + '/user?did=:did&access-token=:token'},
       update : {method:'PUT'}
     }
-    actions = ['get', 'save', 'update', 'delete', 'query']
-    for i of actions
-      action = actions[i]
-      resource['_' + action] = resource[action]
-      resource[action] = (data, success, error)->
-        data = angular.extend {}, data || {}, {token: SessionService.accessToken}
-        resource['_' + action](data, success, error)
+    actions = ['get','update', 'delete', 'query', 'save']
+    resource = SessionService.wrapActions( resource, actions )
     resource
+
