@@ -5,7 +5,7 @@
         </li>
     </ul>
 </div>
-<div id="chat-content" class="col-md-9">
+<div id="chat-content" class="col-md-9" ng-show="{{showRight}}">
     <div class="chat-header">Chat with {{chat.getName()}}</div>
     <div class="chat-container" scroll-glue>
         <div class="message" ng-repeat="message in messages">

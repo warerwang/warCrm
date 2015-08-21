@@ -1,6 +1,10 @@
 angular.module "crm"
-  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr) ->
+  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $location) ->
     id = $stateParams.id
+    if id == ''
+      $scope.showRight = false
+    else
+      $scope.showRight = true
 
     afterLoadPreData = ()->
       $scope.users = UserService.getUsers()
@@ -9,6 +13,8 @@ angular.module "crm"
 
       if id != ''
         $scope.chat = UserService.getChat id
+        if !$scope.chat?
+          $location.path('/')
         $scope.chat.getHistoryMessage().then (messages)->
           $scope.messages = messages
 
