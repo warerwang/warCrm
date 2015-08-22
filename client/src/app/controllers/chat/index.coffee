@@ -5,7 +5,7 @@ angular.module "crm"
       $scope.showRight = false
     else
       $scope.showRight = true
-    $scope.orderBy = '-resource.lastActivity'
+    $scope.orderBy = '-getSort()'
     afterLoadPreData = ()->
       UserService.getChats().then (chats)->
         $scope.chats = chats

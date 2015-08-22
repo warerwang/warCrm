@@ -1,5 +1,5 @@
 angular.module 'crm'
-  .factory 'UserService', (UserResource, ChatResource, AuthService, $q, MessageResource, ConnectService, WebService)->
+  .factory 'UserService', (UserResource, ChatResource, AuthService, $q, MessageResource, ConnectService, WebService, $location)->
     userService = {}
     class User
       constructor: (options)->
@@ -39,6 +39,13 @@ angular.module 'crm'
           @_recipient = userService.getGroup @id
         @messages = null
 
+      isActive: ()->
+        return $location.path() == '/chat/' + @id
+      getSort: ()->
+        if this.isActive()
+          return '9' + @resource.lastActivity
+        else
+          return @resource.lastActivity
       getName : ()->
           @_recipient.getName()
 
