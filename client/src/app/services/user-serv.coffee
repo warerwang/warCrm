@@ -1,5 +1,5 @@
 angular.module 'crm'
-  .factory 'UserService', (UserResource, AuthService, $q, MessageResource, ConnectService, WebService)->
+  .factory 'UserService', (UserResource, ChatResource, AuthService, $q, MessageResource, ConnectService, WebService)->
     userService = {}
     class User
       constructor: (options)->
@@ -31,17 +31,30 @@ angular.module 'crm'
 
     class Chat
       constructor: (options)->
-        if AuthService.currentUser.id > options.id
-          @id = options.id + '-' + AuthService.currentUser.id
+        {@id} = options
+        @resource = options
+        if @resource.type == 1
+          @_recipient = userService.getUser @id
         else
-          @id = AuthService.currentUser.id  + '-' +  options.id
-        @user = options
+          @_recipient = userService.getGroup @id
         @messages = null
 
       getName : ()->
-        @user.getName()
+          @_recipient.getName()
+
       getLoginStatus : ()->
-        @user.getLoginStatus()
+        @_recipient.getLoginStatus()
+
+      getCid : ()->
+        if @resource.type == 1
+          if AuthService.currentUser.id > @id
+            cid = @id + '-' + AuthService.currentUser.id
+          else
+            cid = AuthService.currentUser.id  + '-' +  @id
+        else
+          cid = @_recipient.id
+
+        cid
 
       getHistoryMessage: ()->
         _this = this
@@ -52,14 +65,16 @@ angular.module 'crm'
         if this.messages?
           deferred.resolve(this.messages)
         else
-          MessageResource.get {cid:this.id}, (messages)->
+          MessageResource.get {cid:this.getCid()}, (messages)->
             _this.messages = (new Message message for message in messages)
             deferred.resolve(_this.messages)
         promise
+
       sendMessage: (content, data)->
-        ConnectService.sendMessage(this.id, content, data)
+        ConnectService.sendMessage(this.getCid(), content, data)
+
       getAvatar: (size)->
-        @user.getAvatar(size)
+        @_recipient.getAvatar(size)
 
     class Message
       constructor: (options)->
@@ -68,15 +83,34 @@ angular.module 'crm'
         userService.getUser @sender
       getContent: ()->
         @content
+
+
+
+
     userService.getUsers = ()->
       if !userService.users?
         userService.users = (new User num for num in WebService.preData.users)
       userService.users
 
-    userService.getRecentChat = ()->
-      if !userService.chats?
-        userService.chats = (new Chat user for user in userService.users when user.id != AuthService.currentUser.id)
-      userService.chats
+    userService.recentChatLoaded = false
+    userService.chats = []
+    userService.getChats = ()->
+      deferred = $q.defer()
+      promise = deferred.promise
+      promise.then (data)->
+        data
+      if userService.recentChatLoaded
+        deferred.resolve(userService.chats)
+      else
+        ChatResource.query {}, (chats)->
+          userService.chats = (new Chat chat for chat in chats)
+          userService.recentChatLoaded = true
+          deferred.resolve(userService.chats)
+      promise
+
+#      if !userService.chats?
+#        userService.chats = (new Chat user for user in userService.getUsers() when user.id != AuthService.currentUser.id)
+#      userService.chats
 
     userService.setUsers = (users)->
       userService.users = users
@@ -84,6 +118,9 @@ angular.module 'crm'
 
     userService.createUser = (options)->
       new User options
+
+    userService.createChat = (options)->
+      new Chat options
 
     userService.addNewUser = (userData)->
       WebService.preData.users.push userData
@@ -94,10 +131,12 @@ angular.module 'crm'
     userService.createMessage = (options)->
       new Message options
 
-    userService.getChat = (cid)->
-      (chat for chat in userService.getRecentChat() when chat.id == cid)[0]
+    userService.getChat = (id)->
+      (chat for chat in userService.chats when chat.id == id)[0]
 
     userService.getUser = (uid)->
       return user for user in userService.getUsers() when user.id == uid
 
+    userService.getGroup = (gid)->
+      null
     userService

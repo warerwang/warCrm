@@ -21,6 +21,8 @@ body,html{
     height: 100%;
   }
 }
+
+// chat
 #user-list{
   height: 100%;
   overflow: scroll;
@@ -123,7 +125,6 @@ body,html{
   position: relative;
   margin: 0;
 }
-
 #message_edit_form #message-input, #messages-input-container #message-input {
   background: padding-box #fff;
   width: 100%;
@@ -148,6 +149,37 @@ body,html{
   -moz-transition: none;
   transition: none;
   border-radius: 0 6px 6px 0;
+}
+
+
+
+#contact {
+  .user-card{
+
+    width: 280px;
+    height: 172px;
+    float: left;
+    overflow: hidden;
+    border: 1px #d3d3d3 solid;
+    margin: 0 10px 10px 0;
+    padding: 5px 0 5px 5px;
+    position: relative;
+    line-height: 18px;
+    .hl{
+      img{
+        width: 96px;
+        height: 96px;
+      }
+    }
+    .action {
+      padding: 5px 0 0 3px;
+      width: 100%;
+      display: block;
+      text-align: center;
+    }
+
+  }
+
 }
 
 .footer{

@@ -9,6 +9,10 @@ angular.module 'crm', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngRes
         url: '/chat/:id',
         templateUrl: "app/controllers/chat/index.html",
         controller: "ChatCtrl"
+      .state "contact",
+        url: '/contact',
+        templateUrl: "app/controllers/contact/index.html",
+        controller: "ContactCtrl"
       .state "profile",
           url: "/profile",
           templateUrl: "app/controllers/profile/index.html",

@@ -1,6 +1,6 @@
 <div id="user-list" class="col-md-3">
     <ul class="nav nav-pills nav-stacked">
-        <li ng-repeat="chat in chats">
+        <li ng-repeat="chat in chats | orderBy:orderBy">
             <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}"><div class="{{chat.getLoginStatus()}}"></div> {{chat.getName()}}</a>
         </li>
     </ul>

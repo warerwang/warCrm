@@ -5,18 +5,19 @@ angular.module "crm"
       $scope.showRight = false
     else
       $scope.showRight = true
-
+    $scope.orderBy = '-resource.lastActivity'
     afterLoadPreData = ()->
-      $scope.users = UserService.getUsers()
-      $scope.chats = UserService.getRecentChat()
-      $scope.message = ''
-
-      if id != ''
-        $scope.chat = UserService.getChat id
-        if !$scope.chat?
-          $location.path('/')
-        $scope.chat.getHistoryMessage().then (messages)->
-          $scope.messages = messages
+      UserService.getChats().then (chats)->
+        $scope.chats = chats
+        $scope.message = ''
+        if id != ''
+          $scope.chat = UserService.getChat id
+          if !$scope.chat?
+            $location.path('/')
+          $scope.chat.getHistoryMessage().then (messages)->
+            $scope.messages = messages
+          $scope.chat.resource.$update {id:$scope.chat.id}, (res)->
+            $scope.chat.resource = res
 
     if WebService.isLoadedPreData
       afterLoadPreData()
@@ -36,8 +37,7 @@ angular.module "crm"
         event.preventDefault()
 
     $scope.$on 'new-message', (event, message)->
-
-      if message.cid == id
+      if message.cid == $scope.chat.getCid()
         $scope.messages.push(message)
         $scope.$apply()
       else

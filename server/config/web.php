@@ -47,15 +47,12 @@ $config = [
             'rules' => [
                 [
                     'class' => \yii\rest\UrlRule::className(),
-                    'controller'    => ['category' => 'category', 'article' => 'article', 'user' => 'user'],
+                    'controller'    => ['category' => 'category', 'article' => 'article', 'user' => 'user', 'chat' => 'chat'],
                     'extraPatterns' => [
-                        'GET {email}'       => 'get-email',
                         'GET current'       => 'current',
-                        'GET {id}/articles' => 'list',
                     ],
                     'tokens' => [
                         '{id}'      => '<id:\d+>',
-                        '{email}'   => '<email:.+@.+>'
                     ]
                 ],
                 [
