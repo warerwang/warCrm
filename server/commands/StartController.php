@@ -6,6 +6,7 @@
  */
 
 namespace app\commands;
+use app\models\Group;
 use yii;
 use app\models\Message;
 use app\models\User;
@@ -204,28 +205,40 @@ class StartController extends Controller
         $chat_id = $data['cid'];
         //没有-是一个group聊天, 否则是一个一对一聊天
         if(strpos($chat_id, '-') === false){
-
-
+            /** @var Group $group */
+            $group = Group::findOne($chat_id);
+            if(empty($group)){
+                //todo
+                Yii::warning('group 不存在');
+            }
+            $chatMembers = json_decode($group->members);
+//            foreach($chatMembers as $uid){
+//                if(!isset(self::$userConnectionMap[$current->did][$uid])) continue;
+//                foreach(self::$userConnectionMap[$current->did][$uid] as $conn){
+//                    $this->sendMessage($conn, $message);
+//                }
+//            }
+//            $message = $current->sendMessage($chat_id, $data['content']);
         }else{
-            $senderUsers = explode('-', $data['cid']);
-            if(count($senderUsers) > 2){
+            $chatMembers = explode('-', $data['cid']);
+            if(count($chatMembers) > 2){
 
                 //todo
             }
-            if($senderUsers[0] == $senderUsers[1]){
-                unset($senderUsers[1]);
+            if($chatMembers[0] == $chatMembers[1]){
+                unset($chatMembers[1]);
             }
             //todo 这里需要验证用户是否存在.
+        }
+        $message = $current->sendMessage($chat_id, $data['content']);
 
-            $message = $current->sendMessage($chat_id, $data['content']);
-
-            foreach($senderUsers as $uid){
-                if(!isset(self::$userConnectionMap[$current->did][$uid])) continue;
-                foreach(self::$userConnectionMap[$current->did][$uid] as $conn){
-                    $this->sendMessage($conn, $message);
-                }
+        foreach($chatMembers as $uid){
+            if(!isset(self::$userConnectionMap[$current->did][$uid])) continue;
+            foreach(self::$userConnectionMap[$current->did][$uid] as $conn){
+                $this->sendMessage($conn, $message);
             }
         }
+
     }
 
 }

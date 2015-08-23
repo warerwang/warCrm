@@ -67,7 +67,7 @@ angular.module 'crm'
           else
             cid = AuthService.currentUser.id  + '-' +  @id
         else
-          cid = @_recipient.id
+          cid = @id
 
         cid
 
@@ -111,9 +111,11 @@ angular.module 'crm'
           group.members = JSON.stringify (member.id for member in members)
           group.$save callback
 
-        #
+        #群组聊天
         else
-
+          @_recipient.members.push user for user in users
+          @_recipient.resource.members = JSON.stringify (member.id for member in @_recipient.members)
+          @_recipient.resource.$update {id:@_recipient.id}, callback
 
     class Message
       constructor: (options)->
@@ -123,8 +125,6 @@ angular.module 'crm'
       getContent: ()->
         @content
 
-
-
     class Group
       constructor: (options)->
         @id = options.id
@@ -133,6 +133,11 @@ angular.module 'crm'
         @resource.name
       getLoginStatus: ()->
         'fa fa-users'
+      getMembers: ()->
+        if !@members?
+          membersIds = $.parseJSON @resource.members
+          @members = (user for user in userService.getUsers() when user.id in membersIds)
+        @members
 
     userService.getUsers = ()->
       if !userService.users?
