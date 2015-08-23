@@ -102,7 +102,8 @@ class StartController extends Controller
 
         $ws_worker->onClose = function($connection)
         {
-            print_r($connection->id);
+            $connectionId = $connection->id;
+            echo "一个连接关闭了" . $connection->id . PHP_EOL;
             if(isset(self::$identities[$connection->id])){
                 echo "存在'identities'" . PHP_EOL;
                 /** @var User $user */
@@ -113,20 +114,17 @@ class StartController extends Controller
                         foreach($userConnects as $k => $conn){
                             if($conn->id == $connection->id){
                                 echo "存在'connection->id'" . PHP_EOL;
+                                $userConnects = &self::$userConnectionMap[$user->did][$uid];
                                 $userConnects[$k] = null;
                                 unset($userConnects[$k]);
-                                $user->changeLoginStatus(0);
-                                $this->sendBroadCast($user->did, self::BROADCAST_LOGOUT, ['uid' => $user->id]);
-                                //todo 这里还有问题.
                                 if(count($userConnects) == 0){
+                                    //所有连接都被关闭了.
+                                    $user->changeLoginStatus(0);
+                                    $this->sendBroadCast($user->did, self::BROADCAST_LOGOUT, ['uid' => $user->id]);
                                     echo "存在'count 0'" . PHP_EOL;
                                 }else{
-                                    /** @var \Workerman\Connection\ConnectionInterface $conn */
-                                    foreach($userConnects as $conn){
-                                        $conn->close();
-//                                        print_r($conn);
-                                    }
-                                    echo "任然有连接" . count($userConnects) . PHP_EOL;
+                                    echo "仍然有连接" . count($userConnects) . PHP_EOL;
+                                    //用户还有其他的连接.
                                 }
                             }
                         }
@@ -135,8 +133,8 @@ class StartController extends Controller
 
                 //todo 移除掉 $userConnectionMap里的Conn
 
-                self::$identities[$connection->id] = null;
-                unset(self::$identities[$connection->id]);
+                self::$identities[$connectionId] = null;
+                unset(self::$identities[$connectionId]);
 
             }
         };
@@ -210,6 +208,13 @@ class StartController extends Controller
 
         }else{
             $senderUsers = explode('-', $data['cid']);
+            if(count($senderUsers) > 2){
+
+                //todo
+            }
+            if($senderUsers[0] == $senderUsers[1]){
+                unset($senderUsers[1]);
+            }
             //todo 这里需要验证用户是否存在.
 
             $message = $current->sendMessage($chat_id, $data['content']);
