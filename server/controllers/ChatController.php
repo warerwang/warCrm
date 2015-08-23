@@ -30,12 +30,16 @@ class ChatController extends RestController
         return $chat;
     }
 
-    public function actionView ($id)
+    public function actionView ($id, $type)
     {
         $uid = Yii::$app->user->identity->id;
         $chat = Chat::find()->where(['uid' => $uid, 'id' => $id])->one();
         if(empty($chat)){
-            $chat = Chat::create1Chat($id, $uid);
+            if($type == Chat::CHAT_TYPE_1_ON_1){
+                $chat = Chat::create1Chat($id, $uid);
+            }else{
+                $chat = Chat::createGroupChat($id, $uid);
+            }
         }
         return $chat;
     }

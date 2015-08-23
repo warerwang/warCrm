@@ -1,5 +1,5 @@
 angular.module "crm"
-  .controller "ContactCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $location, ChatResource) ->
+  .controller "ContactCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $location) ->
     $scope.query = ''
     $scope.order = 'resource.name'
     afterLoadPreData = ()->
@@ -13,11 +13,14 @@ angular.module "crm"
 
 
     $scope.chat = (user)->
-      chat = UserService.getChat user.id
-      if chat
+      UserService.openChat user.id, (chat)->
         $location.path('/chat/' + chat.id)
-      else
-        ChatResource.get {id:user.id}, (res)->
-          chat = UserService.createChat res
-          UserService.chats.push(chat)
-          $location.path('/chat/' + chat.id)
+
+#      chat = UserService.getChat user.id
+#      if chat
+#        $location.path('/chat/' + chat.id)
+#      else
+#        ChatResource.get {id:user.id}, (res)->
+#          chat = UserService.createChat res
+#          UserService.chats.push(chat)
+#          $location.path('/chat/' + chat.id)

@@ -13,6 +13,8 @@ use app\models\base\ChatsBase;
 
 class Chat extends ChatsBase
 {
+    const CHAT_TYPE_1_ON_1 = 1;
+    const CHAT_TYPE_GROUP  = 2;
 
     public function beforeValidate ()
     {
@@ -28,7 +30,7 @@ class Chat extends ChatsBase
         $chat = new self();
         $chat->id = $id;
         $chat->uid = $uid;
-        $chat->type = 1;
+        $chat->type = self::CHAT_TYPE_1_ON_1;
         $chat->save();
         return $chat;
     }
@@ -38,7 +40,7 @@ class Chat extends ChatsBase
         $chat = new self();
         $chat->id = $id;
         $chat->uid = $uid;
-        $chat->type = 2;
+        $chat->type = self::CHAT_TYPE_GROUP;
         $chat->save();
         return $chat;
     }

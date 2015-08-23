@@ -13,7 +13,6 @@ angular.module 'crm'
           controller: 'ConfirmModalCtrl'
           resolve: {
             content: ()->
-              console.log content
               content
           }
         }

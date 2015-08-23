@@ -1,12 +1,17 @@
 <div id="user-list" class="col-md-3">
     <ul class="nav nav-pills nav-stacked">
         <li ng-repeat="chat in chats | orderBy:orderBy" ng-class="{'active' : chat.isActive()}">
-            <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}"><div class="{{chat.getLoginStatus()}}"></div> {{chat.getName()}}</a>
+            <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}">
+                <div class="{{chat.getLoginStatus()}}"></div> {{chat.getName()}}
+            </a>
         </li>
     </ul>
 </div>
 <div id="chat-content" class="col-md-9" ng-show="{{showRight}}">
-    <div class="chat-header">Chat with {{chat.getName()}}</div>
+    <div class="chat-header">
+        Chat with {{chat.getName()}}
+        <button class="btn btn-default pull-right" ng-click="addMembers(chat)"><i class="fa fa-plus"></i> 添加其他人</button>
+    </div>
     <div class="chat-container" scroll-glue>
         <div class="message" ng-repeat="message in messages">
             <div class="avatar"><img ng-src="{{message.getSender().getAvatar(36)}}" /></div>

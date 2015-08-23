@@ -1,6 +1,6 @@
 angular.module 'crm'
   .service 'ChatResource', ($resource, API_BASE_URL, SessionService)->
-    resource = $resource API_BASE_URL + '/chat/:id?access-token=:token', {id: '@id', token:'@token'}, {
+    resource = $resource API_BASE_URL + '/chat/:id?access-token=:token&type=:type', {id: '@id', token:'@token', type:'@type'}, {
       update : {method:'PUT'}
     }
     actions = ['get', 'delete', 'query', 'update']

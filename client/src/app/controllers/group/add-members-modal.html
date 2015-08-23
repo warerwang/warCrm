@@ -1,0 +1,21 @@
+<script type="text/ng-template" id="add-members-modal.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">加入新成员</h4>
+    </div>
+    <div class="modal-body" style="max-height: 500px;overflow: scroll;">
+        <form role="form">
+            <div ng-repeat="user in users">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-checked="isChecked(user)"  ng-disabled="isDisabled(user.id)" ng-click="toggleCheckMember(user)"> {{user.getName()}}
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="close()">关闭</button>
+        <button type="button" class="btn btn-primary" ng-click="submit()" ng-disabled="">确认</button>
+    </div>
+</script>

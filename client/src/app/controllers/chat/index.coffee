@@ -1,5 +1,5 @@
 angular.module "crm"
-  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $location) ->
+  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $location, $modal) ->
     id = $stateParams.id
     if id == ''
       $scope.showRight = false
@@ -42,3 +42,17 @@ angular.module "crm"
         $scope.$apply()
       else
         #其他窗口的消息, 把消息置顶, 并提示未读消息.
+
+    $scope.addMembers = (chat)->
+      modalInstance = $modal.open {
+        templateUrl: 'add-members-modal.html',
+        controller: 'addMembersModalCtrl'
+        resolve: {
+          members: ()->
+            chat.getMembers()
+          chat: ()->
+            chat
+        }
+      }
+      modalInstance.result.then (resData)->
+        $scope.afterSignIn resData
