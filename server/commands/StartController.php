@@ -6,6 +6,7 @@
  */
 
 namespace app\commands;
+use app\models\Chat;
 use app\models\Group;
 use yii;
 use app\models\Message;
@@ -205,21 +206,16 @@ class StartController extends Controller
         $chat_id = $data['cid'];
         //没有-是一个group聊天, 否则是一个一对一聊天
         if(strpos($chat_id, '-') === false){
+            $isGroup = true;
             /** @var Group $group */
             $group = Group::findOne($chat_id);
             if(empty($group)){
                 //todo
-                Yii::warning('group 不存在');
+                Yii::warning('group ');
             }
             $chatMembers = json_decode($group->members);
-//            foreach($chatMembers as $uid){
-//                if(!isset(self::$userConnectionMap[$current->did][$uid])) continue;
-//                foreach(self::$userConnectionMap[$current->did][$uid] as $conn){
-//                    $this->sendMessage($conn, $message);
-//                }
-//            }
-//            $message = $current->sendMessage($chat_id, $data['content']);
         }else{
+            $isGroup = false;
             $chatMembers = explode('-', $data['cid']);
             if(count($chatMembers) > 2){
 
@@ -233,12 +229,18 @@ class StartController extends Controller
         $message = $current->sendMessage($chat_id, $data['content']);
 
         foreach($chatMembers as $uid){
+            //增加一条未读消息
+            if($current->id != $uid){
+                /** @var Chat $chat */
+                $chat = $isGroup ? Chat::findOrCreateGroupChat($group->id, $uid) :  Chat::findOrCreate1Chat($current->id, $uid);
+                $chat->unReadCount++;
+                $chat->save();
+            }
             if(!isset(self::$userConnectionMap[$current->did][$uid])) continue;
             foreach(self::$userConnectionMap[$current->did][$uid] as $conn){
                 $this->sendMessage($conn, $message);
             }
         }
-
     }
 
 }

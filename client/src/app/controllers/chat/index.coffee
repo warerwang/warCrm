@@ -17,7 +17,8 @@ angular.module "crm"
             return false
           $scope.chat.getHistoryMessage().then (messages)->
             $scope.messages = messages
-          $scope.chat.resource.$update {id:$scope.chat.id}, (res)->
+          $scope.chat.resource.unReadCount = 0
+          $scope.chat.resource.$update (res)->
             $scope.chat.resource = res
 
     if WebService.isLoadedPreData
@@ -38,7 +39,7 @@ angular.module "crm"
         event.preventDefault()
 
     $scope.$on 'new-message', (event, message)->
-      if message.cid == $scope.chat.getCid()
+      if $scope.chat? && message.cid == $scope.chat.getCid()
         $scope.messages.push(message)
         $scope.$apply()
       else
@@ -56,4 +57,18 @@ angular.module "crm"
         }
       }
       modalInstance.result.then (resData)->
-        $scope.afterSignIn resData
+
+
+    $scope.removeChat = (index, event)->
+      chat = $scope.chats[index]
+      if chat.isActive()
+        if $scope.chats[1]
+          cid = $scope.chats[1].id
+          $location.path('/chat/'+cid)
+        else
+          $location.path('/chat/')
+      $scope.chats.splice index,1
+      chat.resource.$delete()
+      event.preventDefault()
+
+

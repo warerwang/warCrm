@@ -2,7 +2,7 @@
     <ul class="nav nav-pills nav-stacked">
         <li ng-repeat="chat in chats | orderBy:orderBy" ng-class="{'active' : chat.isActive()}">
             <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}">
-                <div class="{{chat.getLoginStatus()}}"></div> {{chat.getName()}}
+                <div class="{{chat.getLoginStatus()}}"></div> {{chat.getName()}} <span class="badge">{{chat.getUnReadCount()}}</span> <i class="cursor-pointer fa fa-remove" ng-click="removeChat($index, $event)"></i>
             </a>
         </li>
     </ul>

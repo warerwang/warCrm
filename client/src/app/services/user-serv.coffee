@@ -29,6 +29,7 @@ angular.module 'crm'
         @resource.isAdmin
 
 
+    userService.maxChatSort = 0
     class Chat
       constructor: (options)->
         {@id} = options
@@ -40,19 +41,22 @@ angular.module 'crm'
           userService.getGroupPromise(@id).then (group)->
             _this._recipient = group
         @messages = null
+        @sort = 0
 
       isActive: ()->
         return $location.path() == '/chat/' + @id
       getSort: ()->
-        if this.isActive()
-          return '9' + @resource.lastActivity
+        if @sort > 0
+          '9' + @sort
         else
-          return @resource.lastActivity
+          @resource.lastActivity
       getName : ()->
         if @_recipient?
           @_recipient.getName()
         else
           ''
+      getUnReadCount: ()->
+        @resource.unReadCount
 
       getLoginStatus : ()->
         if @resource.type == 1
@@ -86,6 +90,7 @@ angular.module 'crm'
         promise
 
       sendMessage: (content, data)->
+        @sort = ++userService.maxChatSort
         ConnectService.sendMessage(this.getCid(), content, data)
 
       getAvatar: (size)->
@@ -124,6 +129,15 @@ angular.module 'crm'
         userService.getUser @sender
       getContent: ()->
         @content
+      getChatId: ()->
+        if @isGroupMessage() #一对一聊天
+          @cid
+        else
+          cids = @cid.split('-')
+          return cid for cid in cids when cid != AuthService.currentUser.id
+      isGroupMessage: ()->
+        return @cid.indexOf('-') == -1
+
 
     class Group
       constructor: (options)->
@@ -204,6 +218,18 @@ angular.module 'crm'
           chat = new Chat res
           userService.chats.push(chat)
           callback(chat)
+
+    userService.newMessageChat = (id, isGroup)->
+      chat = userService.getChat id
+      if chat?
+        if !chat.isActive()
+          chat.resource.unReadCount++
+          chat.sort = ++userService.maxChatSort
+      else
+        type = if isGroup then 2 else 1
+        ChatResource.get {id:id, type:type}, (res)->
+          chat = new Chat res
+          userService.chats.push(chat)
 
     userService.getUser = (uid)->
       return user for user in userService.getUsers() when user.id == uid

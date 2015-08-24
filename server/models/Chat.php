@@ -25,6 +25,29 @@ class Chat extends ChatsBase
         return true;
     }
 
+    public static function getChat ($id, $uid)
+    {
+        return Chat::find()->where(['uid' => $uid, 'id' => $id])->one();
+    }
+
+    public static function findOrCreate1Chat ($id, $uid)
+    {
+        $chat = self::getChat($id, $uid);
+        if(empty($chat)){
+            $chat = self::create1Chat($id, $uid);
+        }
+        return $chat;
+    }
+
+    public static function findOrCreateGroupChat ($id, $uid)
+    {
+        $chat = self::getChat($id, $uid);
+        if(empty($chat)){
+            $chat = self::createGroupChat($id, $uid);
+        }
+        return $chat;
+    }
+
     public static function create1Chat($id, $uid)
     {
         $chat = new self();
@@ -44,5 +67,4 @@ class Chat extends ChatsBase
         $chat->save();
         return $chat;
     }
-
 }

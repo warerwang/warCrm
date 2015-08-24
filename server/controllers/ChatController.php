@@ -23,24 +23,33 @@ class ChatController extends RestController
     public function actionUpdate ($id)
     {
         $uid = Yii::$app->user->identity->id;
-
+        $request = Yii::$app->request;
         $chat = Chat::find()->where(['uid' => $uid, 'id' => $id])->one();
-//        $chat->lastActivity = (new \DateTime())->format("Y-m-d H:i:s");
-        $chat->save();
+        if(empty($chat)){
+            throw new yii\web\NotFoundHttpException('不存在');
+        }
+        $data    = json_decode($request->rawBody, true);
+        //todo 设置一个 scenario
+        $chat->load($data, '');
+        $chat->save(false);
         return $chat;
     }
 
     public function actionView ($id, $type)
     {
         $uid = Yii::$app->user->identity->id;
-        $chat = Chat::find()->where(['uid' => $uid, 'id' => $id])->one();
-        if(empty($chat)){
-            if($type == Chat::CHAT_TYPE_1_ON_1){
-                $chat = Chat::create1Chat($id, $uid);
-            }else{
-                $chat = Chat::createGroupChat($id, $uid);
-            }
+        if($type == Chat::CHAT_TYPE_1_ON_1){
+            $chat = Chat::findOrCreate1Chat($id, $uid);
+        }else{
+            $chat = Chat::findOrCreateGroupChat($id, $uid);
         }
         return $chat;
+    }
+
+    public function actionDelete($id)
+    {
+        $uid = Yii::$app->user->identity->id;
+        Chat::deleteAll(['uid' => $uid, 'id' => $id]);
+        return true;
     }
 }

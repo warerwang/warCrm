@@ -48,13 +48,24 @@ angular.module "crm"
     $scope.getIsAuthorized = ()->
       AuthService.isAuthenticated()
 
+
+
+
+
+    handleNewMessage = (message)->
+      cid = message.getChatId()
+      UserService.newMessageChat cid, message.isGroupMessage()
+      $scope.$apply()
+      $scope.$broadcast('new-message', message)
+      WebService.checkIfSendNotification(message)
+
     regiesterOnMessage = ()->
       ConnectService.websocket.onmessage = (messageEvent)->
         data = $.parseJSON messageEvent.data
         if data.type == ConnectService.MESSAGE_TYPE
           message = UserService.createMessage data.message
-          $scope.$broadcast('new-message', message)
-          WebService.checkIfSendNotification(message)
+          handleNewMessage(message)
+
         else if data.type == ConnectService.BROADCAST_TYPE
           broadcast = 'server-' + data.message
           $scope.$broadcast(broadcast, data.extraData)
