@@ -14,6 +14,7 @@ angular.module "crm"
           $scope.chat = UserService.getChat id
           if !$scope.chat?
             $location.path('/')
+            return false
           $scope.chat.getHistoryMessage().then (messages)->
             $scope.messages = messages
           $scope.chat.resource.$update {id:$scope.chat.id}, (res)->

@@ -45,9 +45,19 @@ angular.module 'crm'
         if AuthService.currentUser.id == message.getSender().id
           return false
 
+        this.playSound('ding-dong')
         NotificationService.send('新消息', message.getContent(), message.getSender().getAvatar(), ()->
+          if message.cid.indexOf('-') > -1
+            cids = message.cid.split('-')
+            chatId = cid for cid in cids when cid != AuthService.currentUser.id
+            $location.path('/chat/' + chatId)
+          else
             $location.path('/chat/' + message.cid)
         )
+
+      playSound: (type)->
+        filePath = '/assets/sounds/'
+        $("#sounds").html('<audio autoplay="autoplay"><source src="' + filePath +  type + '.mp3" type="audio/mpeg" /><embed hidden="true" autostart="true" loop="false" src="' + filePath + type + '.mp3" /></audio>')
 
       resetSystem : ()->
         @isLoadConfig = false
