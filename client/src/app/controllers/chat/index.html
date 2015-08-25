@@ -1,37 +1,55 @@
-<div id="user-list" class="col-md-3">
-    <ul class="nav nav-pills nav-stacked">
-        <li ng-repeat="chat in chats | orderBy:orderBy" ng-class="{'active' : chat.isActive()}">
-            <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}">
-                <div class="{{chat.getLoginStatus()}}"></div> {{chat.getName()}} <span class="badge">{{chat.getUnReadCount()}}</span> <i class="cursor-pointer fa fa-remove" ng-click="removeChat($index, $event)"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-<div id="chat-content" class="col-md-9" ng-show="{{showRight}}">
-    <div class="chat-header">
-        Chat with {{chat.getName()}}
-        <button class="btn btn-default pull-right" ng-click="addMembers(chat)"><i class="fa fa-plus"></i> 添加其他人</button>
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse" full-scroll>
+        <ul class="nav metismenu" id="chat-list">
+            <li ng-repeat="chat in chats | orderBy:orderBy" ng-class="{'active' : chat.isActive()}">
+                <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}">
+                    <div class="{{chat.getLoginStatus()}}"></div> {{chat.getName()}}
+                </a>
+                <div class="chat-action">
+                    <i class="cursor-pointer fa fa-remove" ng-click="removeChat($index, $event)"></i>
+                    <span class="badge label label-warning" ng-show="{{chat.getUnReadCount()>0}}">{{chat.getUnReadCount()}}</span>
+                </div>
+            </li>
+        </ul>
     </div>
-    <div class="chat-container" scroll-glue>
-        <div class="message" ng-repeat="message in messages">
-            <div class="avatar"><img ng-src="{{message.getSender().getAvatar(36)}}" /></div>
-            <a class="sender" href="/user/{{message.getSender().id}}">{{message.getSender().getName()}}</a>
-            <i>{{message.createTime}}</i>
-            <div class="message_content">{{message.content}}</div>
+</nav>
+<div id="page-wrapper" class="gray-bg" fit-height>
+    <div ng-show="{{showRight}}">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <h2>{{chat.getName()}} <button class="btn btn-default pull-right" ng-click="addMembers(chat)"><i class="fa fa-plus"></i> 添加其他人</button></h2>
         </div>
     </div>
-    <div id="messages-input-container" class="chat-footer">
-        <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" style="height: 42px;">
-            <i class="ts_icon ts_icon_plus_thick"></i>
-        </a>
-        <form id="message-form" style="height: 42px;">
-            <a class="emo_menu cursor-pointer" aria-label="Emoji menu">
-                <i class="fa fa-smile-o"></i>
-            </a>
-            <textarea id="message-input" class="with-emoji-menu" ng-model="message" ng-keypress="enterSubmit($event)"></textarea>
-            <button type="button" class="btn btn-primary btn-sender" ng-click="sendMessage()">发送</button>
-            <div id="message-input-message" class=""><span></span></div>
-            <input type="file" id="file-upload" class="offscreen" multiple="multiple" aria-hidden="true">
-        </form>
+    <div class="chat-container row" scroll-glue>
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="chat-activity-list">
+                    <div class="chat-element" ng-repeat="message in messages">
+                        <a href="" class="pull-left">
+                            <img alt="image" class="img-circle" src="{{message.getSender().getAvatar(36)}}">
+                        </a>
+                        <div class="media-body ">
+                            <strong>{{message.getSender().getName()}}</strong>
+                            <small class="text-navy">{{message.createTime}}</small>
+
+                            <p class="m-b-xs">
+                                {{message.content}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="messages-input-container" class="chat-footer">
+                    <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" style="height: 42px;">
+                        <i class="ts_icon ts_icon_plus_thick"></i>
+                    </a>
+                    <form id="message-form" style="height: 42px;">
+                        <textarea id="message-input" class="with-emoji-menu" ng-model="message" ng-keypress="enterSubmit($event)"></textarea>
+                        <input type="file" id="file-upload" class="offscreen" multiple="multiple" aria-hidden="true">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
