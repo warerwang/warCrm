@@ -103,7 +103,8 @@ angular.module 'crm'
             @_recipient
           ]
         else
-          @_recipient.getMembers()
+          if @_recipient?
+            @_recipient.getMembers()
       addMembers: (users, callback)->
         #1对1聊天
         if @resource.type == 1
