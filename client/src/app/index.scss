@@ -112,6 +112,14 @@
   bottom: 0;
   width: 220px;
 }
+.war-navbar-fix-right{
+  top: 60px;
+  position: fixed;
+  overflow: auto;
+  bottom: 0;
+  right: 0;
+  width: 220px;
+}
 #chat-list {
   position: relative;
   a{
@@ -159,4 +167,34 @@
   bottom: 60px;
   right: 5px;
   left: 5px;
+}
+.war-file-list{
+  .ibox-content{
+    bottom: 0;
+    top: 45px;
+    position: absolute;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+  }
+  ul{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    overflow: scroll;
+  }
+  li{
+    list-style: none;
+    padding: 10px 5px;
+    border-bottom: 1px solid #e7eaec;
+  }
+  .ibox {
+    margin-bottom: 0px;
+  }
+  .info{
+    i,a{
+      color: #b4b6b8;
+      font-size: 12px;
+    }
+  }
 }

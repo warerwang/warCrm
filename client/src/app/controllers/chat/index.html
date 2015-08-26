@@ -3,7 +3,7 @@
         <ul class="nav metismenu" id="chat-list">
             <li ng-repeat="chat in chats | orderBy:orderBy" ng-class="{'active' : chat.isActive()}">
                 <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}">
-                    <div class="{{chat.getLoginStatus()}}"></div> {{chat.getName()}}
+                    <div class="{{chat.getLoginStatus()}}"></div> <img alt="image" class="img-circle" src="{{chat.getAvatar(36)}}"> {{chat.getName()}}
                 </a>
                 <div class="chat-action">
                     <i class="cursor-pointer fa fa-remove" ng-click="removeChat($index, $event)"></i>
@@ -13,7 +13,7 @@
         </ul>
     </div>
 </nav>
-<div id="page-wrapper" class="gray-bg">
+<div id="page-wrapper" class="gray-bg" style="margin-right: 220px;">
     <div ng-show="{{showRight}}">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-12">
@@ -47,5 +47,45 @@
                     </form>
                 </div>
             </div>
+    </div>
+</div>
+
+<div class="war-navbar-fix-right war-file-list">
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>文件列表</h5>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <ul>
+            <li>
+                <div>文件名</div>
+                <div class="info">
+                    <i class="fa fa-clock-o"></i> <a href="#">14 Hours ago</a>
+                    <i class="fa fa-user"></i> <a href="#">Alice Williams</a>
+                </div>
+            </li>
+            <li>
+                <div>文件名</div>
+                <div class="info">
+                    <i class="fa fa-clock-o"></i> <a href="#">14 Hours ago</a>
+                    <i class="fa fa-user"></i> <a href="#">Alice Williams</a>
+                </div>
+            </li>
+            <li>
+                <div>文件名</div>
+                <div class="info">
+                    <i class="fa fa-clock-o"></i> <a href="#">14 Hours ago</a>
+                    <i class="fa fa-user"></i> <a href="#">Alice Williams</a>
+                </div>
+            </li>
+            <li>
+                <div>文件名</div>
+                <div class="info">
+                    <i class="fa fa-clock-o"></i> <a href="#">14 Hours ago</a>
+                    <i class="fa fa-user"></i> <a href="#">Alice Williams</a>
+                </div>
+            </li>
+        </ul>
     </div>
 </div>
