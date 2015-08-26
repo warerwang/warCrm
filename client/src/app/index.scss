@@ -159,6 +159,14 @@
 }
 .chat-container{
   height: 1000px;
+  .chat-element{
+    strong{
+      padding-top: 10px;
+    }
+  }
+  .media-body{
+    width: 100%;
+  }
 }
 .chat-activity-list{
   overflow: auto;

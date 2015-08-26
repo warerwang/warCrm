@@ -26,9 +26,9 @@
                         <a href="" class="pull-left">
                             <img alt="image" class="img-circle" src="{{message.getSender().getAvatar(36)}}">
                         </a>
+                        <strong class="pull-left">{{message.getSender().getName()}}</strong>
+                        <small class="text-navy pull-right">{{message.createTime}}</small>
                         <div class="media-body ">
-                            <strong>{{message.getSender().getName()}}</strong>
-                            <small class="text-navy">{{message.createTime}}</small>
 
                             <p class="m-b-xs">
                                 {{message.content}}
