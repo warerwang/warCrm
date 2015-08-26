@@ -1,3 +1,8 @@
+/* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+   all your sass files automatically */
+// injector
+// endinjector
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -10,21 +15,18 @@
 }
 //body,html{
 //  height: 100%;
+//  overflow: hidden;
 //  padding: 0;
 //  margin: 0;
 //}
-//#container-content{
-//  height: 100%;
-//  margin-bottom: -20px;
-//  padding-top: 70px;
-//  .main{
-//    height: 100%;
-//  }
-//}
-
 #messages-input-container{
-  position: relative;
+  //  position: relative;
+  //  margin-top: 10px;
+  position: absolute;
   margin-top: 10px;
+  bottom: 5px;
+  right: 5px;
+  left: 5px;
 }
 #primary_file_button {
   position: absolute;
@@ -78,12 +80,12 @@
 }
 
 .online,.offline,.busy{
-    width: 10px;
-    height: 10px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 50px;
-    display: inline-block;
+  width: 10px;
+  height: 10px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  display: inline-block;
 }
 .online{
   background: green;
@@ -103,6 +105,13 @@
   }
 }
 
+.war-navbar-fix-left{
+  top: 60px;
+  position: fixed;
+  overflow: auto;
+  bottom: 0;
+  width: 220px;
+}
 #chat-list {
   position: relative;
   a{
@@ -131,9 +140,23 @@
     }
   }
 }
-
-/* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
-   all your sass files automatically */
-// injector
-// endinjector
-
+#page-wrapper{
+  top: 60px;
+  bottom: 0;
+  position: absolute !important;
+  overflow: hidden;
+  min-height: auto;
+  right: 0;
+  left: 0;
+}
+.chat-container{
+  height: 1000px;
+}
+.chat-activity-list{
+  overflow: auto;
+  position: absolute;
+  top: 80px;
+  bottom: 60px;
+  right: 5px;
+  left: 5px;
+}
