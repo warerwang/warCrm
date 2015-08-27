@@ -9,10 +9,28 @@
 namespace app\models;
 
 
+use app\components\Tools;
 use app\models\base\MessagesBase;
 
 class Message extends MessagesBase
 {
+    public function fields ()
+    {
+        $fields = parent::fields();
+
+        $fields['content'] = function($data){
+            $extraData = json_decode($data->extraData, true);
+            if(!empty($extraData) && isset($extraData['type'])){
+                $type = $extraData['type'];
+                if($type == 'attach'){
+                    return Tools::getPrivateLink($extraData['data']['key']);
+                }
+            }
+            return $data->content;
+        };
+        return $fields;
+    }
+
     public static function create($cid, $content, $sender, $did, $extraData = [])
     {
         $message = new self();

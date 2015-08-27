@@ -6,6 +6,7 @@
  */
 
 namespace app\commands;
+use app\models\Attach;
 use app\models\Chat;
 use app\models\Group;
 use yii;
@@ -204,7 +205,7 @@ class StartController extends Controller
     private function Messagehandler ($connection, $current, $data)
     {
         $chat_id = $data['cid'];
-        //没有-是一个group聊天, 否则是一个一对一聊天
+        //没有-是一个group聊天
         if(strpos($chat_id, '-') === false){
             $isGroup = true;
             /** @var Group $group */
@@ -214,6 +215,7 @@ class StartController extends Controller
                 Yii::warning('group ');
             }
             $chatMembers = json_decode($group->members);
+        //否则是一个一对一聊天
         }else{
             $isGroup = false;
             $chatMembers = explode('-', $data['cid']);
@@ -226,7 +228,11 @@ class StartController extends Controller
             }
             //todo 这里需要验证用户是否存在.
         }
-        $message = $current->sendMessage($chat_id, $data['content']);
+        if(!isset($data['extra'])) $data['extra'] = [];
+        if(isset($data['extra']['type'])){
+            $this->extraDataHandler($data['extra']);
+        }
+        $message = $current->sendMessage($chat_id, $data['content'], $data['extra']);
 
         foreach($chatMembers as $uid){
             //增加一条未读消息
@@ -240,6 +246,16 @@ class StartController extends Controller
             foreach(self::$userConnectionMap[$current->did][$uid] as $conn){
                 $this->sendMessage($conn, $message);
             }
+        }
+    }
+
+    private function extraDataHandler($extraData)
+    {
+        if($extraData['type'] == 'attach'){
+            $attach = new Attach();
+            $attach->load($extraData['data'], '');
+            print_r($extraData['data']);
+            $attach->save();
         }
     }
 

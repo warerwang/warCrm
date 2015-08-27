@@ -20,11 +20,11 @@ angular.module 'crm'
       IQ_TYPE : 3         # 请求的信息
       AUTH_TYPE : 4       # 认证的请求
     }
-    connect.sendMessage = (cid, content, data)->
+    connect.sendMessage = (cid, content, data = [])->
       data = {
         cid : cid
         content : content
-        data : data
+        extra : data
         type : this.MESSAGE_TYPE
       }
       jsonData = JSON.stringify(data)

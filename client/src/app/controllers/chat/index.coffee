@@ -1,5 +1,5 @@
 angular.module "crm"
-  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $location, $modal) ->
+  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $location, $modal, $http, API_BASE_URL, SessionService) ->
     id = $stateParams.id
     if id == ''
       $scope.showRight = false
@@ -71,4 +71,41 @@ angular.module "crm"
       chat.resource.$delete()
       event.preventDefault()
 
+    fileToken = ''
+    $scope.openFilePicker = ()->
+      document.getElementById('file-upload').click()
+      $http.get(API_BASE_URL+'/user/file-token?access-token='+SessionService.accessToken)
+      .success (token)->
+        fileToken = token
 
+    $scope.fileNameChanged = (files)->
+      fileName = 'chat-attachment-' + id + '-' + (new Date()).valueOf();
+      extIndex = files[0].name.lastIndexOf('.')
+      if extIndex > 0
+        ext = files[0].name.substr(extIndex)
+      else
+        ext = ''
+      fileName += ext
+      formData = new FormData()
+      formData.append('token', fileToken)
+      formData.append('key', fileName)
+      formData.append('file', files[0])
+
+      $http.post('http://upload.qiniu.com/', formData, {
+        withCredentials: false
+        headers: {
+          'Content-Type': undefined
+        }
+        transformRequest: angular.identity
+      }).success (res)->
+        $scope.chat.sendMessage(res.key, {
+          type:'attach',
+          data:{
+            key     : res.key
+            owner_id: $scope.currentUser.id
+            chat_id : $scope.chat.getCid()
+            ext     : ext
+            filename: files[0].name
+            size    : files[0].size
+          }
+        })

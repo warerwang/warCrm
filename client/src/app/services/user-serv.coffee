@@ -94,7 +94,8 @@ angular.module 'crm'
         ConnectService.sendMessage(this.getCid(), content, data)
 
       getAvatar: (size)->
-        @_recipient.getAvatar(size)
+        if @_recipient?
+          @_recipient.getAvatar(size)
 
       getMembers: ()->
         if @resource.type == 1
@@ -125,7 +126,9 @@ angular.module 'crm'
 
     class Message
       constructor: (options)->
-        {@id, @cid, @sender, @content, @createTime, @extraData} = options
+        {@id, @cid, @sender, @content, @createTime} = options
+        @extraData = $.parseJSON options.extraData
+
       getSender: ()->
         userService.getUser @sender
       getContent: ()->
@@ -138,6 +141,14 @@ angular.module 'crm'
           return cid for cid in cids when cid != AuthService.currentUser.id
       isGroupMessage: ()->
         return @cid.indexOf('-') == -1
+      isImg: ()->
+        if @isAttach()
+          return @extraData.data.ext.toLowerCase() in ['.jpg', '.png', '.gif', '.bmp']
+        else
+          false
+
+      isAttach: ()->
+        return @extraData.type == 'attach'
 
 
     class Group
@@ -153,6 +164,8 @@ angular.module 'crm'
           membersIds = $.parseJSON @resource.members
           @members = (user for user in userService.getUsers() when user.id in membersIds)
         @members
+      getAvatar: ()->
+        ''
 
     userService.getUsers = ()->
       if !userService.users?

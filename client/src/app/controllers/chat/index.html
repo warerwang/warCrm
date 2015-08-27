@@ -29,8 +29,13 @@
                         <strong class="pull-left">{{message.getSender().getName()}}</strong>
                         <small class="text-navy pull-right">{{message.createTime}}</small>
                         <div class="media-body ">
-
-                            <p class="m-b-xs">
+                            <p class="m-b-xs" ng-if="message.isImg()">
+                                <img style="width: 100%;height: 100%;" ng-src="{{message.content}}" />
+                            </p>
+                            <p class="m-b-xs" ng-if="message.isAttach() && !message.isImg()">
+                                <a ng-href="{{message.content}}">{{message.content}}</a>
+                            </p>
+                            <p class="m-b-xs" ng-if="!message.isAttach() && !message.isImg()">
                                 {{message.content}}
                             </p>
                         </div>
@@ -38,12 +43,14 @@
                 </div>
 
                 <div id="messages-input-container" class="chat-footer">
-                    <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" style="height: 42px;">
+                    <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" style="height: 42px;" ng-click="openFilePicker()">
                         <i class="ts_icon ts_icon_plus_thick"></i>
                     </a>
-                    <form id="message-form" style="height: 42px;">
+                    <form id="message-form" style="height: 42px;" method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
                         <textarea id="message-input" class="with-emoji-menu" ng-model="message" ng-keypress="enterSubmit($event)"></textarea>
-                        <input type="file" id="file-upload" class="offscreen" multiple="multiple" aria-hidden="true">
+                        <input name="key" type="hidden" ng-model="file.key" />
+                        <input name="token" type="hidden" ng-model="file.token" />
+                        <input type="file" id="file-upload" name="files" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
                     </form>
                 </div>
             </div>

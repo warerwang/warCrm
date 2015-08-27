@@ -9,6 +9,10 @@
 namespace app\components;
 
 
+use DateTime;
+use DateTimeZone;
+use Yii;
+
 class Tools
 {
 
@@ -26,5 +30,22 @@ class Tools
     {
         $dateTime = new \DateTime();
         return $dateTime->format("Y-m-d H:i:s");
+    }
+
+    public static function base64_urlSafeEncode($data)
+    {
+        $find = array('+', '/');
+        $replace = array('-', '_');
+        return str_replace($find, $replace, base64_encode($data));
+    }
+
+    public static function getPrivateLink ($url)
+    {
+        $file = urldecode($url);
+        $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
+        $sha1Base64 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $url, Yii::$app->params['qiNiuSk'], true));
+        $token = Yii::$app->params['qiNiuAk'] . ':' . $sha1Base64;
+        $url .= '&token='.$token;
+        return $url;
     }
 } 

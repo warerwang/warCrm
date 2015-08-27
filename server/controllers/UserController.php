@@ -3,15 +3,17 @@
 namespace app\controllers;
 
 use app\components\RestController;
+use app\components\Tools;
 use app\exceptions\UserException;
 use app\models\User;
+use DateTimeZone;
 use Yii;
 
 use yii\db\Exception;
 use yii\filters\ContentNegotiator;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
-
+use DateTime;
 /**
  * Swagger Annotations
  * @SWG\Resource(
@@ -36,6 +38,8 @@ use yii\web\Response;
  * )
 
  */
+
+
 class UserController extends RestController
 {
     public $safeActions = ['view', 'create', 'access-token'];
@@ -264,6 +268,26 @@ class UserController extends RestController
         }else{
             throw new ForbiddenHttpException("权限不足.");
         }
+    }
+
+    public function actionFileToken ()
+    {
+        $timeStamp = (new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600;
+        $json = '{"scope":"'.Yii::$app->params['scope'].'","deadline":'.$timeStamp.'}';
+
+        $jsonBase64 = Tools::base64_urlSafeEncode($json);
+        $sha1 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $jsonBase64, Yii::$app->params['qiNiuSk'], true));
+        return Yii::$app->params['qiNiuAk'] . ':' . $sha1 . ':' . $jsonBase64;
+    }
+
+    public function actionImageUrl ($url)
+    {
+        $file = urldecode($url);
+        $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
+        $sha1Base64 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $url, Yii::$app->params['qiNiuSk'], true));
+        $token = Yii::$app->params['qiNiuAk'] . ':' . $sha1Base64;
+        $url .= '&token='.$token;
+        echo $url;
     }
 
     /**
