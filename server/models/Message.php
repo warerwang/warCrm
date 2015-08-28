@@ -23,7 +23,11 @@ class Message extends MessagesBase
             if(!empty($extraData) && isset($extraData['type'])){
                 $type = $extraData['type'];
                 if($type == 'attach'){
-                    return Tools::getPrivateLink($extraData['data']['key']);
+                    if(Tools::isImg($extraData['data']['ext'])){
+                        return Tools::getPrivateLink($extraData['data']['key'] , 'middle');
+                    }else{
+                        return Tools::getPrivateLink($extraData['data']['key']);
+                    }
                 }
             }
             return $data->content;

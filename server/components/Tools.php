@@ -39,13 +39,21 @@ class Tools
         return str_replace($find, $replace, base64_encode($data));
     }
 
-    public static function getPrivateLink ($url)
+    public static function getPrivateLink ($url, $format = '')
     {
         $file = urldecode($url);
+        if($format){
+            $file .= '-' .$format;
+        }
         $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
         $sha1Base64 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $url, Yii::$app->params['qiNiuSk'], true));
         $token = Yii::$app->params['qiNiuAk'] . ':' . $sha1Base64;
         $url .= '&token='.$token;
         return $url;
+    }
+
+    public static function isImg($ext)
+    {
+        return in_array(strtolower($ext), ['.jpg', '.png', '.gif', '.bmp']);
     }
 } 

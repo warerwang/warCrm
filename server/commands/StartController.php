@@ -230,7 +230,7 @@ class StartController extends Controller
         }
         if(!isset($data['extra'])) $data['extra'] = [];
         if(isset($data['extra']['type'])){
-            $this->extraDataHandler($data['extra']);
+            $this->extraDataHandler($data['extra'], $current);
         }
         $message = $current->sendMessage($chat_id, $data['content'], $data['extra']);
 
@@ -249,13 +249,19 @@ class StartController extends Controller
         }
     }
 
-    private function extraDataHandler($extraData)
+    /**
+     * @param $extraData
+     * @param User $current
+     */
+    private function extraDataHandler($extraData, $current)
     {
         if($extraData['type'] == 'attach'){
             $attach = new Attach();
             $attach->load($extraData['data'], '');
-            print_r($extraData['data']);
-            $attach->save();
+            $attach->did = $current->did;
+            if(!$attach->save()){
+                Yii::error("保存数据出错" . $attach->getFirstErrorContent());
+            }
         }
     }
 

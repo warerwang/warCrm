@@ -6,6 +6,7 @@ angular.module "crm"
     else
       $scope.showRight = true
     $scope.orderBy = '-getSort()'
+
     afterLoadPreData = ()->
       UserService.getChats().then (chats)->
         $scope.chats = chats
@@ -15,8 +16,15 @@ angular.module "crm"
           if !$scope.chat?
             $location.path('/')
             return false
+          if !$scope.chat.tabActive?
+            $scope.chat.tabActive = 1
           $scope.chat.getHistoryMessage().then (messages)->
             $scope.messages = messages
+
+          $scope.chat.getAttachments().then (attachs)->
+            $scope.attachs = attachs
+
+
           $scope.chat.resource.unReadCount = 0
           $scope.chat.resource.$update (res)->
             $scope.chat.resource = res
@@ -101,11 +109,11 @@ angular.module "crm"
         $scope.chat.sendMessage(res.key, {
           type:'attach',
           data:{
-            key     : res.key
-            owner_id: $scope.currentUser.id
-            chat_id : $scope.chat.getCid()
-            ext     : ext
-            filename: files[0].name
+            name: files[0].name
             size    : files[0].size
+            key     : res.key
+            ext     : ext
+            ownerId: $scope.currentUser.id
+            chatId : $scope.chat.getCid()
           }
         })

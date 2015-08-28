@@ -1,5 +1,5 @@
 angular.module 'crm'
-  .factory 'UserService', (UserResource, ChatResource, AuthService, $q, MessageResource, ConnectService, WebService, $location, GroupResource)->
+  .factory 'UserService', (UserResource, ChatResource, AuthService, $q, MessageResource, ConnectService, WebService, $location, GroupResource, AttachResource)->
     userService = {}
     class User
       constructor: (options)->
@@ -89,6 +89,21 @@ angular.module 'crm'
             deferred.resolve(_this.messages)
         promise
 
+      getAttachments: ()->
+
+        _this = this
+        deferred = $q.defer()
+        promise = deferred.promise
+        promise.then (data)->
+          data
+        if this.attachs?
+          deferred.resolve(this.attachs)
+        else
+          AttachResource.query {cid:this.getCid()}, (attachs)->
+            _this.attachs = (new Attach attach for attach in attachs)
+            deferred.resolve(_this.attachs)
+        promise
+
       sendMessage: (content, data)->
         @sort = ++userService.maxChatSort
         ConnectService.sendMessage(this.getCid(), content, data)
@@ -124,6 +139,9 @@ angular.module 'crm'
           @_recipient.resource.members = JSON.stringify (member.id for member in @_recipient.members)
           @_recipient.resource.$update {id:@_recipient.id}, callback
 
+      isGroup: ()->
+        return @resource.type == 2
+
     class Message
       constructor: (options)->
         {@id, @cid, @sender, @content, @createTime} = options
@@ -150,6 +168,10 @@ angular.module 'crm'
       isAttach: ()->
         return @extraData.type == 'attach'
 
+    class Attach
+      constructor: (options)->
+        {@id, @name, @size, @ext, @ownerId, @chatId, @createTime, @isImg, @url} = options
+        @owner = userService.getUser @ownerId
 
     class Group
       constructor: (options)->

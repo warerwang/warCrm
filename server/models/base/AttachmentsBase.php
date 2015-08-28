@@ -12,8 +12,8 @@ use Yii;
  * @property integer $size
  * @property string $key
  * @property string $ext
- * @property string $cid
- * @property string $uid
+ * @property string $chatId
+ * @property string $ownerId
  * @property string $createTime
  * @property string $did
  */
@@ -33,12 +33,12 @@ class AttachmentsBase extends \app\components\Model
     public function rules()
     {
         return [
-            [['id', 'name', 'size', 'key', 'ext', 'cid', 'uid', 'did'], 'required'],
+            [['id', 'name', 'size', 'key', 'ext', 'chatId', 'ownerId', 'did'], 'required'],
             [['size'], 'integer'],
             [['createTime'], 'safe'],
-            [['id', 'ext', 'uid', 'did'], 'string', 'max' => 20],
+            [['id', 'ext', 'ownerId', 'did'], 'string', 'max' => 20],
             [['name', 'key'], 'string', 'max' => 256],
-            [['cid'], 'string', 'max' => 40]
+            [['chatId'], 'string', 'max' => 40]
         ];
     }
 
@@ -53,8 +53,8 @@ class AttachmentsBase extends \app\components\Model
             'size' => 'Size',
             'key' => 'Key',
             'ext' => 'Ext',
-            'cid' => 'Cid',
-            'uid' => 'Uid',
+            'chatId' => 'Chat ID',
+            'ownerId' => 'Owner ID',
             'createTime' => 'Create Time',
             'did' => 'Did',
         ];

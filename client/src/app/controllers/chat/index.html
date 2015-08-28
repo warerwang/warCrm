@@ -13,7 +13,7 @@
         </ul>
     </div>
 </nav>
-<div id="page-wrapper" class="gray-bg" style="margin-right: 220px;">
+<div id="page-wrapper" class="gray-bg" ng-class='{"wrapper-right": showRight}'>
     <div ng-show="{{showRight}}">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-12">
@@ -56,43 +56,37 @@
             </div>
     </div>
 </div>
-
-<div class="war-navbar-fix-right war-file-list">
-    <div class="ibox">
-        <div class="ibox-title">
-            <h5>文件列表</h5>
-        </div>
-    </div>
+<div ng-show="{{showRight}}">
+<div class="war-navbar-fix-right chat-right-wrapper">
     <div class="ibox-content">
-        <ul>
-            <li>
-                <div>文件名</div>
-                <div class="info">
-                    <i class="fa fa-clock-o"></i> <a href="#">14 Hours ago</a>
-                    <i class="fa fa-user"></i> <a href="#">Alice Williams</a>
+        <tabset class="tabs-right">
+            <tab heading="文件" active="chat.tabActive == 1" ng-click="chat.tabActive=1">
+                <div class="panel-body">
+                    <ul>
+                        <li ng-repeat="attach in attachs">
+                            <div>{{attach.name}}</div>
+                            <div class="info">
+                                <i class="fa fa-clock-o"></i> <i>{{attach.createTime}}</i>
+                                <i class="fa fa-user"></i> <a ng-href="/profile/{{attach.ownerId}}">{{attach.owner.getName()}}</a>
+                            </div>
+                        </li>
+                        <li class="no-file" ng-if="attachs.length == 0">没有文件</li>
+                    </ul>
                 </div>
-            </li>
-            <li>
-                <div>文件名</div>
-                <div class="info">
-                    <i class="fa fa-clock-o"></i> <a href="#">14 Hours ago</a>
-                    <i class="fa fa-user"></i> <a href="#">Alice Williams</a>
+            </tab>
+            <tab heading="成员" active="chat.tabActive == 2" ng-click="chat.tabActive=2" ng-show="chat.isGroup()">
+                <div class="panel-body">
+                    <div class="users-list">
+                        <div class="chat-user" ng-repeat="member in chat.getMembers()">
+                            <img class="chat-avatar" ng-src="{{member.getAvatar(36)}}">
+                            <div class="chat-user-name">
+                                <a ng-href="#" ng-click="">{{member.getName()}}</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </li>
-            <li>
-                <div>文件名</div>
-                <div class="info">
-                    <i class="fa fa-clock-o"></i> <a href="#">14 Hours ago</a>
-                    <i class="fa fa-user"></i> <a href="#">Alice Williams</a>
-                </div>
-            </li>
-            <li>
-                <div>文件名</div>
-                <div class="info">
-                    <i class="fa fa-clock-o"></i> <a href="#">14 Hours ago</a>
-                    <i class="fa fa-user"></i> <a href="#">Alice Williams</a>
-                </div>
-            </li>
-        </ul>
+            </tab>
+        </tabset>
     </div>
+</div>
 </div>

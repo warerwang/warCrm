@@ -134,8 +134,8 @@
   }
   .chat-action{
     position: absolute;
-    top: 14px;
-    right: 2px;
+    top: 0;
+    right: 0;
     .fa-remove{
       color: #C1E2B3;
       font-size: 16px;
@@ -156,6 +156,9 @@
   min-height: auto;
   right: 0;
   left: 0;
+  &.wrapper-right{
+    margin-right: 220px;
+  }
 }
 .chat-container{
   height: 1000px;
@@ -176,25 +179,53 @@
   right: 5px;
   left: 5px;
 }
-.war-file-list{
+.chat-right-wrapper{
+  .nav{
+    background: #FFF;
+    li.active{
+      background: #FFF;
+      border-left: none;
+      a{
+        color: #000000;
+        font-weight: bold;
+        border-bottom: 1px solid #fff;
+        margin: 0;
+      }
+    }
+  }
   .ibox-content{
     bottom: 0;
-    top: 45px;
+    top: 0;
     position: absolute;
     overflow: hidden;
     padding: 0;
     width: 100%;
   }
-  ul{
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    overflow: scroll;
-  }
-  li{
-    list-style: none;
-    padding: 10px 5px;
-    border-bottom: 1px solid #e7eaec;
+  .panel-body{
+    left: 0;
+    right: 0;
+    top: 50px;
+    bottom: 0;
+    position: absolute;
+    overflow: auto;
+    ul,li{
+      list-style: none;
+    }
+    ul{
+      padding: 0;
+    }
+    li{
+      padding: 10px 5px;
+      border-bottom: 1px solid #e7eaec;
+    }
+    .chat-avatar{
+      margin-right:0px;
+    }
+    .chat-user-name {
+      padding: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .ibox {
     margin-bottom: 0px;
