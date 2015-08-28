@@ -12,6 +12,7 @@ angular.module "crm"
         $scope.chats = chats
         $scope.message = ''
         if id != ''
+          $scope.currentUser.lastChatId = id
           $scope.chat = UserService.getChat id
           if !$scope.chat?
             $location.path('/')
@@ -27,10 +28,12 @@ angular.module "crm"
           $scope.chat.getAttachments().then (attachs)->
             $scope.attachs = attachs
 
-
           $scope.chat.resource.unReadCount = 0
           $scope.chat.resource.$update (res)->
             $scope.chat.resource = res
+        else if $scope.currentUser.lastChatId?
+          $location.path('/chat/' + $scope.currentUser.lastChatId)
+          return false
 
     if WebService.isLoadedPreData
       afterLoadPreData()

@@ -19,7 +19,7 @@
         <div class="col-md-3 col-sm-6" ng-repeat="user in users | filter:query | orderBy:order">
             <div class="contact-box center-version">
                 <a ng-href="/profile/{{user.id}}">
-                    <img alt="image" class="img-circle" src="{{user.getAvatar(48)}}">
+                    <img alt="image" class="img-circle" ng-src="{{user.getAvatar(48)}}">
                     <h3 class="m-b-xs"><i class="{{user.getLoginStatus()}}"></i> <strong>{{user.getName()}}</strong></h3>
 
                     <div class="font-bold">{{user.resource.email}}</div>
@@ -41,29 +41,3 @@
         </div>
     </div>
 </div>
-
-<!--<div class="col-md-12" id="contact">-->
-    <!--<div ng-repeat="user in users | filter:query | orderBy:order" class="user-card">-->
-        <!--<div class="directory-header row">-->
-            <!--<div class="col-md-4">-->
-                <!--<img ng-src="{{user.getAvatar(96)}}">-->
-                <!--<div class="action">-->
-                    <!--<a href="#" ng-click="chat(user)"><i class="fa fa-comments"></i></a>-->
-                    <!--<a ng-href="/profile/{{user.id}}"><i class="fa fa-cog"></i></a>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-md-6">-->
-                <!--<div class="name item" title="Name">{{user.resource.name}}</div>-->
-                <!--<div class="name item" title="Name">{{user.resource.nickName}}</div>-->
-                <!--<div>-->
-                    <!--<i class="{{user.getLoginStatus()}}"></i>-->
-                <!--</div>-->
-                <!--<div class="item" title="Email"><a href="mailto:{{user.resource.email}}" title="向发发邮件">{{user.resource.email}}</a></div>-->
-                <!--<div class="item" title="Work Phone">{{user.resource.phone}}</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="directory-content">-->
-            <!--{{user.resource.description}}-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->

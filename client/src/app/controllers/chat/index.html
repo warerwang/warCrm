@@ -3,7 +3,7 @@
         <ul class="nav metismenu" id="chat-list">
             <li ng-repeat="chat in chats | orderBy:orderBy" ng-class="{'active' : chat.isActive()}">
                 <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}">
-                    <div class="{{chat.getLoginStatus()}}"></div> <img alt="image" class="img-circle" src="{{chat.getAvatar(36)}}"> {{chat.getName()}}
+                    <div class="{{chat.getLoginStatus()}}"></div> <img alt="image" class="img-circle" ng-src="{{chat.getAvatar(36)}}"> {{chat.getName()}}
                 </a>
                 <div class="chat-action">
                     <i class="cursor-pointer fa fa-remove" ng-click="removeChat($index, $event)"></i>
@@ -24,7 +24,7 @@
                 <div class="chat-activity-list" scroll-glue>
                     <div class="chat-element" ng-repeat="message in messages">
                         <a href="" class="pull-left">
-                            <img alt="image" class="img-circle" src="{{message.getSender().getAvatar(36)}}">
+                            <img alt="image" class="img-circle" ng-src="{{message.getSender().getAvatar(36)}}">
                         </a>
                         <strong class="pull-left">{{message.getSender().getName()}}</strong>
                         <small class="text-navy pull-right">{{message.createTime}}</small>
