@@ -60,7 +60,7 @@
 <div class="war-navbar-fix-right chat-right-wrapper">
     <div class="ibox-content">
         <tabset class="tabs-right">
-            <tab heading="文件" active="chat.tabActive == 1" ng-click="chat.tabActive=1">
+            <tab heading="文件" active="activeFileTab" ng-click="chat.tabActive=1">
                 <div class="panel-body">
                     <ul>
                         <li ng-repeat="attach in attachs">
@@ -74,7 +74,7 @@
                     </ul>
                 </div>
             </tab>
-            <tab heading="成员" active="chat.tabActive == 2" ng-click="chat.tabActive=2" ng-show="chat.isGroup()">
+            <tab heading="成员" active="activeMemberTab" ng-click="chat.tabActive=2" ng-show="chat.isGroup()">
                 <div class="panel-body">
                     <div class="users-list">
                         <div class="chat-user" ng-repeat="member in chat.getMembers()">

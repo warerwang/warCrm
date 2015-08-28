@@ -18,6 +18,9 @@ angular.module "crm"
             return false
           if !$scope.chat.tabActive?
             $scope.chat.tabActive = 1
+          $scope.activeFileTab = $scope.chat.tabActive == 1
+          $scope.activeMemberTab = $scope.chat.tabActive == 2
+
           $scope.chat.getHistoryMessage().then (messages)->
             $scope.messages = messages
 
