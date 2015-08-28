@@ -212,6 +212,7 @@ class UserController extends RestController
      */
     public function actionAccessToken ($email, $password)
     {
+        /** @var User $user */
         $user     = User::findOne(['email' => $email]);
         $this->checkAccess($user);
         if (!$user->validatePassword($password)) {
@@ -243,9 +244,24 @@ class UserController extends RestController
         return Yii::$app->user->identity;
     }
 
-    public function actionUpdatePassword ($oldpassword, $newpassword)
+    public function actionUpdatePassword()
     {
+        $request  = Yii::$app->request;
+        $data = json_decode($request->rawBody, true);
+        $oldPassword = $data['oldPassword'];
+        $newPassword = $data['newPassword'];
+        /** @var User $current */
+        $current = Yii::$app->user->identity;
+        if(!$current->validatePassword($oldPassword))
+            throw new ForbiddenHttpException("密码不正确");
 
+        $current->password = $newPassword;
+        $current->setScenario(User::SCENARIO_EDIT_PASSWORD);
+        if(!$current->save()){
+            throw new Exception($current->getFirstErrorContent());
+        }else{
+            return true;
+        }
     }
 
     public function actionGetResetPasswordCode ($email)

@@ -159,6 +159,11 @@
   &.wrapper-right{
     margin-right: 220px;
   }
+  &.wrapper-scroll{
+    overflow:auto;
+    bottom:auto;
+    min-height:100%;
+  }
 }
 .chat-container{
   height: 1000px;

@@ -13,6 +13,7 @@ class User extends UsersBase implements IdentityInterface
     const EXPIRE_TIME = 3600;
     const SCENARIO_CREATE = 'create';
     const SCENARIO_EDIT   = 'edit';
+    const SCENARIO_EDIT_PASSWORD = 'edit_password';
 
     const ONLINE = 1;
     const OFFLINE = 0;
@@ -55,7 +56,10 @@ class User extends UsersBase implements IdentityInterface
                 "email","password","did","name","phone","avatar","description","nickName"
             ],
             self::SCENARIO_EDIT => [
-                "password","name","phone","avatar","description","nickName"
+                "name","phone","avatar","description","nickName"
+            ],
+            self::SCENARIO_EDIT_PASSWORD => [
+                "password"
             ],
         ];
     }
@@ -92,7 +96,7 @@ class User extends UsersBase implements IdentityInterface
 
     public function validatePassword($password)
     {
-        return true;
+        return $this->password == md5($password . $this->salt);
     }
 
     public function sendMessage ($cid, $content, $extraData = [])

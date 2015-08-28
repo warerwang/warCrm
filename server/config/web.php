@@ -47,13 +47,25 @@ $config = [
             'rules' => [
                 [
                     'class' => \yii\rest\UrlRule::className(),
-                    'controller'    => ['category' => 'category', 'article' => 'article', 'user' => 'user', 'chat' => 'chat', 'group' => 'group'],
+                    'controller'    => ['user' => 'user'],
                     'extraPatterns' => [
-                        'GET current'       => 'current',
+                        'OPTIONS update-password' => 'options',
+                        'POST update-password'    => 'update-password',
+                        'GET current'             => 'current',
                     ],
-                    'tokens' => [
-                        '{id}'      => '<id:\d+>',
-                    ]
+//                    'tokens' => [
+//                        '{id}'      => '<id:\d+>',
+//                    ]
+                ],
+                [
+                    'class' => \yii\rest\UrlRule::className(),
+                    'controller'    => ['category' => 'category', 'article' => 'article', 'chat' => 'chat', 'group' => 'group'],
+//                    'extraPatterns' => [
+//                        'GET current'       => 'current',
+//                    ],
+//                    'tokens' => [
+//                        '{id}'      => '<id:\d+>',
+//                    ]
                 ],
                 [
                     'class' => \yii\rest\UrlRule::className(),
