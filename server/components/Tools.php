@@ -43,9 +43,17 @@ class Tools
     {
         $file = urldecode($url);
         if($format){
-            $file .= '-' .$format;
+            if(in_array($format, ['big', 'middle', 'small'])){
+                $file .= '-' .$format;
+                $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
+            }else{
+                $file .= '?' .$format;
+                $url = Yii::$app->params['qiNiuUrl'] . "/{$file}&e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
+            }
+        }else{
+            $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
         }
-        $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
+
         $sha1Base64 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $url, Yii::$app->params['qiNiuSk'], true));
         $token = Yii::$app->params['qiNiuAk'] . ':' . $sha1Base64;
         $url .= '&token='.$token;

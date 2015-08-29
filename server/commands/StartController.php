@@ -163,6 +163,7 @@ class StartController extends Controller
     {
         $responseData = [
             'type'      => self::REQUEST_TYPE_MESSAGE,
+            //todo 这里有一个问题. 应该返回的是field 字段定义的.
             'message'   => $message->attributes,
             'extraData' => $extraData
         ];

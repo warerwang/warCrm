@@ -20,11 +20,11 @@ angular.module 'crm'
           @resource.email
       getAvatar: (size)->
         if size
-          avatar = @resource.avatar + '&size='+size
+          avatar = @resource.avatar[size]
         else
-          avatar = @resource.avatar
-
+          avatar = @resource.avatar[36]
         avatar
+
       isAdmin: ()->
         @resource.isAdmin
 

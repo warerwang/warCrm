@@ -4,6 +4,7 @@ angular.module 'crm'
     afterLoadPreData = ()->
       $scope.user    = UserService.getUser AuthService.currentUser.id
       $scope.userRes = $scope.user.resource
+      $scope.myImage = $scope.currentUser.getAvatar(150)
 
     if WebService.isLoadedPreData
       afterLoadPreData()
@@ -20,9 +21,9 @@ angular.module 'crm'
     $scope.updateUser = {}
 
     $scope.updatePassword = ()->
-      $http.post(API_BASE_URL + '/user/update-password?access-token=' + SessionService.accessToken, {oldPassword:$scope.updateUser.oldPassword, newPassword:$scope.updateUser.password1}).then (res)->
+      $http.post(API_BASE_URL + '/user/update-password?access-token=' + SessionService.accessToken, {oldPassword:$scope.updateUser.oldPassword, newPassword:$scope.updateUser.password1})
+      .then (res)->
         console.log res
-
-
-
-
+      ,(res)->
+        console.log '错误'
+        console.log res

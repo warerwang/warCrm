@@ -286,25 +286,32 @@ class UserController extends RestController
         }
     }
 
-    public function actionFileToken ()
+    public function actionFileToken ( $key = null)
     {
         $timeStamp = (new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600;
-        $json = '{"scope":"'.Yii::$app->params['scope'].'","deadline":'.$timeStamp.'}';
-
+        if($key){
+            $data = [
+                'scope' => Yii::$app->params['scope'] . ':' . $key,
+                'deadline' => $timeStamp,
+            ];
+            $json = json_encode($data);
+        }else{
+            $json = '{"scope":"'.Yii::$app->params['scope'].'","deadline":'.$timeStamp.'}';
+        }
         $jsonBase64 = Tools::base64_urlSafeEncode($json);
         $sha1 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $jsonBase64, Yii::$app->params['qiNiuSk'], true));
         return Yii::$app->params['qiNiuAk'] . ':' . $sha1 . ':' . $jsonBase64;
     }
-
-    public function actionImageUrl ($url)
-    {
-        $file = urldecode($url);
-        $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
-        $sha1Base64 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $url, Yii::$app->params['qiNiuSk'], true));
-        $token = Yii::$app->params['qiNiuAk'] . ':' . $sha1Base64;
-        $url .= '&token='.$token;
-        echo $url;
-    }
+//
+//    public function actionImageUrl ($url)
+//    {
+//        $file = urldecode($url);
+//        $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
+//        $sha1Base64 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $url, Yii::$app->params['qiNiuSk'], true));
+//        $token = Yii::$app->params['qiNiuAk'] . ':' . $sha1Base64;
+//        $url .= '&token='.$token;
+//        echo $url;
+//    }
 
     /**
      * @param $idOrEmail

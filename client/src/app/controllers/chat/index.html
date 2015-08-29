@@ -13,7 +13,7 @@
         </ul>
     </div>
 </nav>
-<div id="page-wrapper" class="gray-bg" ng-class='{"wrapper-right": showRight}'>
+<div id="page-wrapper" class="gray-bg wrapper-left" ng-class='{"wrapper-right": showRight}'>
     <div ng-show="{{showRight}}">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-12">
@@ -30,7 +30,7 @@
                         <small class="text-navy pull-right">{{message.createTime}}</small>
                         <div class="media-body ">
                             <p class="m-b-xs" ng-if="message.isImg()">
-                                <img style="width: 100%;height: 100%;" ng-src="{{message.content}}" />
+                                <img style="max-width: 100%;" ng-src="{{message.content}}" />
                             </p>
                             <p class="m-b-xs" ng-if="message.isAttach() && !message.isImg()">
                                 <a ng-href="{{message.content}}">{{message.content}}</a>
@@ -48,8 +48,6 @@
                     </a>
                     <form id="message-form" style="height: 42px;" method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
                         <textarea id="message-input" class="with-emoji-menu" ng-model="message" ng-keypress="enterSubmit($event)"></textarea>
-                        <input name="key" type="hidden" ng-model="file.key" />
-                        <input name="token" type="hidden" ng-model="file.token" />
                         <input type="file" id="file-upload" name="files" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
                     </form>
                 </div>

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\Tools;
 use app\models\base\UsersBase;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
@@ -35,9 +36,17 @@ class User extends UsersBase implements IdentityInterface
             'phone',
             'avatar' => function(){
                   if(empty($this->avatar)){
-                      return 'http://cdn.v2ex.com/gravatar/'.md5($this->email).'.png?default=mm';
+                      return [
+                          '36' => 'http://cdn.v2ex.com/gravatar/'.md5($this->email).'.png?default=mm&size=36',
+                          '48' => 'http://cdn.v2ex.com/gravatar/'.md5($this->email).'.png?default=mm&size=48',
+                          '150' => 'http://cdn.v2ex.com/gravatar/'.md5($this->email).'.png?default=mm&size=80',
+                      ];
                   }else{
-                      return $this->avatar;
+                      return [
+                          '36' => Tools::getPrivateLink($this->avatar, 'imageView2/2/w/36/q/75'),
+                          '48' => Tools::getPrivateLink($this->avatar, 'imageView2/2/w/48/q/75'),
+                          '150' => Tools::getPrivateLink($this->avatar),
+                      ];
                   }
                 },
             'description',
