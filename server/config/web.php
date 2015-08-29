@@ -50,7 +50,9 @@ $config = [
                     'controller'    => ['user' => 'user'],
                     'extraPatterns' => [
                         'OPTIONS update-password' => 'options',
+                        'OPTIONS update-avatar'   => 'options',
                         'POST update-password'    => 'update-password',
+                        'POST update-avatar'      => 'update-avatar',
                         'GET current'             => 'current',
                     ],
 //                    'tokens' => [

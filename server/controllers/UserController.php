@@ -116,9 +116,12 @@ class UserController extends RestController
         $user->setScenario(User::SCENARIO_EDIT);
         $data = json_decode($request->rawBody, true);
         $user->load($data, '');
-        if(!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin){
-            $user->status = $data['status'];
-            $user->isAdmin = $data['isAdmin'];
+        if(!Yii::$app->user->identity->isAdmin && $id != Yii::$app->user->identity->id){
+            throw new ForbiddenHttpException("权限不足.");
+        }
+        if(Yii::$app->user->identity->isAdmin){
+            isset($data['status']) && $user->status = $data['status'];
+            isset($data['isAdmin']) && $user->isAdmin = $data['isAdmin'];
         }
         if($user->save()){
             return $user;
@@ -220,9 +223,9 @@ class UserController extends RestController
         }
 
         return [
-	        'id'           => $user->id,
-	        'nickName'     => $user->nickName,
-	        'accessToken' => $user->accessToken,
+            'id'          => $user->id,
+            'name'        => $user->name,
+            'accessToken' => $user->accessToken,
             'expireTime'  => date('Y-m-d H:i:s', time() + User::EXPIRE_TIME)
         ];
     }
@@ -244,12 +247,8 @@ class UserController extends RestController
         return Yii::$app->user->identity;
     }
 
-    public function actionUpdatePassword()
+    public function actionUpdatePassword($oldPassword, $newPassword)
     {
-        $request  = Yii::$app->request;
-        $data = json_decode($request->rawBody, true);
-        $oldPassword = $data['oldPassword'];
-        $newPassword = $data['newPassword'];
         /** @var User $current */
         $current = Yii::$app->user->identity;
         if(!$current->validatePassword($oldPassword))
@@ -260,7 +259,20 @@ class UserController extends RestController
         if(!$current->save()){
             throw new Exception($current->getFirstErrorContent());
         }else{
-            return true;
+            return $current;
+        }
+    }
+
+    public function actionUpdateAvatar()
+    {
+        /** @var User $current */
+        $current = Yii::$app->user->identity;
+        $current->load(Yii::$app->request->post(), '');
+        $current->setScenario(User::SCENARIO_EDIT_AVATAR);
+        if(!$current->save()){
+            throw new Exception($current->getFirstErrorContent());
+        }else{
+            return $current;
         }
     }
 

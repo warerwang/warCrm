@@ -12,7 +12,7 @@
         <tr>
             <th>序号</th>
             <th>邮箱</th>
-            <th>昵称</th>
+            <th>职务</th>
             <th>姓名</th>
             <th>电话</th>
             <th>注册时间</th>
@@ -24,7 +24,7 @@
         <tr ng-repeat="user in users">
             <td>{{$index+1}}</td>
             <td>{{user.resource.email}}</td>
-            <td>{{user.resource.nickName}}</td>
+            <td>{{user.resource.title}}</td>
             <td>{{user.resource.name}}</td>
             <td>{{user.resource.phone}}</td>
             <td>{{user.resource.createTime}}</td>

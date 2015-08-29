@@ -15,6 +15,7 @@ class User extends UsersBase implements IdentityInterface
     const SCENARIO_CREATE = 'create';
     const SCENARIO_EDIT   = 'edit';
     const SCENARIO_EDIT_PASSWORD = 'edit_password';
+    const SCENARIO_EDIT_AVATAR = 'edit_avatar';
 
     const ONLINE = 1;
     const OFFLINE = 0;
@@ -32,7 +33,7 @@ class User extends UsersBase implements IdentityInterface
             'name',
             'email',
             'loginStatus',
-            'nickName',
+            'title',
             'phone',
             'avatar' => function(){
                   if(empty($this->avatar)){
@@ -65,13 +66,16 @@ class User extends UsersBase implements IdentityInterface
     public function scenarios(){
         return [
             self::SCENARIO_CREATE => [
-                "email","password","did","name","phone","avatar","description","nickName"
+                "email","password","did","name","phone","description","title"
             ],
             self::SCENARIO_EDIT => [
-                "name","phone","avatar","description","nickName"
+                "name","phone","description","title","password"
             ],
             self::SCENARIO_EDIT_PASSWORD => [
                 "password"
+            ],
+            self::SCENARIO_EDIT_AVATAR => [
+                "avatar"
             ],
         ];
     }
@@ -138,14 +142,14 @@ class User extends UsersBase implements IdentityInterface
         }
     }
 
-    public static function createUser ($did, $email, $password, $nickName = '', $status = 0)
+    public static function createUser ($did, $email, $password, $title = '', $status = 0)
     {
         $user = new self();
         $user->did = $did;
         $user->email = $email;
         $user->password = $password;
         $user->status = $status;
-        $user->nickName = $nickName;
+        $user->title = $title;
         if($user->save()){
             return $user;
         }else{

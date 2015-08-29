@@ -19,11 +19,12 @@ angular.module 'crm'
 
 
     $scope.updateUser = {}
-  .controller "ProfilePasswordCtrl", ($scope, $http, API_BASE_URL, SessionService, toastr)->
+  .controller "ProfilePasswordCtrl", ($scope, $http, API_BASE_URL, SessionService, toastr, $location)->
     $scope.updatePassword = ()->
-      $http.post(API_BASE_URL + '/user/update-password?access-token=' + SessionService.accessToken, {oldPassword:$scope.updateUser.oldPassword, newPassword:$scope.updateUser.password1})
-      .then ()->
-          toastr.success('更新密码成功')
+      $scope.userRes.$updatePassword {oldPassword:$scope.updateUser.oldPassword, newPassword:$scope.updateUser.password1}, (res)->
+        $scope.updateUser = {}
+        $scope.passwordForm.$setPristine()
+        toastr.success('更新密码成功')
       ,(res)->
         $scope.passwordForm.oldPassword.error = res.data.message
         $scope.passwordForm.oldPassword.$invalid = true
