@@ -1,5 +1,5 @@
 angular.module 'crm'
-  .controller "ProfileCtrl", ($scope, UserService, $stateParams, AuthService, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $http, API_BASE_URL, SessionService) ->
+  .controller "ProfileCtrl", ($scope, UserService, $stateParams, AuthService, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr) ->
 
     afterLoadPreData = ()->
       $scope.user    = UserService.getUser AuthService.currentUser.id
@@ -19,11 +19,12 @@ angular.module 'crm'
 
 
     $scope.updateUser = {}
-
+  .controller "ProfilePasswordCtrl", ($scope, $http, API_BASE_URL, SessionService, toastr)->
     $scope.updatePassword = ()->
       $http.post(API_BASE_URL + '/user/update-password?access-token=' + SessionService.accessToken, {oldPassword:$scope.updateUser.oldPassword, newPassword:$scope.updateUser.password1})
-      .then (res)->
-        console.log res
+      .then ()->
+          toastr.success('更新密码成功')
       ,(res)->
-        console.log '错误'
-        console.log res
+        $scope.passwordForm.oldPassword.error = res.data.message
+        $scope.passwordForm.oldPassword.$invalid = true
+        $scope.passwordForm.oldPassword.$dirty = true
