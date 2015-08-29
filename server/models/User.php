@@ -40,9 +40,9 @@ class User extends UsersBase implements IdentityInterface
 //                          '36' => 'http://cdn.v2ex.com/gravatar/'.md5($this->email).'.png?default=mm&size=36',
 //                          '48' => 'http://cdn.v2ex.com/gravatar/'.md5($this->email).'.png?default=mm&size=48',
 //                          '150' => 'http://cdn.v2ex.com/gravatar/'.md5($this->email).'.png?default=mm&size=80',
-                            '36' => '/assets/images/default-32.png',
-                            '48' => '/assets/images/default-32.png',
-                            '36' => '/assets/images/default-32.png',
+                            '36' => '/assets/images/default-36.png',
+                            '48' => '/assets/images/default-48.png',
+                            '150' => '/assets/images/default-150.png',
                       ];
                   }else{
                       return [
