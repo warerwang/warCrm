@@ -35,9 +35,7 @@
                             <p class="m-b-xs" ng-if="message.isAttach() && !message.isImg()">
                                 <a ng-href="{{message.content}}">{{message.content}}</a>
                             </p>
-                            <p class="m-b-xs" ng-if="!message.isAttach() && !message.isImg()">
-                                {{message.content}}
-                            </p>
+                            <p class="m-b-xs" ng-if="!message.isAttach() && !message.isImg()" ng-bind-html="message.content | nl2br"></p>
                         </div>
                     </div>
                 </div>
