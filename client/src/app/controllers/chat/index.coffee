@@ -1,5 +1,16 @@
 angular.module "crm"
-  .controller "ChatCtrl", ($scope, UserService, $stateParams, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr, $location, $modal, $http, API_BASE_URL, SessionService) ->
+  .controller "ChatCtrl", ($scope,
+                           UserService,
+                           $stateParams,
+                           EVENT_PREDATA_LOADED_SUCCESS,
+                           WebService,
+                           toastr,
+                           $location,
+                           $modal,
+                           $http,
+                           API_BASE_URL,
+                           SessionService,
+                           $timeout) ->
     id = $stateParams.id
     if id == ''
       $scope.showRight = false
@@ -127,6 +138,9 @@ angular.module "crm"
           }
         })
     $scope.showMore = ()->
-      $scope.chat.loadMoreMessage (messages)->
-        console.log messages
+      $scope.chat.loadMoreMessage().then (messages)->
         $scope.messages = messages
+        $timeout ()->
+          $scope.$broadcast 'load-history-success'
+#        ,
+#          0

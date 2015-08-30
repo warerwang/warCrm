@@ -16,9 +16,10 @@ class MessageController extends RestController
     public function actionIndex ($cid, $id = null)
     {
         if($id){
-            return array_reverse(Message::find()->where("cid = '{$cid}' and id < '{$id}'")->orderBy(['id' => SORT_DESC])->limit(5)->all());
+            $where = "cid = '{$cid}' and id < '{$id}'";
         }else{
-            return array_reverse(Message::find()->where(['cid' => $cid])->limit(5)->orderBy(['id' => SORT_DESC])->all());
+            $where = ['cid' => $cid];
         }
+        return array_reverse(Message::find()->where($where)->limit(50)->orderBy(['id' => SORT_DESC])->all());
     }
 } 

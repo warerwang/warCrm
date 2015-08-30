@@ -22,6 +22,8 @@
         </div>
         <div class="chat-container row ibox-content">
                 <div class="chat-activity-list" scroll-glue scrolly="showMore()">
+                    <div class="chat-info">{{messages.length == 50 ? 'Load More' : ''}}</div>
+                    <div class="chat-info" ng-if="messages.length == 0">没有消息</div>
                     <div class="chat-element" ng-repeat="message in messages">
                         <a href="" class="pull-left">
                             <img alt="image" class="img-circle" ng-src="{{message.getSender().getAvatar(36)}}">
