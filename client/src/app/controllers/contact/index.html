@@ -11,7 +11,7 @@
         </select>
     </div>
 </div>
-<div class="wrapper wrapper-content animated fadeInRight col-md-12">
+<div class="wrapper wrapper-content animated fadeInRight col-md-12" ng-controller="ContactProfileCtrl">
     <div class="col-md-3 col-sm-6" ng-repeat="user in users | filter:query | orderBy:order">
         <div class="contact-box center-version">
             <a ng-href="/contact/{{user.id}}">
