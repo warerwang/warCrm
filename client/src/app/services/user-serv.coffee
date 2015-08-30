@@ -251,6 +251,8 @@ angular.module 'crm'
       return chat for chat in userService.chats when chat.id == id
 
     userService.openChat = (id, callback)->
+      if id == AuthService.currentUser.id
+        return false
       chat = userService.getChat id
       if chat
         callback(chat)

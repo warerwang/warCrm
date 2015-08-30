@@ -1,43 +1,38 @@
-<div class="row wrapper border-bottom white-bg page-heading" style="margin-top: 60px;">
-    <div class="col-md-12" style="margin-top: 10px;">
-        <div class="col-xs-3">
-            <input type="search" class="form-control" placeholder="搜索" ng-model="query">
-        </div>
-        <label class="col-xs-1 col-xs-offset-6 control-label" style="text-align: right;padding-top: 5px;">排序</label>
-        <div class="col-xs-2">
-            <select class="form-control" ng-model="order">
-                <option value="resource.name">姓名</option>
-                <option value="-resource.lastActivity">在线状态</option>
-                <option value="id">级别</option>
-            </select>
-        </div>
+<div class="wrapper border-bottom white-bg page-heading col-md-12" style="padding-top: 10px;">
+    <div class="col-xs-3">
+        <input type="search" class="form-control" placeholder="搜索" ng-model="query">
+    </div>
+    <label class="col-xs-1 col-xs-offset-6 control-label" style="text-align: right;padding-top: 5px;">排序</label>
+    <div class="col-xs-2">
+        <select class="form-control" ng-model="order">
+            <option value="resource.name">姓名</option>
+            <option value="-resource.lastActivity">在线状态</option>
+            <option value="id">级别</option>
+        </select>
     </div>
 </div>
+<div class="wrapper wrapper-content animated fadeInRight col-md-12">
+    <div class="col-md-3 col-sm-6" ng-repeat="user in users | filter:query | orderBy:order">
+        <div class="contact-box center-version">
+            <a ng-href="/contact/{{user.id}}">
+                <img alt="image" class="img-circle" ng-src="{{user.getAvatar(48)}}">
+                <h3 class="m-b-xs"><i class="{{user.getLoginStatus()}}"></i> <strong>{{user.getName()}}</strong><span ng-if="user.id == currentUser.id">（你）</span></h3>
 
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-        <div class="col-md-3 col-sm-6" ng-repeat="user in users | filter:query | orderBy:order">
-            <div class="contact-box center-version">
-                <a ng-href="/profile/{{user.id}}">
-                    <img alt="image" class="img-circle" ng-src="{{user.getAvatar(48)}}">
-                    <h3 class="m-b-xs"><i class="{{user.getLoginStatus()}}"></i> <strong>{{user.getName()}}</strong></h3>
+                <div class="font-bold">{{user.resource.email}}</div>
+                <address class="m-t-md">
+                    {{user.resource.description}}<br />
+                    <abbr title="电话">P:</abbr> {{user.resource.phone}}
+                </address>
 
-                    <div class="font-bold">{{user.resource.email}}</div>
-                    <address class="m-t-md">
-                        {{user.resource.description}}<br />
-                        <abbr title="电话">P:</abbr> {{user.resource.phone}}
-                    </address>
-
-                </a>
-                <div class="contact-box-footer">
-                    <div class="m-t-xs btn-group">
-                        <!--<a class="btn btn-xs btn-white"><i class="fa fa-phone"></i> Call </a>-->
-                        <a class="btn btn-xs btn-white" ng-href="mailto:{{user.resource.email}}"><i class="fa fa-envelope"></i> 邮件</a>
-                        <a class="btn btn-xs btn-white" ng-click="chat(user)"><i class="fa fa-comments"></i> 会话</a>
-                    </div>
+            </a>
+            <div class="contact-box-footer">
+                <div class="m-t-xs btn-group">
+                    <!--<a class="btn btn-xs btn-white"><i class="fa fa-phone"></i> Call </a>-->
+                    <a class="btn btn-xs btn-white" ng-href="mailto:{{user.resource.email}}"><i class="fa fa-envelope"></i> 邮件</a>
+                    <a class="btn btn-xs btn-white" ng-click="chat(user)" ng-hide="user.id == currentUser.id"><i class="fa fa-comments"></i> 会话</a>
                 </div>
-
             </div>
+
         </div>
     </div>
 </div>
