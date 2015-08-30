@@ -36,4 +36,4 @@ angular.module "crm"
       if NotificationService.isDefault()
         NotificationService.requestPermission()
       else
-        toastr.waning('你已经禁止通知了,请在浏览器设置里打开.')
+        toastr.warning '你已经禁止通知了,请在浏览器设置里打开.'

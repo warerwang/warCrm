@@ -263,12 +263,12 @@ class UserController extends RestController
         }
     }
 
-    public function actionUpdateAvatar()
+    public function actionUpdateAvatar($avatar)
     {
         /** @var User $current */
         $current = Yii::$app->user->identity;
-        $current->load(Yii::$app->request->post(), '');
         $current->setScenario(User::SCENARIO_EDIT_AVATAR);
+        $current->avatar = $avatar;
         if(!$current->save()){
             throw new Exception($current->getFirstErrorContent());
         }else{

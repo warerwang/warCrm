@@ -33,8 +33,8 @@ class SiteController extends Controller
         if($request->isPost){
             $model->load($request->post());
             $isValidate = $model->validate();
-            if($request->post('submit') == 2){
-                $this->redirect('http://' . $model->domain . '.warcrm.com:3000');
+            if($request->post('submit') == 2 && !empty($model->domain)){
+                $this->redirect('http://' . $model->domain . Yii::$app->params['base_client']);
             }elseif($isValidate){
                 $this->redirect(['create-domain', 'domain' => $model->domain]);
             }
@@ -52,7 +52,7 @@ class SiteController extends Controller
         if($request->isPost){
             $model->load($request->post());
             if($model->createDomain()){
-                $this->redirect('http://' . $model->domain . '.warcrm.com:3000');
+                $this->redirect('http://' . $model->domain . Yii::$app->params['base_client']);
             }
         }
 

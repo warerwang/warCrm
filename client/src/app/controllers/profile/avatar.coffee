@@ -33,5 +33,7 @@ angular.module 'crm'
         }
         transformRequest: angular.identity
       }).success (res)->
-        $scope.currentUser.resource.$updateAvatar {avatar:res.key}, (user)->
-          $scope.currentUser.resource = user
+        $scope.userRes.$updateAvatar {avatar:res.key}, (resource)->
+          $scope.user.resource = resource
+          $scope.setCurrentUser $scope.user
+#          $scope.user.resource = user

@@ -12,8 +12,8 @@ angular.module 'crm'
       afterLoadPreData()
 
     $scope.save = ()->
-      $scope.userRes.$update (user)->
-        $scope.user = UserService.createUser user
+      $scope.userRes.$update (resource)->
+        $scope.user.resource = resource
         $scope.setCurrentUser $scope.user
         toastr.success('更新成功')
 

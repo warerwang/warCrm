@@ -40,7 +40,7 @@ class CreateDomainForm extends Domain
     public function createDomain()
     {
         if(!$this->save()) return false;
-        User::createUser($this->id, $this->adminEmail, $this->adminPassword);
+        User::createUser($this->id, $this->adminEmail, $this->adminPassword, '', 1);
         return true;
     }
 }

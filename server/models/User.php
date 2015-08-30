@@ -143,13 +143,15 @@ class User extends UsersBase implements IdentityInterface
         }
     }
 
-    public static function createUser ($did, $email, $password, $title = '', $status = 0)
+    public static function createUser ($did, $email, $password, $title = '', $isAdmin = 0, $status = 1)
     {
         $user = new self();
+        $user->setScenario(self::SCENARIO_CREATE);
         $user->did = $did;
         $user->email = $email;
         $user->password = $password;
         $user->status = $status;
+        $user->isAdmin = $isAdmin;
         $user->title = $title;
         if($user->save()){
             return $user;
