@@ -17,6 +17,6 @@ class AttachController extends RestController
     public function actionIndex ($cid)
     {
         $did = \Yii::$app->user->identity->did;
-        return Attach::findAll(['did' => $did,'chatId' => $cid]);
+        return Attach::findAll(['chatId' => $cid, 'did' => $did]);
     }
 }

@@ -89,6 +89,23 @@ angular.module 'crm'
             deferred.resolve(_this.messages)
         promise
 
+      loadMoreMessage: ()->
+        _this = this
+        deferred = $q.defer()
+        promise = deferred.promise
+        promise.then (data)->
+          data
+        if this.messages.length == 0
+          deferred.resolve(this.messages)
+        else
+          MessageResource.get {cid:this.getCid(), id:this.messages[0].id}, (messages)->
+            messages = (new Message message for message in messages)
+            _this.messages = messages.concat(_this.messages)
+            console.log 'loadMoreMessage'
+            console.log _this.messages
+            deferred.resolve(_this.messages)
+        promise
+
       getAttachments: ()->
 
         _this = this

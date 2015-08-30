@@ -126,3 +126,7 @@ angular.module "crm"
             chatId : $scope.chat.getCid()
           }
         })
+    $scope.showMore = ()->
+      $scope.chat.loadMoreMessage (messages)->
+        console.log messages
+        $scope.messages = messages

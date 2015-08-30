@@ -13,9 +13,12 @@ use app\models\Message;
 
 class MessageController extends RestController
 {
-    public function actionIndex ($cid)
+    public function actionIndex ($cid, $id = null)
     {
-
-        return Message::find()->where(['cid' => $cid])->all();
+        if($id){
+            return array_reverse(Message::find()->where("cid = '{$cid}' and id < '{$id}'")->orderBy(['id' => SORT_DESC])->limit(5)->all());
+        }else{
+            return array_reverse(Message::find()->where(['cid' => $cid])->limit(5)->orderBy(['id' => SORT_DESC])->all());
+        }
     }
 } 
