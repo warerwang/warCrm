@@ -1,0 +1,14 @@
+<script type="text/ng-template" id="code-modal.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">输入代码</h4>
+    </div>
+    <div class="modal-body">
+        <select ng-model="language" class="form-control" ng-options="language for language in languages"></select>
+        <textarea class="form-control" rows="15" ng-model="message"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="close()">取消</button>
+        <button type="button" class="btn btn-primary" ng-click="sendMessage()">发送</button>
+    </div>
+</script>

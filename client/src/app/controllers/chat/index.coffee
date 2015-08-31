@@ -101,10 +101,25 @@ angular.module "crm"
 
     fileToken = ''
     $scope.openFilePicker = ()->
-      document.getElementById('file-upload').click()
+      $timeout ()->
+        document.getElementById('file-upload').click()
+      ,
+        0
+      ,
+        false
       $http.get(API_BASE_URL+'/user/file-token?access-token='+SessionService.accessToken)
       .success (token)->
         fileToken = token
+
+    $scope.openCodeModal = ()->
+      $modal.open {
+        templateUrl: 'code-modal.html',
+        controller: 'CodeModalCtrl'
+        resolve: {
+          chat: ()->
+            $scope.chat
+        }
+      }
 
     $scope.fileNameChanged = (files)->
       fileName = 'chat-attachment-' + id + '-' + (new Date()).valueOf();

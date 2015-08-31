@@ -21,37 +21,44 @@
             </div>
         </div>
         <div class="chat-container row ibox-content">
-                <div class="chat-activity-list" scroll-glue scrolly="showMore()">
-                    <div class="chat-info">{{messages.length == 50 ? 'Load More' : ''}}</div>
-                    <div class="chat-info" ng-if="messages.length == 0">没有消息</div>
-                    <div class="chat-element" ng-repeat="message in messages">
-                        <a href="" class="pull-left">
-                            <img alt="image" class="img-circle" ng-src="{{message.getSender().getAvatar(36)}}">
-                        </a>
-                        <strong class="pull-left">{{message.getSender().getName()}}</strong>
-                        <small class="text-navy pull-right">{{message.createTime}}</small>
-                        <div class="media-body ">
-                            <p class="m-b-xs" ng-if="message.isImg()">
-                                <img style="max-width: 100%;" ng-src="{{message.content}}" />
-                            </p>
-                            <p class="m-b-xs" ng-if="message.isAttach() && !message.isImg()">
-                                <a ng-href="{{message.content}}">{{message.content}}</a>
-                            </p>
-                            <p class="m-b-xs" ng-if="!message.isAttach() && !message.isImg()" ng-bind-html="message.content | nl2br"></p>
-                        </div>
+            <div class="chat-activity-list" scroll-glue scrolly="showMore()">
+                <div class="chat-info">{{messages.length == 50 ? 'Load More' : ''}}</div>
+                <div class="chat-info" ng-if="messages.length == 0">没有消息</div>
+                <div class="chat-element" ng-repeat="message in messages">
+                    <a href="" class="pull-left">
+                        <img alt="image" class="img-circle" ng-src="{{message.getSender().getAvatar(36)}}">
+                    </a>
+                    <strong class="pull-left">{{message.getSender().getName()}}</strong>
+                    <small class="text-navy pull-right">{{message.createTime}}</small>
+                    <div class="media-body ">
+                        <p class="m-b-xs" ng-if="message.isImg()">
+                            <img style="max-width: 100%;" ng-src="{{message.content}}" />
+                        </p>
+                        <p class="m-b-xs" ng-if="message.isAttach() && !message.isImg()">
+                            <a ng-href="{{message.content}}">{{message.content}}</a>
+                        </p>
+                        <!--<p class="m-b-xs" ng-if="message.isCode()">-->
+                        <pre class="m-b-xs" ng-if="message.isCode()"><code class="{{message.getCodeType()}}" hight-light="" >{{message.content}}</code></pre>
+                        <!--</p>-->
+                        <p class="m-b-xs" ng-if="!message.isAttach() && !message.isImg() && !message.isCode()" ng-bind-html="message.content | nl2br"></p>
                     </div>
                 </div>
-
-                <div id="messages-input-container" class="chat-footer">
-                    <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" style="height: 42px;" ng-click="openFilePicker()">
-                        <i class="ts_icon ts_icon_plus_thick"></i>
-                    </a>
-                    <form id="message-form" style="height: 42px;" method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
-                        <textarea id="message-input" class="with-emoji-menu" ng-model="message" ng-keypress="enterSubmit($event)"></textarea>
-                        <input type="file" id="file-upload" name="files" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
-                    </form>
-                </div>
             </div>
+
+            <div id="messages-input-container" class="chat-footer dropup" dropdown>
+                <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" style="height: 42px;" dropdown-toggle>
+
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" ng-click="openFilePicker()">发送图片</a></li>
+                    <li><a href="#" ng-click="openCodeModal()">代码片段</a></li>
+                </ul>
+                <form id="message-form" style="height: 42px;" method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
+                    <textarea id="message-input" class="with-emoji-menu" ng-model="message" ng-keypress="enterSubmit($event)"></textarea>
+                    <input type="file" id="file-upload" name="files" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 <div ng-show="{{showRight}}">
@@ -62,7 +69,8 @@
                 <div class="panel-body">
                     <ul>
                         <li ng-repeat="attach in attachs">
-                            <div>{{attach.name}}</div>
+
+                            <div><a ng-href="{{attach.url.source}}" target="_blank">{{attach.name}}</a></div>
                             <div class="info">
                                 <i class="fa fa-clock-o"></i> <i>{{attach.createTime}}</i>
                                 <i class="fa fa-user"></i> <a ng-href="/profile/{{attach.ownerId}}">{{attach.owner.getName()}}</a>

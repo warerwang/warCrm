@@ -6,8 +6,12 @@
 
 ##Todo
 
+1. 一对一聊天 clear
+1. 群组聊天 clear
+1. 聊天附件 clear
+1. 团队成员管理 clear
 1. 密码登陆 clear
-1. 聊天代码
+1. 聊天发送代码片段 clear
 1. 消息合并
 1. 上传头像 clear
 1. 增加头衔 clear

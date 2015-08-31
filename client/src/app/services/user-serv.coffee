@@ -179,9 +179,12 @@ angular.module 'crm'
           return @extraData.data.ext.toLowerCase() in ['.jpg', '.png', '.gif', '.bmp']
         else
           false
-
       isAttach: ()->
         return @extraData.type == 'attach'
+      isCode: ()->
+        return @extraData.type == 'code'
+      getCodeType: ()->
+        return @extraData.data.language
 
     class Attach
       constructor: (options)->
