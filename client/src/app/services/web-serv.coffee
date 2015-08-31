@@ -1,5 +1,5 @@
 angular.module 'crm'
-  .factory 'WebService', ($http, API_BASE_URL, $location, BASE_DOMAIN, $q, UserResource, GlobalService, NotificationService, AuthService, ConnectService)->
+  .factory 'WebService', ($http, API_BASE_URL, $location, $rootScope, BASE_DOMAIN, $q, UserResource, GlobalService, NotificationService, AuthService, ConnectService)->
     host = $location.$$host
     index = host.length - BASE_DOMAIN.length - 1
     preDomain = host.substr(0, index).toLowerCase()
@@ -53,6 +53,8 @@ angular.module 'crm'
             $location.path('/chat/' + chatId)
           else
             $location.path('/chat/' + message.cid)
+          if !$rootScope.$$phase?
+            $rootScope.$apply()
         )
 
       playSound: (type)->
