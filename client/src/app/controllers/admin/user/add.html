@@ -6,7 +6,7 @@
         <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && userForm.email.$dirty}">
             <label class="col-sm-4 control-label">邮箱</label>
             <div class="col-sm-8">
-                <input name="email" type="email" class="form-control"  placeholder="邮箱" ng-model="userRes.email" required>
+                <input name="email" type="email" class="form-control"  placeholder="邮箱" ng-model="userRes.email" ng-model-options="{updateOn: 'blur'}" required>
                 <span class="help-block" ng-show="userForm.email.$invalid && userForm.email.$dirty">{{ userForm.email.error ? userForm.email.error : "请输入一个有效的邮箱"}}</span>
             </div>
         </div>
