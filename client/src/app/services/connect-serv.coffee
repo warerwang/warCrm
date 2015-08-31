@@ -1,6 +1,6 @@
 angular.module 'crm'
-  .factory 'ConnectService', (SessionService)->
-    wsServer = 'ws://127.0.0.1:2345';
+  .factory 'ConnectService', (SessionService, $location)->
+    wsServer = 'ws://'+$location.host()+':2345'
     connect = {
       init: ()->
         websocket = new WebSocket(wsServer)

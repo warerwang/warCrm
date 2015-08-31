@@ -25,3 +25,5 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+config/params_override.php
+config/params_override_prod.php

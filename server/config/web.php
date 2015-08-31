@@ -1,7 +1,10 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
-
+if(is_file(__DIR__ . '/params_override.php')){
+    $params = require(__DIR__ . '/params_override.php');
+}else{
+    $params = require(__DIR__ . '/params.php');
+}
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
