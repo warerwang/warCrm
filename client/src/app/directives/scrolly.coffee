@@ -5,7 +5,7 @@ angular.module "crm"
     {
       restrict: 'A',
       link: (scope, element, attrs)->
-        raw = element[0];
+        raw = element[0]
 
         element.bind 'scroll', ()->
           if raw.scrollTop < 20

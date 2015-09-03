@@ -1,7 +1,7 @@
 angular.module 'crm'
 .service 'SessionService', ($cookieStore)->
   this.tokenWrapper = ( resource, action )->
-    _this = this;
+    _this = this
     resource['_' + action] = resource[action]
     resource[action] = (data, a2, a3, a4)->
       data = angular.extend({}, data, {token: _this.accessToken})

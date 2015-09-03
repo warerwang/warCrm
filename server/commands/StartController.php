@@ -41,7 +41,7 @@ class StartController extends Controller
     public function actionIndex()
     {
         $ws_worker = new Worker("websocket://0.0.0.0:2345");
-
+        Worker::$stdoutFile = Yii::$app->runtimePath. '/logs/' . date("Y_m_d").'.log';
         $ws_worker->onConnect = function($connection)
         {
             $connections[] = $connection;
@@ -83,7 +83,7 @@ class StartController extends Controller
                 }
             }else{
                 if(!isset(self::$identities[$connection->id])){
-                    return $this->closeForAuth($connection, 'Please Auth First');
+                    $this->closeForAuth($connection, 'Please Auth First');
                 }
                 /** @var User $current */
                 $current = self::$identities[$connection->id];

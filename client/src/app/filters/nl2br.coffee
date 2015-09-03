@@ -1,6 +1,6 @@
 angular.module "crm"
   .filter 'nl2br', ()->
-    span = document.createElement('span');
+    span = document.createElement('span')
     return (input)->
       if !input?
         reutrn ''

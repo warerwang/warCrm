@@ -36,9 +36,9 @@ angular.module "crm"
     $scope.toggleCheckMember = (user)->
       index = $scope.members.indexOf(user)
       if index > -1
-        $scope.members.splice(index, 1);
+        $scope.members.splice(index, 1)
       else
-        $scope.members.push(user);
+        $scope.members.push(user)
 
     $scope.close = ()->
       $modalInstance.dismiss('cancel')
