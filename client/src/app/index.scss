@@ -63,7 +63,8 @@
   font-family: Lato,appleLogo,sans-serif;
   margin: 0;
   color: #3d3c40;
-  -webkit-appearance: none;
+  appearance: none;
+  //-webkit-appearance: none;
   box-shadow: none;
   outline: 0;
   position: absolute;
@@ -73,8 +74,8 @@
   padding: 9px 40px 9px 45px;
   max-height: 160px!important;
   resize: none!important;
-  -webkit-transition: none;
-  -moz-transition: none;
+  //-webkit-transition: none;
+  //-moz-transition: none;
   transition: none;
   border-radius: 0 6px 6px 0;
 }
@@ -82,8 +83,8 @@
 .online,.offline,.busy{
   width: 10px;
   height: 10px;
-  -moz-border-radius: 50px;
-  -webkit-border-radius: 50px;
+  //-moz-border-radius: 50px;
+  //-webkit-border-radius: 50px;
   border-radius: 50px;
   display: inline-block;
 }
