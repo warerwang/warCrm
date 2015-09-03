@@ -3,6 +3,10 @@
 // injector
 // endinjector
 
+// Build 的时候会把重复的去掉。会引起一个bug.
+.caret{
+  border-top: 4px dashed;
+}
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
