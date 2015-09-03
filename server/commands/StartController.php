@@ -117,9 +117,9 @@ class StartController extends Controller
                         foreach($userConnects as $k => $conn){
                             if($conn->id == $connection->id){
                                 echo "存在'connection->id'" . PHP_EOL;
-                                $userConnects = &self::$userConnectionMap[$user->did][$uid];
-                                $userConnects[$k] = null;
-                                unset($userConnects[$k]);
+                                $_userConnects = &self::$userConnectionMap[$user->did][$uid];
+                                $_userConnects[$k] = null;
+                                unset($_userConnects[$k]);
                                 if(count($userConnects) == 0){
                                     //所有连接都被关闭了.
                                     $user->changeLoginStatus(0);
