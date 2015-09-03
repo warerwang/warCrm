@@ -1,4 +1,4 @@
-angular.module 'crm', [
+angular.module('crm',[
   'ngAnimate',
    'ngCookies',
    'ngTouch',
@@ -10,8 +10,7 @@ angular.module 'crm', [
    'toastr',
    'ngImgCrop',
    'base64'
-].config ($stateProvider, $urlRouterProvider, $locationProvider) ->
-
+]).config ($stateProvider, $urlRouterProvider, $locationProvider) ->
   $stateProvider.state "home",
     url: "/",
     templateUrl: "app/controllers/main/main.html",
