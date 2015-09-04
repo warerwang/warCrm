@@ -22,9 +22,9 @@ use \Workerman\Autoloader;
 Autoloader::setRootPath(__DIR__);
 
 // gateway 进程，这里使用Text协议，可以用telnet测试
-$gateway = new Gateway("websocket://0.0.0.0:9282");
+$gateway = new Gateway("websocket://0.0.0.0:2345");
 // gateway名称，status方便查看
-$gateway->name = 'YourAppGateway';
+$gateway->name = 'ChatGateway';
 // gateway进程数
 $gateway->count = 4;
 // 本机ip，分布式部署时使用内网ip
@@ -32,11 +32,18 @@ $gateway->lanIp = '127.0.0.1';
 // 内部通讯起始端口，假如$gateway->count=4，起始端口为4000
 // 则一般会使用4001 4002 4003 4004 4个端口作为内部通讯端口 
 $gateway->startPort = 2300;
-// 心跳间隔
-//$gateway->pingInterval = 10;
-// 心跳数据
-//$gateway->pingData = '{"type":"ping"}';
 
+$gateway->pingInterval = 10;
+
+$gateway->pingNotResponseLimit = 0;
+
+$gateway->pingData = '{"type":"ping"}';
+
+$gateway->onConnect = function($connection)
+{
+
+
+};
 /* 
 // 当客户端连接上来时，设置连接的onWebSocketConnect，即在websocket握手时的回调
 $gateway->onConnect = function($connection)

@@ -26,6 +26,9 @@ return [
             ],
         ],
         'db' => $db,
+        'globalData' => [
+            'class'  => 'app\components\GlobalData',
+        ]
     ],
     'params' => $params,
 ];

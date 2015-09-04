@@ -85,6 +85,9 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'globalData' => [
+            'class'  => 'app\components\GlobalData',
+        ]
     ],
     'params' => $params,
 ];

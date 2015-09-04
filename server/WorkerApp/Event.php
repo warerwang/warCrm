@@ -13,7 +13,11 @@
  */
 
 use \GatewayWorker\Lib\Gateway;
-
+use app\models\Attach;
+use app\models\Chat;
+use app\models\Group;
+use app\models\Message;
+use app\models\User;
 /**
  * 主逻辑
  * 主要是处理 onConnect onMessage onClose 三个方法
@@ -24,31 +28,77 @@ use \GatewayWorker\Lib\Gateway;
  */
 class Event
 {
-    /**
-     * 当客户端连接时触发
-     * 如果业务不需此回调可以删除onConnect
-     * 
-     * @param int $client_id 连接id
-     * @link http://gatewayworker-doc.workerman.net/gateway-worker-development/onconnect.html
-     */
+    const REQUEST_TYPE_MESSAGE = 1;     //消息
+    const REQUEST_TYPE_BROADCAST = 2;   //广播
+    const REQUEST_TYPE_IQ = 3;          //请求
+    const REQUEST_TYPE_AUTH = 4;        //认证
+
+    const BROADCAST_LOGIN = 'login';
+    const BROADCAST_LOGOUT = 'logout';
+    const BROADCAST_USER_EDIT = 'user-edit';
+    const BROADCAST_USER_ADD = 'user-add';
+    const BROADCAST_USER_REMOVE = 'user-remove';
+
     public static function onConnect($client_id)
     {
-        // 向当前client_id发送数据 @see http://gatewayworker-doc.workerman.net/gateway-worker-development/send-to-client.html
-        Gateway::sendToClient($client_id, "Hello $client_id");
-        // 向所有人发送 @see http://gatewayworker-doc.workerman.net/gateway-worker-development/send-to-all.html
-        Gateway::sendToAll("$client_id login");
+        echo "一个新的连接接入：" . $client_id;
+        $data = [
+            'type' => self::REQUEST_TYPE_AUTH,
+            'message' => 'Please Auth',
+        ];
+        $_SESSION['current_client_id'] = $client_id;
+        Gateway::sendToCurrentClient(json_encode($data));
     }
-    
-   /**
-    * 当客户端发来消息时触发
-    * @param int $client_id 连接id
-    * @param string $message 具体消息
-    * @link http://gatewayworker-doc.workerman.net/gateway-worker-development/onmessage.html
-    */
-   public static function onMessage($client_id, $message)
+
+   public static function onMessage($client_id, $jsonData)
    {
-        // 向所有人发送 @see http://gatewayworker-doc.workerman.net/gateway-worker-development/send-to-all.html
-        Gateway::sendToAll("$client_id said $message");
+       $data = json_decode($jsonData, true);
+       if(empty($data)){
+           Yii::warning('收到的message, 不正确' . $jsonData);
+       }
+       //验证部分
+       if($data['type'] == self::REQUEST_TYPE_AUTH){
+           if(!isset($data['accessToken']) || empty($data['accessToken'])){
+               Yii::warning('accessToken 不能为空.');
+               Gateway::closeCurrentClient();
+           }
+           $accessToken = $data['accessToken'];
+           $user = User::findIdentityByAccessToken($accessToken);
+           if($user){
+               /** @var \app\components\GlobalData $globalData */
+               $globalData = Yii::$app->globalData;
+               $globalData->setIdentity($client_id, $user);
+               //绑定在当前域名下
+               Gateway::bindUid($client_id, $user->did);
+               $globalData->addClientToUser($client_id, $user->id);
+               echo "用户" . $user->name . ', ID: ' . $user->id . '登录成功';
+               $clients = $globalData->getClientsByUserId($user->id);
+               echo "存在" . count($clients). '个登录连接。'.PHP_EOL;
+               //验证通过,
+               $user->changeLoginStatus(User::ONLINE);
+               self::sendBroadCast($user->did, self::BROADCAST_LOGIN, ['uid' => $user->id]);
+           }else{
+               self::closeForAuth('Auth Fail');
+           }
+       }else{
+           $current = Yii::$app->globalData->getIdentity($_SESSION['current_client_id']);
+           if(empty($current)){
+               self::closeForAuth('Please Auth First');
+               return false;
+           }
+
+           if($data['type'] == self::REQUEST_TYPE_MESSAGE){
+               self::MessageHandler($data);
+           }elseif($data['type'] == 2){
+
+
+           }elseif($data['type'] == 3){
+
+
+           }else{
+
+           }
+       }
    }
    
    /**
@@ -57,7 +107,128 @@ class Event
     */
    public static function onClose($client_id)
    {
-       // 向所有人发送 @see http://gatewayworker-doc.workerman.net/gateway-worker-development/send-to-all.html
-       GateWay::sendToAll("$client_id logout");
+       /** @var \app\components\GlobalData $globalData */
+       $globalData = Yii::$app->globalData;
+       $user = $globalData->getIdentity($client_id);
+       echo "一个连接关闭了" . $client_id ;
+       echo "用户名： " . $user->name . PHP_EOL;
+       if(empty($user)){
+           Yii::warning("onClose, 没有Identity, Client_id:" . $client_id);
+       }
+
+       $globalData->removeIdentity($client_id);
+       $clients = $globalData->getClientsByUserId($user->id);
+       if(empty($clients)){
+           $user->changeLoginStatus(0);
+           self::sendBroadCast($user->did, self::BROADCAST_LOGOUT, ['uid' => $user->id]);
+       }
    }
+
+
+    private static function sendBroadCast ($did, $message, $extraData = [])
+    {
+        $responseData = [
+            'type'      => self::REQUEST_TYPE_BROADCAST,
+            'message'   => $message,
+            'extraData' => $extraData
+        ];
+        GateWay::sendToUid($did, json_encode($responseData));
+    }
+
+    private static function closeForAuth ($message)
+    {
+        $data = [
+            'type' => self::REQUEST_TYPE_AUTH,
+            'message' => $message,
+        ];
+        Gateway::sendToCurrentClient(json_encode($data));
+        Gateway::closeCurrentClient();
+    }
+
+    private static function MessageHandler ($data)
+    {
+        $chat_id = $data['cid'];
+        /** @var User $current */
+        $current = Yii::$app->globalData->getIdentity($_SESSION['current_client_id']);
+        //没有-是一个group聊天
+        if(strpos($chat_id, '-') === false){
+            $isGroup = true;
+            /** @var Group $group */
+            $group = Group::findOne($chat_id);
+            if(empty($group)){
+                //todo
+                Yii::error('Group 不存在, chat_id' . $chat_id);
+                return;
+            }
+            $chatMembers = json_decode($group->members);
+        //否则是一个一对一聊天
+        }else{
+            $isGroup = false;
+            $chatMembers = explode('-', $data['cid']);
+            if(count($chatMembers) > 2){
+
+                //todo
+            }
+            if($chatMembers[0] == $chatMembers[1]){
+                unset($chatMembers[1]);
+            }
+            //todo 这里需要验证用户是否存在.
+        }
+        if(isset($data['extra'])){
+            if(isset($data['extra']['type'])){
+                self::extraDataHandler($data['extra']);
+            }
+        }else{
+            $data['extra'] = [];
+        }
+        $message = $current->sendMessage($chat_id, $data['content'], $data['extra']);
+        /** @var \app\components\GlobalData $globalData */
+        $globalData = Yii::$app->globalData;
+        foreach($chatMembers as $uid){
+            //不是本人的话，增加一条未读消息
+            if($current->id != $uid){
+                /** @var Chat $chat */
+                $chat = $isGroup ? Chat::findOrCreateGroupChat($group->id, $uid) :  Chat::findOrCreate1Chat($current->id, $uid);
+                $chat->unReadCount++;
+                $chat->save();
+            }
+            $clients = $globalData->getClientsByUserId($uid);
+            foreach($clients as $client_id){
+                self::sendMessage($client_id, $message);
+            }
+        }
+    }
+
+    /**
+     * @param $extraData
+     */
+    private static function extraDataHandler($extraData)
+    {
+        if(empty($extraData)) return;
+        /** @var User $current */
+        $current = Yii::$app->globalData->getIdentity($_SESSION['current_client_id']);
+        if($extraData['type'] == 'attach'){
+            $attach = new Attach();
+            $attach->load($extraData['data'], '');
+            $attach->did = $current->did;
+            if(!$attach->save()){
+                Yii::error("保存数据出错" . $attach->getFirstErrorContent());
+            }
+        }
+    }
+
+    /**
+     * @param         $client_id
+     * @param Message $message
+     * @param array   $extraData
+     */
+    private static function sendMessage ($client_id, $message , $extraData = [])
+    {
+        $responseData = [
+            'type'      => self::REQUEST_TYPE_MESSAGE,
+            'message'   => $message->toArray(),
+            'extraData' => $extraData
+        ];
+        Gateway::sendToClient($client_id, json_encode($responseData));
+    }
 }
