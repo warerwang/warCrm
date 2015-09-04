@@ -17,8 +17,8 @@
             <a ng-href="/contact/{{user.id}}">
                 <img alt="image" class="img-circle" ng-src="{{user.getAvatar(48)}}">
                 <h3 class="m-b-xs"><i class="{{user.getLoginStatus()}}"></i> <strong>{{user.getName()}}</strong><span ng-if="user.id == currentUser.id">（你）</span></h3>
-
                 <div class="font-bold">{{user.resource.email}}</div>
+                <div class="font-bold">{{user.resource.title}}</div>
                 <address class="m-t-md">
                     {{user.resource.description}}<br />
                     <abbr title="电话">P:</abbr> {{user.resource.phone}}

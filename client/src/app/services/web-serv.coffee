@@ -37,7 +37,7 @@ angular.module 'crm'
       (data)->
         data
 
-      UserResource.get {did:GlobalService.config.id},
+      UserResource.query {did:GlobalService.config.id},
       (users)->
         _this.preData.users = users
         if ++loadedCount == preDataCount
