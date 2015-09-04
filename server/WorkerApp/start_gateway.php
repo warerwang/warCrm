@@ -37,7 +37,7 @@ $gateway->pingInterval = 10;
 
 $gateway->pingNotResponseLimit = 0;
 
-$gateway->pingData = '{"type":"ping"}';
+$gateway->pingData = '{"type":"5"}';
 
 $gateway->onConnect = function($connection)
 {

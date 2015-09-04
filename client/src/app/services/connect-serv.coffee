@@ -19,6 +19,7 @@ angular.module 'crm'
       BROADCAST_TYPE : 2  # 广播信息
       IQ_TYPE : 3         # 请求的信息
       AUTH_TYPE : 4       # 认证的请求
+      PING_TYPE : 5       # PING 心跳检测
     }
     connect.sendMessage = (cid, content, data = [])->
       data = {

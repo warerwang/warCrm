@@ -82,8 +82,8 @@ angular.module "crm"
 
       else if data.type == ConnectService.AUTH_TYPE
         ConnectService.sendAuth SessionService.accessToken
-      else
-        throw new Error(messageEvent)
+      else if data.type != ConnectService.PING_TYPE
+        throw new Error(messageEvent.data)
 
   $scope.afterSignIn = (resData)->
     currentUser = UserService.createUser resData
