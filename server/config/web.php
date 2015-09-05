@@ -6,7 +6,8 @@ if(is_file(__DIR__ . '/params_override.php')){
     $params = require(__DIR__ . '/params.php');
 }
 $config = [
-    'id' => 'basic',
+    'id' => 'crm',
+    'name' => 'War团队协助',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'zh-CN',
@@ -28,7 +29,7 @@ $config = [
         'mailer' => [
             'class'  => 'app\components\MailService',
             'apiKey' => 'key-ddd6f25977df282f3280186c5dd2c044',
-            'from'   => 'DoNotReply@warphp.com'
+            'from'   => $params['adminEmail']
 //            'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
@@ -52,10 +53,13 @@ $config = [
                     'class' => \yii\rest\UrlRule::className(),
                     'controller'    => ['user' => 'user'],
                     'extraPatterns' => [
+                        //todo 应该可以找到一个更好的方法。
+                        'OPTIONS invite-user' => 'options',
                         'OPTIONS update-password' => 'options',
                         'OPTIONS update-avatar'   => 'options',
                         'POST update-password'    => 'update-password',
                         'POST update-avatar'      => 'update-avatar',
+                        'POST invite-user'        => 'invite-user',
                         'GET current'             => 'current',
                     ],
 //                    'tokens' => [

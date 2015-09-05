@@ -7,31 +7,30 @@ angular.module "crm"
                                    GlobalService,
                                    $location,
                                    toastr
-                                   EVENT_PREDATA_LOADED_SUCCESS
+                                   EVENT_CONFIG_LOADED_SUCCESS
 ) ->
   uid = $stateParams.id
   afterLoadPreData = ()->
-    $scope.users = UserService.getUsers()
-    if uid  #编辑
-      user = UserService.getUser uid
-      if user?
-        $scope.userRes = user.resource
-      else
-        $location.path('/admin/user/list')
-    else  #添加
-      $scope.userRes = new UserResource({did:GlobalService.config.id})
-      $scope.userRes.isAdmin = 0
+    UserResource.query {status:0,did:GlobalService.config.id}, (users)->
+      $scope.users = users
+  #   编辑
+      if uid
+        user = u for u in users when u.id == uid
+        if user?
+          $scope.userRes = user
+        else
+          $location.path('/admin/user/list')
+      else  #添加
+        $scope.userRes = new UserResource({did:GlobalService.config.id})
+        $scope.userRes.isAdmin = 0
 
-  if WebService.isLoadedPreData
+  if WebService.isLoadConfig
     afterLoadPreData()
-  $scope.$on EVENT_PREDATA_LOADED_SUCCESS, ()->
+  $scope.$on EVENT_CONFIG_LOADED_SUCCESS, ()->
     afterLoadPreData()
-
-
 
   $scope.save = ()->
     $scope.userRes.$save (userData)->
-      UserService.addNewUser userData
       toastr.success('添加用户成功')
       $scope.userRes = new UserResource({did:GlobalService.config.id})
       $scope.userRes.isAdmin = 0
@@ -47,8 +46,6 @@ angular.module "crm"
 
   $scope.update = ()->
     $scope.userRes.$update (userData)->
-      user = UserService.getUser uid
-      user.resource = userData
       toastr.success('修改用户成功')
       $location.path('/admin/user/list')
     ,

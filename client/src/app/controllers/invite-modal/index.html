@@ -1,0 +1,25 @@
+<script type="text/ng-template" id="invite-modal.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">邀请用户加入</h4>
+    </div>
+    <div class="modal-body" style="max-height: 500px;overflow: auto;">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">邀请用户：</label>
+            <div class="col-sm-9">
+                <div class="input-group m-b" ng-repeat="inviteMember in inviteMembers"  ng-class="{ 'has-error' : !isEmail(inviteMember.email)}">
+                    <input name="email{{$index}}" type="email" class="form-control" ng-model="inviteMember.email" />
+                    <span class="input-group-btn" ng-switch="$index">
+                        <button type="button" class="btn btn-primary" ng-switch-when="0" ng-click="add()" ng-disabled="inviteMembers.length == 8">添加</button>
+                        <button type="button" class="btn btn-primary" ng-switch-default ng-click="remove($index)">删除</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="close()">取消</button>
+        <button type="button" class="btn btn-primary" ng-click="confirm()">邀请</button>
+    </div>
+</script>

@@ -16,20 +16,24 @@ use Yii;
 class Tools
 {
 
-    /**
-     * @param \yii\base\Model $model
-     */
-    public static function getFirstError ($model)
-    {
-        foreach ($model->getErrors() as $error) {
-            return $error[0];
-        }
-    }
+//    /**
+//     * @param \yii\base\Model $model
+//     */
+//    public static function getFirstError ($model)
+//    {
+//        foreach ($model->getErrors() as $error) {
+//            return $error[0];
+//        }
+//    }
 
-    public static function getDateTime()
+    public static function getDateTime($returnTimeStamp = false)
     {
         $dateTime = new \DateTime();
-        return $dateTime->format("Y-m-d H:i:s");
+        if($returnTimeStamp){
+            return $dateTime->getTimestamp();
+        }else{
+            return $dateTime->format("Y-m-d H:i:s");
+        }
     }
 
     public static function base64_urlSafeEncode($data)
@@ -60,8 +64,26 @@ class Tools
         return $url;
     }
 
+    /**
+     * 判断是否是图片后缀
+     * @param $ext
+     *
+     * @return bool
+     */
     public static function isImg($ext)
     {
         return in_array(strtolower($ext), ['.jpg', '.png', '.gif', '.bmp']);
+    }
+
+    /**
+     * 判断是否是Email
+     * @param $value
+     *
+     * @return bool
+     */
+    public static function isEmail ($value)
+    {
+        $pattern = '/^[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/';
+        return (boolean) preg_match($pattern, $value);
     }
 } 

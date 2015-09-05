@@ -5,13 +5,17 @@ namespace app\controllers;
 use app\components\RestController;
 use app\components\Tools;
 use app\exceptions\UserException;
+use app\models\Domain;
 use app\models\User;
 use DateTimeZone;
 use Yii;
 
+use yii\base\InvalidValueException;
 use yii\db\Exception;
 use yii\filters\ContentNegotiator;
+use yii\helpers\Url;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use DateTime;
 /**
@@ -56,9 +60,15 @@ class UserController extends RestController
         }
     }
 
-    public function actionIndex ($did)
+    public function actionIndex ($did, $status = 1)
     {
-        return User::find()->where(['did' => $did])->all();
+        //status 返回所有的
+        if($status == 0){
+            return User::find()->where(['did' => $did])->all();
+        //返回对应状态的
+        }else{
+            return User::find()->where(['did' => $did, 'status' => $status])->all();
+        }
     }
 
     /**
@@ -100,11 +110,13 @@ class UserController extends RestController
      *   ),
      * )
      */
-    public function actionView ($id)
+    public function actionView ($id, $status = 1)
     {
         $user = $this->findModel($id);
         $this->checkAccess($user);
-
+        if(!empty($status) && $user->status != $status){
+            throw new NotFoundHttpException("没找到用户");
+        }
         return $user;
     }
 
@@ -245,6 +257,40 @@ class UserController extends RestController
     public function actionCurrent ()
     {
         return Yii::$app->user->identity;
+    }
+
+    public function actionInviteUser ()
+    {
+        $rawBody = Yii::$app->request->rawBody;
+        $rawBodyData = json_decode($rawBody, true);
+        if(empty($rawBodyData) || !isset($rawBodyData['emails']) || !is_array($rawBodyData['emails'])){
+            throw new InvalidValueException("缺少参数");
+        }
+        $emails = $rawBodyData['emails'];
+        $emails = array_filter($emails, function($item){
+           if(empty($item)){
+               return false;
+           }elseif(!Tools::isEmail($item)){
+               return false;
+           }else{
+               return true;
+           }
+        });
+        if(empty($emails)) throw new InvalidValueException("缺少参数");
+        /** @var Domain $domain */
+        $domain = Domain::findOne(Yii::$app->user->identity->did);
+        $subject = Yii::$app->user->identity->name . "邀请你加入" . $domain->name;
+        $expiredTime = Tools::getDateTime(true) + 7 * 24 * 3600;
+        foreach($emails as $email){
+            User::createInActiveUser($domain->id, $email);
+            $code = md5($expiredTime . Yii::$app->id . $email . $domain->id);
+            $params = [
+                'senderName' => Yii::$app->user->identity->name,
+                'teamName' => $domain->name,
+                'link'  => Url::to(['/site/active-account', 'did' => $domain->id, 'email' => $email, 'c' => $code, 'e' => $expiredTime], true)
+            ];
+            Yii::$app->mailer->sendMail($email, $subject, 'invite-user', $params);
+        }
     }
 
     public function actionUpdatePassword($oldPassword, $newPassword)

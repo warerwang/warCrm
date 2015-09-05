@@ -156,7 +156,33 @@ class User extends UsersBase implements IdentityInterface
         if($user->save()){
             return $user;
         }else{
-            throw new Exception('');
+            throw new Exception($user->getFirstErrorContent());
+        }
+    }
+
+    public static function createInActiveUser($did, $email)
+    {
+        $user = self::findOne(['did' => $did, 'email' => $email]);
+        if($user){
+            if($user->status == 0){
+                return $user;
+            }else{
+                return false;
+            }
+        }else{
+            $user = new self();
+            $user->setScenario(self::SCENARIO_CREATE);
+            $user->did = $did;
+            $user->email = $email;
+            $user->password = '';
+            $user->status = 0;
+            $user->isAdmin = 0;
+            $user->title = '';
+            if($user->save()){
+                return $user;
+            }else{
+                throw new Exception($user->getFirstErrorContent());
+            }
         }
     }
 

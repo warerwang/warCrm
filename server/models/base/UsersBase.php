@@ -10,7 +10,7 @@ use Yii;
  * @property string $id
  * @property string $email
  * @property string $name
- * @property string $nickName
+ * @property string $title
  * @property string $phone
  * @property string $avatar
  * @property string $description
@@ -61,22 +61,22 @@ class UsersBase extends \app\components\Model
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'email' => 'Email',
-            'name' => 'Name',
+            'id' => '序号',
+            'email' => '邮箱',
+            'name' => '姓名',
             'title' => '职务',
-            'phone' => 'Phone',
-            'avatar' => 'Avatar',
-            'description' => 'Description',
-            'password' => 'Password',
+            'phone' => '手机',
+            'avatar' => '头像',
+            'description' => '自我描述',
+            'password' => '密码',
             'salt' => 'Salt',
             'did' => 'Did',
-            'isAdmin' => 'Is Admin',
-            'createTime' => 'Create Time',
-            'lastActivity' => 'Last Activity',
-            'accessToken' => 'Access Token',
-            'status' => 'Status',
-            'loginStatus' => 'Login Status',
+            'isAdmin' => '管理员',
+            'createTime' => '加入事件',
+            'lastActivity' => '最后活跃事件',
+            'accessToken' => 'Access-Token',
+            'status' => '激活',
+            'loginStatus' => '登录状态',
         ];
     }
 }

@@ -48,11 +48,12 @@ angular.module('crm',[
       controller: "AdminCtrl"
   .state "adminUser",
       url: "/admin/user",
-      controller: "AdminUserCtrl"
-      templateUrl: "app/controllers/admin/user/index.html",
+      abstract: true,
+      templateUrl: "app/controllers/admin/user/index.html"
   .state "adminUser.list",
       url: "/list",
       templateUrl: "app/controllers/admin/user/list.html",
+      controller: 'AdminUserCtrl'
   .state "adminUser.add",
       url: "/add",
       templateUrl: "app/controllers/admin/user/add.html",

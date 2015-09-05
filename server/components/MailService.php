@@ -9,9 +9,9 @@
 namespace app\components;
 
 use yii;
-use yii\swiftmailer\mailer;
+use yii\swiftmailer\Mailer;
 
-class MailService extends mailer {
+class MailService extends Mailer {
 
 	public $apiKey;
 	public $apiUrl = 'https://api.mailgun.net/v3/sandbox89f39c7786af43498a62e961bad52fcc.mailgun.org/messages';
@@ -42,7 +42,7 @@ class MailService extends mailer {
 		try{
 			$sendMailCammand = "curl -s --user 'api:".$this->apiKey."' \\
  ".$this->apiUrl." \\
- -F from='". key($message->getFrom())."' \\
+ -F from='". Yii::$app->name . '<' . key($message->getFrom()) . '>' ."' \\
  -F to='".$address."' \\
  -F subject='". $message->getSubject() ."' \\
  --form-string html='". $body ."' \\
