@@ -1,5 +1,12 @@
 angular.module 'crm'
-  .controller "ProfileCtrl", ($scope, UserService, $stateParams, AuthService, EVENT_PREDATA_LOADED_SUCCESS, WebService, toastr) ->
+  .controller "ProfileCtrl", ($scope,
+                              UserService,
+                              $stateParams,
+                              AuthService,
+                              EVENT_PREDATA_LOADED_SUCCESS,
+                              WebService,
+                              toastr,
+                              ConnectService) ->
 
     afterLoadPreData = ()->
       $scope.user    = UserService.getUser AuthService.currentUser.id
@@ -14,6 +21,7 @@ angular.module 'crm'
     $scope.save = ()->
       $scope.userRes.$update (resource)->
         $scope.user.resource = resource
+        ConnectService.sendBroadcast('user-edit', resource)
         $scope.setCurrentUser $scope.user
         toastr.success('更新成功')
 

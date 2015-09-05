@@ -8,6 +8,7 @@ angular.module "crm"
                                    $location,
                                    toastr
                                    EVENT_CONFIG_LOADED_SUCCESS
+                                   ConnectService
 ) ->
   uid = $stateParams.id
   afterLoadPreData = ()->
@@ -32,6 +33,7 @@ angular.module "crm"
   $scope.save = ()->
     $scope.userRes.$save (userData)->
       toastr.success('添加用户成功')
+      ConnectService.sendBroadcast('user-add', userData)
       $scope.userRes = new UserResource({did:GlobalService.config.id})
       $scope.userRes.isAdmin = 0
       $scope.userForm.$setPristine()
@@ -46,6 +48,7 @@ angular.module "crm"
 
   $scope.update = ()->
     $scope.userRes.$update (userData)->
+      ConnectService.sendBroadcast('user-edit', userData)
       toastr.success('修改用户成功')
       $location.path('/admin/user/list')
     ,

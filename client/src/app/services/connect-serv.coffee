@@ -31,8 +31,12 @@ angular.module 'crm'
       jsonData = JSON.stringify(data)
       @websocket.send(jsonData)
 
-    connect.sendBroadcast = (data)->
-      data.type = this.BROADCAST_TYPE
+    connect.sendBroadcast = (message, data)->
+      data = {
+        type : this.BROADCAST_TYPE
+        message : message
+        data : data
+      }
       jsonData = JSON.stringify(data)
       @websocket.send(jsonData)
 

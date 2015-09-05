@@ -33,11 +33,19 @@ class Event
     const REQUEST_TYPE_IQ = 3;          //请求
     const REQUEST_TYPE_AUTH = 4;        //认证
 
-    const BROADCAST_LOGIN = 'login';
-    const BROADCAST_LOGOUT = 'logout';
+    const BROADCAST_LOGIN = 'user-login';
+    const BROADCAST_LOGOUT = 'user-logout';
     const BROADCAST_USER_EDIT = 'user-edit';
     const BROADCAST_USER_ADD = 'user-add';
     const BROADCAST_USER_REMOVE = 'user-remove';
+
+    public static $broadcastList = [
+        self::BROADCAST_LOGIN,
+        self::BROADCAST_LOGOUT,
+        self::BROADCAST_USER_EDIT,
+        self::BROADCAST_USER_ADD,
+        self::BROADCAST_USER_REMOVE,
+    ];
 
     public static function onConnect($client_id)
     {
@@ -76,11 +84,12 @@ class Event
                echo "存在" . count($clients). '个登录连接。'.PHP_EOL;
                //验证通过,
                $user->changeLoginStatus(User::ONLINE);
-               self::sendBroadCast($user->did, self::BROADCAST_LOGIN, ['uid' => $user->id]);
+               self::sendBroadCast($user->did, self::BROADCAST_LOGIN, $user->toArray());
            }else{
                self::closeForAuth('Auth Fail');
            }
        }else{
+           /** @var User $current */
            $current = Yii::$app->globalData->getIdentity($_SESSION['current_client_id']);
            if(empty($current)){
                self::closeForAuth('Please Auth First');
@@ -89,9 +98,13 @@ class Event
 
            if($data['type'] == self::REQUEST_TYPE_MESSAGE){
                self::MessageHandler($data);
-           }elseif($data['type'] == 2){
-
-
+           }elseif($data['type'] == self::REQUEST_TYPE_BROADCAST){
+               if(!in_array($data['message'], self::$broadcastList)){
+                   Yii::warning("未知的广播, " . $data['message'] . ', 用户id: ' . $current->id . ', 用户名： ' . $current->name);
+                   return false;
+               }
+               echo "发送广播" . $data['message'] . '用户id: ' . $current->id . 'Did: ' . $current->did . ' 用户名： '. $current->name . PHP_EOL;
+               self::sendBroadCast($current->did, $data['message'], $data['data']);
            }elseif($data['type'] == 3){
 
 
@@ -120,17 +133,17 @@ class Event
        $clients = $globalData->getClientsByUserId($user->id);
        if(empty($clients)){
            $user->changeLoginStatus(0);
-           self::sendBroadCast($user->did, self::BROADCAST_LOGOUT, ['uid' => $user->id]);
+           self::sendBroadCast($user->did, self::BROADCAST_LOGOUT, $user->toArray());
        }
    }
 
 
-    private static function sendBroadCast ($did, $message, $extraData = [])
+    private static function sendBroadCast ($did, $message, $data = [])
     {
         $responseData = [
             'type'      => self::REQUEST_TYPE_BROADCAST,
             'message'   => $message,
-            'extraData' => $extraData
+            'data'      => $data
         ];
         GateWay::sendToUid($did, json_encode($responseData));
     }

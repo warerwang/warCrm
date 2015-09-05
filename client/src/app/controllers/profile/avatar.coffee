@@ -1,5 +1,10 @@
 angular.module 'crm'
-  .controller "ProfileAvatarCtrl", ($scope, API_BASE_URL, $http, SessionService, $base64)->
+  .controller "ProfileAvatarCtrl", ($scope,
+                                    API_BASE_URL,
+                                    $http,
+                                    SessionService,
+                                    $base64
+                                    ConnectService)->
     $scope.dupa = "dasdasdas"
     $scope.myCroppedImage = ''
     fileToken = ''
@@ -35,5 +40,7 @@ angular.module 'crm'
       }).success (res)->
         $scope.userRes.$updateAvatar {avatar:res.key}, (resource)->
           $scope.user.resource = resource
+
+          ConnectService.sendBroadcast('user-edit', resource)
           $scope.setCurrentUser $scope.user
 #          $scope.user.resource = user

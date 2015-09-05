@@ -68,16 +68,23 @@ angular.module "crm"
       else if data.type == ConnectService.BROADCAST_TYPE
         #处理广播的消息
         broadcast = 'server-' + data.message
-        $scope.$broadcast(broadcast, data.extraData)
-        uid = data.extraData['uid']
-        if WebService.isLoadedPreData
-          user = UserService.getUser uid
-          if user
-            user.resource.$get {}, (res)->
-              user.resource = res
-              if uid == $scope.currentUser.id
-                $scope.setCurrentUser user
+        $scope.$broadcast(broadcast, data.data)
+        if !WebService.isLoadedPreData
+          return false
 
+        if data.message.indexOf('user-') == 0
+          console.log data.data
+          uid = data.data['id']
+          user = UserService.getUser uid
+          if user?
+            if data.message == 'user-remove'
+              UserService.removeUser uid
+              return false
+            user.resource = data.data
+            if uid == $scope.currentUser.id
+              $scope.setCurrentUser user
+          else
+            UserService.addNewUser data.data
 
       else if data.type == ConnectService.IQ_TYPE
 

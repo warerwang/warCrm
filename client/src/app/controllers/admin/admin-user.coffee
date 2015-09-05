@@ -5,7 +5,8 @@ angular.module "crm"
                                 WebService,
                                 UtilsServ,
                                 UserResource,
-                                GlobalService) ->
+                                GlobalService,
+                                ConnectService) ->
     afterLoadPreData = ()->
       UserResource.query {status:0,did:GlobalService.config.id}, (users)->
         $scope.users = users
@@ -17,5 +18,7 @@ angular.module "crm"
 
     $scope.remove = (index)->
       UtilsServ.confirm '确认要删除么?', ()->
+        id = $scope.users[index].id
         $scope.users[index].$delete()
         $scope.users.splice index,1
+        ConnectService.sendBroadcast('user-remove', {id:id})

@@ -256,6 +256,10 @@ angular.module 'crm'
     userService.users.push newUser
     newUser
 
+  userService.removeUser = (id)->
+    WebService.preData.users = (user for user in WebService.preData.users when user.id != id)
+    userService.users = (user for user in userService.users when user.id != id)
+
   userService.createMessage = (options)->
     new Message options
 
