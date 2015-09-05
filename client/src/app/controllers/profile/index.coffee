@@ -11,6 +11,7 @@ angular.module 'crm'
     afterLoadPreData = ()->
       $scope.user    = UserService.getUser AuthService.currentUser.id
       $scope.userRes = $scope.user.resource
+
       $scope.myImage = $scope.currentUser.getAvatar(150)
 
     if WebService.isLoadedPreData
@@ -22,7 +23,7 @@ angular.module 'crm'
       $scope.userRes.$update (resource)->
         $scope.user.resource = resource
         ConnectService.sendBroadcast('user-edit', resource)
-        $scope.setCurrentUser $scope.user
+#        $scope.setCurrentUser $scope.user
         toastr.success('更新成功')
 
 

@@ -40,7 +40,5 @@ angular.module 'crm'
       }).success (res)->
         $scope.userRes.$updateAvatar {avatar:res.key}, (resource)->
           $scope.user.resource = resource
-
           ConnectService.sendBroadcast('user-edit', resource)
-          $scope.setCurrentUser $scope.user
-#          $scope.user.resource = user
+#          $scope.setCurrentUser $scope.user

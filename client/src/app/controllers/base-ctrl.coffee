@@ -47,10 +47,6 @@ angular.module "crm"
   $scope.getIsAuthorized = ()->
     AuthService.isAuthenticated()
 
-
-
-
-
   handleNewMessage = (message)->
     cid = message.getChatId()
     UserService.newMessageChat cid, message.isGroupMessage()
@@ -71,16 +67,14 @@ angular.module "crm"
         $scope.$broadcast(broadcast, data.data)
         if !WebService.isLoadedPreData
           return false
-
         if data.message.indexOf('user-') == 0
-          console.log data.data
           uid = data.data['id']
           user = UserService.getUser uid
           if user?
             if data.message == 'user-remove'
               UserService.removeUser uid
               return false
-            user.resource = data.data
+            $.extend(user.resource, data.data)
             if uid == $scope.currentUser.id
               $scope.setCurrentUser user
           else
