@@ -70,7 +70,7 @@ class User extends UsersBase implements IdentityInterface
                 "email","password","did","name","phone","description","title"
             ],
             self::SCENARIO_EDIT => [
-                "name","phone","description","title","password"
+                "name","phone","description","title","password","loginStatus"
             ],
             self::SCENARIO_EDIT_PASSWORD => [
                 "password"
@@ -141,6 +141,13 @@ class User extends UsersBase implements IdentityInterface
         }else{
             return false;
         }
+    }
+
+    public function afterDelete ()
+    {
+        //todo 删除聊天的记录， 以及群组内的消息。
+        Chat::deleteAll(['id' => $this->id]);
+        Chat::deleteAll(['uid' => $this->id]);
     }
 
     public static function createUser ($did, $email, $password, $title = '', $isAdmin = 0, $status = 1)

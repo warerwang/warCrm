@@ -34,6 +34,10 @@ class Chat extends ChatsBase
     {
         $chat = self::getChat($id, $uid);
         if(empty($chat)){
+            $user = User::findOne(['id' => $id,'did' => \Yii::$app->user->identity->did]);
+            if(empty($user) || $user->id == $uid){
+                throw new \yii\web\NotFoundHttpException("用户不存在，可能已经被删除了。");
+            }
             $chat = self::create1Chat($id, $uid);
         }
         return $chat;
@@ -43,6 +47,15 @@ class Chat extends ChatsBase
     {
         $chat = self::getChat($id, $uid);
         if(empty($chat)){
+            $group = Group::findOne(['id' => $id, 'did' => \Yii::$app->user->identity->did]);
+            if(empty($group)){
+                throw new \yii\web\NotFoundHttpException("群组不存在，可能已经被删除了。");
+            }else{
+                $members = json_decode($group['members'], true);
+                if(!in_array(\Yii::$app->user->identity->id, $members)){
+                    throw new \yii\web\NotFoundHttpException("没有权限加入这个群组。");
+                }
+            }
             $chat = self::createGroupChat($id, $uid);
         }
         return $chat;

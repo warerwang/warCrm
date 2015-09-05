@@ -11,7 +11,8 @@ angular.module "crm"
                          EVENT_CONFIG_LOADED_SUCCESS,
                          EVENT_SIGN_IN_SUCCESS,
                          EVENT_PREDATA_LOADED_SUCCESS,
-                         API_BASE_URL
+                         API_BASE_URL,
+                         UserResource
                            ) ->
   $scope.currentUser = null
   $scope.absUrl = $location.absUrl()
@@ -23,13 +24,12 @@ angular.module "crm"
     WebService.isLoadConfig = true
     $scope.$broadcast EVENT_CONFIG_LOADED_SUCCESS, config
     if $scope.getIsAuthorized()
-      AuthService.loginByAccessToken SessionService.accessToken
-      .then (res)->
-        $scope.afterSignIn res.data
+      UserResource.getCurrent {}, (userResource)->
+        $scope.afterSignIn userResource
       ,
       ()->
         SessionService.destroy()
-        #重定向到sign-in
+    #重定向到sign-in
     else
       $location.path('/')
   ,

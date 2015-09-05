@@ -1,18 +1,36 @@
 angular.module 'crm'
-  .factory 'ConnectService', (SessionService, $location)->
+  .factory 'ConnectService', (SessionService, $location, AuthService)->
     wsServer = 'ws://'+$location.host()+':2345'
+    retryTime = 1000
     connect = {
       init: ()->
         websocket = new WebSocket(wsServer)
         websocket.onopen = (evt)->
+          retryTime = 1000
           console.log("Connected to WebSocket server.")
 
         websocket.onclose = (evt)->
-          console.log('close occured: ' + evt)
-          console.log evt
+          current = AuthService.currentUser
+          current.resource.loginStatus = 0
+          current.resource.$update()
+          setTimeout ()->
+            console.log "重连" + retryTime
+            retryTime = Math.max 20000, 2 * retryTime
+            connect.retry()
+          ,
+            retryTime
 
         websocket.onerror = (evt)->
           console.log evt
+        @websocket = websocket
+
+      retry: ()->
+        _websocket = @websocket
+        websocket = new WebSocket(wsServer)
+        websocket.onopen = _websocket.onopen
+        websocket.onclose = _websocket.onclose
+        websocket.onerror = _websocket.onerror
+        websocket.onmessage = _websocket.onmessage
         @websocket = websocket
 
       MESSAGE_TYPE : 1    # 收到消息
