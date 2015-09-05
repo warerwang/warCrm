@@ -19,7 +19,7 @@
             <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                     <td class="content-block">
-                        你好, <?= $senderName ?>邀请你加入 <?= $teamName ?>, 点击下面的链接激活你的账号。
+                        你好, <?= $senderName ?>邀请你加入 <?= $teamName ?>, 点击下面的链接激活你的账号。请在一周之内激活账号。
 
                     </td>
                 </tr>
