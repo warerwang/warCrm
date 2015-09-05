@@ -80,6 +80,8 @@ angular.module "crm"
           else
             UserService.addNewUser data.data
 
+        $scope.$apply()
+
       else if data.type == ConnectService.IQ_TYPE
 
       else if data.type == ConnectService.AUTH_TYPE
