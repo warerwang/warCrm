@@ -61,8 +61,9 @@ angular.module "crm"
       $scope.message = ''
 
   $scope.enterSubmit = (event)->
-    if event.keyCode == 13 && event.ctrlKey
-      $scope.message += "\r\n"
+#    不清楚是10 还是 13了。晕
+    if event.keyCode == 10 && event.ctrlKey
+      $scope.message += "\n"
       event.preventDefault()
     else if event.keyCode == 13
       $scope.sendMessage()
