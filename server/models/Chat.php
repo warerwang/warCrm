@@ -30,11 +30,20 @@ class Chat extends ChatsBase
         return Chat::find()->where(['uid' => $uid, 'id' => $id])->one();
     }
 
+    /**
+     * 查找或新建一个一对一对话
+     * @param integer $id  对话另一方用户 id
+     * @param integer $uid 对话所属用户的 Id
+     * @param integer $did 域名id
+     *
+     * @return Chat|array|null|yii\db\ActiveRecord
+     * @throws yii\web\NotFoundHttpException
+     */
     public static function findOrCreate1Chat ($id, $uid, $did)
     {
         $chat = self::getChat($id, $uid);
         if(empty($chat)){
-            $user = User::findOne(['id' => $id,'did' => $did]);
+            $user = User::findOne(['id' => $id, 'did' => $did]);
             if(empty($user) || $user->id == $uid){
                 throw new yii\web\NotFoundHttpException("用户不存在，可能已经被删除了。");
             }
@@ -43,6 +52,15 @@ class Chat extends ChatsBase
         return $chat;
     }
 
+    /**
+     * 查找或新建一个群组对话
+     * @param integer $id  群组id
+     * @param integer $uid 对话所属的用户Id
+     * @param integer $did 域名id
+     *
+     * @return Chat|array|null|yii\db\ActiveRecord
+     * @throws yii\web\NotFoundHttpException
+     */
     public static function findOrCreateGroupChat ($id, $uid, $did)
     {
         $chat = self::getChat($id, $uid);

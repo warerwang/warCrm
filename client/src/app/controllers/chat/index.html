@@ -6,7 +6,7 @@
                     <div class="{{chat.getLoginStatus()}}"></div> <img alt="image" class="img-circle" ng-src="{{chat.getAvatar(36)}}"> {{chat.getName()}}
                 </a>
                 <div class="chat-action">
-                    <i class="cursor-pointer fa fa-remove" ng-click="removeChat($index, $event)"></i>
+                    <i class="cursor-pointer fa fa-remove" ng-click="removeChat(chat.id, $event)"></i>
                     <span class="badge label label-warning" ng-show="{{chat.getUnReadCount()>0}}">{{chat.getUnReadCount()}}</span>
                 </div>
             </li>

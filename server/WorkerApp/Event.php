@@ -169,23 +169,26 @@ class Event
             /** @var Group $group */
             $group = Group::findOne($chat_id);
             if(empty($group)){
-                //todo
-                Yii::error('Group 不存在, chat_id' . $chat_id);
-                return;
+                Yii::warning('Group 不存在, chat_id' . $chat_id);
+                return false;
             }
             $chatMembers = json_decode($group->members);
+            if(!in_array($current->id, $chatMembers)){
+                Yii::warning('尝试往别的group发送消息, Chat_id: ' . $chat_id . ' User_id: '. $current->id);
+                return false;
+            }
         //否则是一个一对一聊天
         }else{
             $isGroup = false;
             $chatMembers = explode('-', $data['cid']);
             if(count($chatMembers) > 2){
-
+                Yii::error('chat_id 有问题');
                 //todo
             }
             if($chatMembers[0] == $chatMembers[1]){
                 unset($chatMembers[1]);
+                Yii::error('不允许自己给自己发消息');
             }
-            //todo 这里需要验证用户是否存在.
         }
         if(isset($data['extra'])){
             if(isset($data['extra']['type'])){
@@ -197,14 +200,27 @@ class Event
         $message = $current->sendMessage($chat_id, $data['content'], $data['extra']);
         /** @var \app\components\GlobalData $globalData */
         $globalData = Yii::$app->globalData;
-        foreach($chatMembers as $uid){
-            //不是本人的话，增加一条未读消息
-            if($current->id != $uid){
+        foreach($chatMembers as $k => $uid){
+            if($isGroup){
                 /** @var Chat $chat */
-                $chat = $isGroup ? Chat::findOrCreateGroupChat($group->id, $uid, $current->did) :  Chat::findOrCreate1Chat($current->id, $uid, $current->did);
-                $chat->unReadCount++;
-                $chat->save();
+                $chat = Chat::getChat($chat_id, $uid);
+                if(empty($chat)){
+                    $chat = Chat::createGroupChat($chat_id, $uid);
+                }
+            }else{
+                if($k == 0){
+                    $shortCid = isset($chatMembers[1]) ? $chatMembers[1] : $uid;
+                    $chat = Chat::findOrCreate1Chat($shortCid, $uid, $current->did);
+                }else{
+                    $chat = Chat::findOrCreate1Chat($chatMembers[0], $uid, $current->did);
+                }
             }
+            if($uid != $current->id){
+                $chat->unReadCount++;
+            }
+            $chat->lastMessage = $data['content'];
+            $chat->lastSenderUid = $current->id;
+            $chat->save();
             $clients = $globalData->getClientsByUserId($uid);
             foreach($clients as $client_id){
                 self::sendMessage($client_id, $message);

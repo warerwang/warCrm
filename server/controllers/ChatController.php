@@ -39,9 +39,9 @@ class ChatController extends RestController
     {
         $uid = Yii::$app->user->identity->id;
         if($type == Chat::CHAT_TYPE_1_ON_1){
-            $chat = Chat::findOrCreate1Chat($id, $uid);
+            $chat = Chat::findOrCreate1Chat($id, $uid, Yii::$app->user->identity->did);
         }else{
-            $chat = Chat::findOrCreateGroupChat($id, $uid);
+            $chat = Chat::findOrCreateGroupChat($id, $uid, Yii::$app->user->identity->did);
         }
         return $chat;
     }

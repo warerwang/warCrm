@@ -100,17 +100,17 @@ angular.module "crm"
     }
     modalInstance.result.then (resData)->
 
-
-  $scope.removeChat = (index, event)->
-    chat = $scope.chats[index]
+  $scope.removeChat = (id, event)->
+    chat = UserService.getChat id
+    index = $scope.chats.indexOf(chat)
+    $scope.chats.splice index,1
+    chat.resource.$delete()
     if chat.isActive()
-      if $scope.chats[1]
-        cid = $scope.chats[1].id
+      if $scope.chats[0]?
+        cid = $scope.chats[0].id
         $location.path('/chat/'+cid)
       else
         $location.path('/chat/')
-    $scope.chats.splice index,1
-    chat.resource.$delete()
     event.preventDefault()
 
   fileToken = ''
