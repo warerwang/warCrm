@@ -8,7 +8,7 @@
 
 namespace app\models;
 
-
+use yii;
 use app\models\base\ChatsBase;
 
 class Chat extends ChatsBase
@@ -30,30 +30,30 @@ class Chat extends ChatsBase
         return Chat::find()->where(['uid' => $uid, 'id' => $id])->one();
     }
 
-    public static function findOrCreate1Chat ($id, $uid)
+    public static function findOrCreate1Chat ($id, $uid, $did)
     {
         $chat = self::getChat($id, $uid);
         if(empty($chat)){
-            $user = User::findOne(['id' => $id,'did' => \Yii::$app->user->identity->did]);
+            $user = User::findOne(['id' => $id,'did' => $did]);
             if(empty($user) || $user->id == $uid){
-                throw new \yii\web\NotFoundHttpException("用户不存在，可能已经被删除了。");
+                throw new yii\web\NotFoundHttpException("用户不存在，可能已经被删除了。");
             }
             $chat = self::create1Chat($id, $uid);
         }
         return $chat;
     }
 
-    public static function findOrCreateGroupChat ($id, $uid)
+    public static function findOrCreateGroupChat ($id, $uid, $did)
     {
         $chat = self::getChat($id, $uid);
         if(empty($chat)){
-            $group = Group::findOne(['id' => $id, 'did' => \Yii::$app->user->identity->did]);
+            $group = Group::findOne(['id' => $id, 'did' => $did]);
             if(empty($group)){
-                throw new \yii\web\NotFoundHttpException("群组不存在，可能已经被删除了。");
+                throw new yii\web\NotFoundHttpException("群组不存在，可能已经被删除了。");
             }else{
                 $members = json_decode($group['members'], true);
-                if(!in_array(\Yii::$app->user->identity->id, $members)){
-                    throw new \yii\web\NotFoundHttpException("没有权限加入这个群组。");
+                if(!in_array($uid, $members)){
+                    throw new yii\web\NotFoundHttpException("没有权限加入这个群组。");
                 }
             }
             $chat = self::createGroupChat($id, $uid);

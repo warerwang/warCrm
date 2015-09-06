@@ -214,7 +214,7 @@ angular.module 'crm'
         @members = (user for user in userService.getUsers() when user.id in membersIds)
       @members
     getAvatar: ()->
-      ''
+      @resource.avatar
 
   userService.getUsers = ()->
     if !userService.users?

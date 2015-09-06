@@ -201,7 +201,7 @@ class Event
             //不是本人的话，增加一条未读消息
             if($current->id != $uid){
                 /** @var Chat $chat */
-                $chat = $isGroup ? Chat::findOrCreateGroupChat($group->id, $uid) :  Chat::findOrCreate1Chat($current->id, $uid);
+                $chat = $isGroup ? Chat::findOrCreateGroupChat($group->id, $uid, $current->did) :  Chat::findOrCreate1Chat($current->id, $uid, $current->did);
                 $chat->unReadCount++;
                 $chat->save();
             }

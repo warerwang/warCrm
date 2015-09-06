@@ -22,11 +22,13 @@ class Group extends GroupsBase
             self::SCENARIO_CREATE => [
                 "members",
                 "name",
+                "avatar",
                 "description"
             ],
             self::SCENARIO_EDIT   => [
                 "members",
                 "name",
+                "avatar",
                 "description"
             ],
         ];

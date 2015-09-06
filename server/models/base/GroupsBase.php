@@ -12,6 +12,7 @@ use Yii;
  * @property string $createUid
  * @property string $members
  * @property string $name
+ * @property string $avatar
  * @property string $description
  * @property string $createTime
  * @property string $lastActivity
@@ -33,7 +34,7 @@ class GroupsBase extends \app\components\Model
     {
         return [
             [['id', 'did', 'createUid', 'members', 'name'], 'required'],
-            [['createTime', 'lastActivity'], 'safe'],
+            [['createTime', 'lastActivity', 'avatar'], 'safe'],
             [['id', 'did', 'createUid'], 'string', 'max' => 20],
             [['members', 'description'], 'string', 'max' => 256],
             [['name'], 'string', 'max' => 50]
