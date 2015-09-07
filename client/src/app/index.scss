@@ -40,7 +40,7 @@
   background: padding-box #fff;
   color: rgba(0,0,0,.35);
   border: 2px solid #E0E0E0;
-  height: 42px;
+  height: 100%;
   width: 44px;
   line-height: 42px;
   min-height: 42px!important;
@@ -57,7 +57,7 @@
   position: relative;
   margin: 0;
 }
-#message-input {
+#message-input, #message-input2 {
   background: padding-box #fff;
   width: 100%;
   font-size: 15px;
