@@ -3,7 +3,11 @@
         <ul class="nav metismenu" id="chat-list">
             <li ng-repeat="chat in chats | orderBy:orderBy" ng-class="{'active' : chat.isActive()}">
                 <a ng-click="chatWith($index)" ng-href="/chat/{{chat.id}}">
-                    <div class="{{chat.getLoginStatus()}}"></div> <img alt="image" class="img-circle" ng-src="{{chat.getAvatar(36)}}"> {{chat.getName()}}
+                    <div class="{{chat.getLoginStatus()}}"></div> <img alt="image" class="img-circle" ng-src="{{chat.getAvatar(36)}}">
+                    <div class="list-content" style="display: inline-block;vertical-align: middle;">
+                        <div>{{chat.getName()}}</div>
+                        <div>{{chat.getLastMessage()}}</div>
+                    </div>
                 </a>
                 <div class="chat-action">
                     <i class="cursor-pointer fa fa-remove" ng-click="removeChat(chat.id, $event)"></i>

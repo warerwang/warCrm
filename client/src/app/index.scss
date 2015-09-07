@@ -156,6 +156,17 @@
   .img-circle{
     width: 36px;
   }
+  .list-content{
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    margin-left: -53px;
+    padding-left: 50px;
+    div{
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
 }
 #page-wrapper{
   top: 60px;

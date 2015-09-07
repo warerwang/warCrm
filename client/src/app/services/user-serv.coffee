@@ -64,6 +64,13 @@ angular.module 'crm'
         @_recipient.getName()
       else
         ''
+    getLastMessage: ()->
+      if @resource.lastSenderUid == AuthService.currentUser.id
+        @resource.lastMessage
+      else
+        user = userService.getUser @resource.lastSenderUid
+        return user.getName() + ':' + @resource.lastMessage
+
     getUnReadCount: ()->
       @resource.unReadCount
 
@@ -130,6 +137,8 @@ angular.module 'crm'
 
     sendMessage: (content, data)->
       @sort = ++userService.maxChatSort
+      @resource.lastMessage = content
+      @resource.lastSenderUid = AuthService.currentUser.id
       ConnectService.sendMessage(this.getCid(), content, data)
 
     getAvatar: (size)->
