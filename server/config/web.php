@@ -68,7 +68,7 @@ $config = [
                 ],
                 [
                     'class' => \yii\rest\UrlRule::className(),
-                    'controller'    => ['category' => 'category', 'article' => 'article', 'chat' => 'chat', 'group' => 'group'],
+                    'controller'    => ['category' => 'category', 'article' => 'article', 'chat' => 'chat', 'group' => 'group', 'project' => 'project'],
 //                    'extraPatterns' => [
 //                        'GET current'       => 'current',
 //                    ],

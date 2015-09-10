@@ -69,12 +69,19 @@ angular.module('crm',[
   .state "project.list",
     url: "/list",
     templateUrl: "app/controllers/project/list.html"
-  .state "project.detail",
-    url: "/detail",
-    templateUrl: "app/controllers/project/detail.html"
+    controller: "ProjectListCtrl"
   .state "project.add",
     url: "/add",
+    templateUrl: "app/controllers/project/add.html",
+    controller: "ProjectCtrl"
+  .state "project.detail",
+    url: "/:id",
+    templateUrl: "app/controllers/project/detail.html"
+    controller: "ProjectDetailCtrl"
+  .state "project.edit",
+    url: "/:id/edit",
     templateUrl: "app/controllers/project/add.html"
+    controller: "ProjectEditCtrl"
 
   $locationProvider.html5Mode true
   $urlRouterProvider.otherwise '/'

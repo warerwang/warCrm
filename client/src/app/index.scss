@@ -209,19 +209,19 @@
   left: 5px;
 }
 .chat-right-wrapper{
-  .nav{
-    background: #FFF;
-    li.active{
-      background: #FFF;
-      border-left: none;
-      a{
-        color: #000000;
-        font-weight: bold;
-        border-bottom: 1px solid #fff;
-        margin: 0;
-      }
-    }
-  }
+  //.nav{
+  //  background: #FFF;
+  //  li.active{
+  //    background: #FFF;
+  //    border-left: none;
+  //    a{
+  //      color: #000000;
+  //      font-weight: bold;
+  //      border-bottom: 1px solid #fff;
+  //      margin: 0;
+  //    }
+  //  }
+  //}
   .ibox-content{
     bottom: 0;
     top: 0;
@@ -277,4 +277,9 @@
 //contact
 .contact-box.center-version{
   height: 350px;
+}
+
+//修正chosen 高度
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+  height: 25px;
 }

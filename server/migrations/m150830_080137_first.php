@@ -114,7 +114,7 @@ CREATE TABLE `messages` (
   `content` text NOT NULL,
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `extraData` text NOT NULL,
-  `did` int(11) NOT NULL,
+  `did` char(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -143,9 +143,27 @@ CREATE TABLE `users` (
   `loginStatus` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `accessToken` (`accessToken`),
-  UNIQUE KEY `email` (`email`(30),`did`)
+  UNIQUE KEY `did_email` (`did`, `email`(30))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 表的结构 `projects`
+--
+
+CREATE TABLE IF NOT EXISTS `projects` (
+  `id` char(20) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `content` longblob NOT NULL,
+  `ownerId` char(20) NOT NULL,
+  `members` varchar(500) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `did` char(20) NOT NULL,
+  `createTime` timestamp NULL DEFAULT NULL,
+  `lastModify` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `did` (`did`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 EOF
         );
     }
@@ -159,6 +177,7 @@ DROP TABLE {{domains}};
 DROP TABLE {{groups}};
 DROP TABLE {{messages}};
 DROP TABLE {{users}};
+DROP TABLE {{projects}};
 EOF
         );
     }

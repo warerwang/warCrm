@@ -45,7 +45,14 @@
     "chosen": {
       "main": [
         "chosen.css",
-        "chosen.jquery.min.js"
+        "chosen.jquery.js"
+      ]
+    },
+    "summernote": {
+      "main": [
+        "./dist/summernote.js",
+        "./dist/summernote.css",
+        "./dist/summernote-bs3.css"
       ]
     }
   }

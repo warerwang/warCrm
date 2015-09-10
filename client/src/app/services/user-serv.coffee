@@ -225,6 +225,20 @@ angular.module 'crm'
     getAvatar: ()->
       @resource.avatar
 
+  class Project
+    constructor: (options)->
+      @id = options.id
+      @resource = options
+    getName: ()->
+      @resource.name
+    getMembers: ()->
+      if !@members?
+        membersIds = $.parseJSON @resource.members
+        @members = (user for user in userService.getUsers() when user.id in membersIds)
+      @members
+    getOwner: ()->
+      userService.getUser @resource.ownerId
+
   userService.getUsers = ()->
     if !userService.users?
       userService.users = (new User num for num in WebService.preData.users)
@@ -258,6 +272,9 @@ angular.module 'crm'
 
   userService.createGroup = (resource)->
     new Group resource
+
+  userService.createProject = (resource)->
+    new Project resource
 
   userService.addNewUser = (userData)->
     WebService.preData.users.push userData
