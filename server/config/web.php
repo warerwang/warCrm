@@ -68,13 +68,16 @@ $config = [
                 ],
                 [
                     'class' => \yii\rest\UrlRule::className(),
-                    'controller'    => ['category' => 'category', 'article' => 'article', 'chat' => 'chat', 'group' => 'group', 'project' => 'project'],
-//                    'extraPatterns' => [
-//                        'GET current'       => 'current',
-//                    ],
-//                    'tokens' => [
-//                        '{id}'      => '<id:\d+>',
-//                    ]
+                    'controller' => [
+                        'category' => 'category',
+                        'article'  => 'article',
+                        'chat'     => 'chat',
+                        'group'    => 'group',
+                        'project'  => 'project',
+                        'comment'  => 'comment',
+                        'sprint'   => 'sprint',
+                        'task'     => 'task'
+                    ]
                 ],
                 [
                     'class' => \yii\rest\UrlRule::className(),
