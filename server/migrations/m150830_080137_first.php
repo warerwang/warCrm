@@ -13,7 +13,7 @@ class m150830_080137_first extends Migration
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-09-10 22:23:16
+-- Generation Time: 2015-09-12 00:12:17
 -- 服务器版本： 5.6.19-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.6
 
@@ -166,6 +166,18 @@ CREATE TABLE IF NOT EXISTS `messages` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `migration`
+--
+
+CREATE TABLE IF NOT EXISTS `migration` (
+  `version` varchar(180) NOT NULL,
+  `apply_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `projects`
 --
 
@@ -194,9 +206,10 @@ CREATE TABLE IF NOT EXISTS `sprints` (
   `id` char(20) NOT NULL,
   `pid` char(20) NOT NULL,
   `did` char(20) NOT NULL,
-  `name` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `createTime` timestamp NULL DEFAULT NULL,
   `startTime` timestamp NULL DEFAULT NULL,
-  `endTIme` timestamp NULL DEFAULT NULL,
+  `endTime` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -214,17 +227,17 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `did` char(20) NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` date NOT NULL,
-  `createUserId` char(20) NOT NULL,
+  `createUid` char(20) NOT NULL,
   `ownerId` char(20) NOT NULL,
   `followers` text NOT NULL,
-  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `lastModify` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `createTime` timestamp NULL DEFAULT NULL,
+  `lastModify` timestamp NULL DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`),
   KEY `sid` (`sid`),
   KEY `did` (`did`),
-  KEY `createUserId` (`createUserId`),
+  KEY `createUserId` (`createUid`),
   KEY `ownerId` (`ownerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -256,6 +269,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `email` (`email`(30),`did`),
   KEY `did` (`did`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 EOF
         );
     }

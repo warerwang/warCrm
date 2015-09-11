@@ -21,6 +21,7 @@ class ReloadController extends Controller
 {
     public function actionIndex()
     {
+        Yii::$app->db->createCommand("set wait_timeout=2592000")->execute();
         Worker::runAll();
     }
 }

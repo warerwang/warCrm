@@ -66,6 +66,9 @@ angular.module('crm',[
     url: "/project",
     abstract: true,
     templateUrl: "app/controllers/project/base.html"
+#  .state "project.sprint",
+#    url: "/sprint",
+#    abstract: true,
   .state "project.list",
     url: "/list",
     templateUrl: "app/controllers/project/list.html"
@@ -82,6 +85,22 @@ angular.module('crm',[
     url: "/:id/edit",
     templateUrl: "app/controllers/project/add.html"
     controller: "ProjectEditCtrl"
+  .state "project.sprint-add",
+    url: "/:id/sprint-add",
+    controller: "SprintAddCtrl"
+    templateUrl: "app/controllers/project/sprint-add.html"
+  .state "project.sprint-detail",
+    url: "/:id/:sid",
+    controller: "SprintDetailCtrl"
+    templateUrl: "app/controllers/project/sprint-detail.html"
+  .state "project.sprint-list",
+    url: "/:id/sprint-list",
+    controller: "SprintListCtrl"
+    templateUrl: "app/controllers/project/sprint-list.html"
+  .state "project.sprint-edit",
+    url: "/:id/:sid/edit",
+    controller: "SprintEditCtrl"
+    templateUrl: "app/controllers/project/sprint-add.html"
 
   $locationProvider.html5Mode true
   $urlRouterProvider.otherwise '/'

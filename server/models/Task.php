@@ -10,8 +10,27 @@ namespace app\models;
 
 
 use app\models\base\TasksBase;
-
 class Task extends TasksBase
 {
-
+    public function scenarios ()
+    {
+        return [
+            self::SCENARIO_CREATE => [
+                "pid",
+                "sid",
+                "title",
+                "content",
+                "ownerId",
+                "followers"
+            ],
+            self::SCENARIO_EDIT   => [
+                "pid",
+                "sid",
+                "title",
+                "content",
+                "ownerId",
+                "followers"
+            ],
+        ];
+    }
 }

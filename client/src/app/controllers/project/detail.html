@@ -5,6 +5,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="m-b-md">
+                            <a ng-href="/project/{{project.id}}/sprint-add" class="btn btn-white btn-xs pull-right">创建里程碑</a>
                             <a ng-href="/project/{{project.id}}/edit" class="btn btn-white btn-xs pull-right">修改项目</a>
 
                             <h2>{{project.getName()}}</h2>
@@ -30,7 +31,6 @@
                     </div>
                     <div class="col-lg-7" id="cluster_info">
                         <dl class="dl-horizontal">
-
                             <dt>最后更新时间:</dt>
                             <dd>{{project.resource.lastModify}}</dd>
                             <dt>创建时间:</dt>
@@ -57,7 +57,6 @@
                 <div class="row m-t-sm">
                     <div class="col-lg-12">
                         <div class="panel blank-panel ui-tab">
-
                             <tabset>
                                 <tab heading="未关闭的任务" active="tab.active" class="dsads">
 
@@ -100,201 +99,40 @@
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
-                                            <th>序号</th>
                                             <th>名称</th>
                                             <th>开始时间</th>
                                             <th>结束时间</th>
                                             <th>总任务数</th>
                                             <th>未关闭的任务数</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
+                                        <tr ng-repeat="sprint in sprints">
                                             <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Completed</span>
+                                                {{sprint.name}}
                                             </td>
                                             <td>
-                                                Create project in webapp
+                                                {{sprint.startTime}}
                                             </td>
                                             <td>
-                                                12.07.2014 10:10:1
+                                                {{sprint.endTime}}
                                             </td>
                                             <td>
-                                                14.07.2014 10:16:36
+                                                1
                                             </td>
                                             <td>
-                                                <p class="small">
-                                                    Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable.
-                                                </p>
+                                                1
                                             </td>
-
+                                            <td>
+                                                <a ng-href="/project/{{project.id}}/{{sprint.id}}/edit" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 修改 </a>
+                                                <a href="#" class="btn btn-white btn-sm" ng-click="delete($index)"><i class="fa fa-remove"></i> 删除 </a>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Accepted</span>
-                                            </td>
-                                            <td>
-                                                Various versions
-                                            </td>
-                                            <td>
-                                                12.07.2014 10:10:1
-                                            </td>
-                                            <td>
-                                                14.07.2014 10:16:36
-                                            </td>
-                                            <td>
-                                                <p class="small">
-                                                    Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Sent</span>
-                                            </td>
-                                            <td>
-                                                There are many variations
-                                            </td>
-                                            <td>
-                                                12.07.2014 10:10:1
-                                            </td>
-                                            <td>
-                                                14.07.2014 10:16:36
-                                            </td>
-                                            <td>
-                                                <p class="small">
-                                                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Reported</span>
-                                            </td>
-                                            <td>
-                                                Latin words
-                                            </td>
-                                            <td>
-                                                12.07.2014 10:10:1
-                                            </td>
-                                            <td>
-                                                14.07.2014 10:16:36
-                                            </td>
-                                            <td>
-                                                <p class="small">
-                                                    Latin words, combined with a handful of model sentence structures
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Accepted</span>
-                                            </td>
-                                            <td>
-                                                The generated Lorem
-                                            </td>
-                                            <td>
-                                                12.07.2014 10:10:1
-                                            </td>
-                                            <td>
-                                                14.07.2014 10:16:36
-                                            </td>
-                                            <td>
-                                                <p class="small">
-                                                    The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Sent</span>
-                                            </td>
-                                            <td>
-                                                The first line
-                                            </td>
-                                            <td>
-                                                12.07.2014 10:10:1
-                                            </td>
-                                            <td>
-                                                14.07.2014 10:16:36
-                                            </td>
-                                            <td>
-                                                <p class="small">
-                                                    The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Reported</span>
-                                            </td>
-                                            <td>
-                                                The standard chunk
-                                            </td>
-                                            <td>
-                                                12.07.2014 10:10:1
-                                            </td>
-                                            <td>
-                                                14.07.2014 10:16:36
-                                            </td>
-                                            <td>
-                                                <p class="small">
-                                                    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Completed</span>
-                                            </td>
-                                            <td>
-                                                Lorem Ipsum is that
-                                            </td>
-                                            <td>
-                                                12.07.2014 10:10:1
-                                            </td>
-                                            <td>
-                                                14.07.2014 10:16:36
-                                            </td>
-                                            <td>
-                                                <p class="small">
-                                                    Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable.
-                                                </p>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="label label-primary"><i class="fa fa-check"></i> Sent</span>
-                                            </td>
-                                            <td>
-                                                Contrary to popular
-                                            </td>
-                                            <td>
-                                                12.07.2014 10:10:1
-                                            </td>
-                                            <td>
-                                                14.07.2014 10:16:36
-                                            </td>
-                                            <td>
-                                                <p class="small">
-                                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
-                                                </p>
-                                            </td>
-
-                                        </tr>
-
                                         </tbody>
                                     </table>
                                 </tab>
                             </tabset>
-
                         </div>
                     </div>
                 </div>

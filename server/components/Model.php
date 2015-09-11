@@ -13,6 +13,9 @@ use yii\db\Query;
 
 class Model extends ActiveRecord
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_EDIT   = 'edit';
+
     public function beforeValidate ()
     {
         if (parent::beforeValidate()) {

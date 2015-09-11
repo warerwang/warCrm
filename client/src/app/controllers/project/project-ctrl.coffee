@@ -36,16 +36,23 @@ angular.module "crm"
         $scope.projects[index].resource.$delete()
         $scope.projects.splice index,1
 
-  .controller 'ProjectDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, ProjectResource, $stateParams) ->
+  .controller 'ProjectDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, ProjectResource, $stateParams, SprintResource, UtilsServ) ->
     afterLoadPreData = ()->
       ProjectResource.get {id:$stateParams.id}, (project)->
         $scope.project = UserService.createProject project
+        SprintResource.query {pid:project.id}, (sprintsRes)->
+          $scope.sprints = sprintsRes
+          console.log $scope.sprints
 
     if WebService.isLoadedPreData
       afterLoadPreData()
     $scope.$on EVENT_PREDATA_LOADED_SUCCESS, ()->
       afterLoadPreData()
 
+    $scope.delete = (index)->
+      UtilsServ.confirm '确认要删除么?', ()->
+        $scope.sprints[index].$delete()
+        $scope.sprints.splice index,1
 
   .controller 'ProjectEditCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, ProjectResource, $stateParams, $location) ->
     $scope.isEdit = true;
