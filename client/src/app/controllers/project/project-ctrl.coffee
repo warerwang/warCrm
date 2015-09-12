@@ -36,13 +36,16 @@ angular.module "crm"
         $scope.projects[index].resource.$delete()
         $scope.projects.splice index,1
 
-  .controller 'ProjectDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, ProjectResource, $stateParams, SprintResource, UtilsServ) ->
+  .controller 'ProjectDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, ProjectResource, $stateParams, SprintResource, TaskResource, UtilsServ) ->
     afterLoadPreData = ()->
       ProjectResource.get {id:$stateParams.id}, (project)->
         $scope.project = UserService.createProject project
         SprintResource.query {pid:project.id}, (sprintsRes)->
-          $scope.sprints = sprintsRes
-          console.log $scope.sprints
+          $scope.sprints = (UserService.createSprint sprint for sprint in sprintsRes)
+
+        TaskResource.query {pid:project.id}, (tasksRes)->
+          console.log 1111222
+          $scope.tasks = (UserService.createTask task for task in tasksRes)
 
     if WebService.isLoadedPreData
       afterLoadPreData()

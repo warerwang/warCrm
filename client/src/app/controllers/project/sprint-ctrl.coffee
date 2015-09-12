@@ -21,13 +21,15 @@ angular.module "crm"
         toastr.success "里程碑创建成功"
         $location.path('/project/' + $scope.sprint.pid)
 
+
+
   .controller 'SprintEditCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, SprintResource, $location, $filter, $stateParams, toastr) ->
     $scope.isEdit = true
     SprintResource.get {id:$stateParams.sid}, (resource)->
+      sprint = UserService.createSprint resource
       $scope.sprint = resource
-      $scope.sprint.startTime = (new Date(resource.startTime))
-      $scope.sprint.endTime = (new Date(resource.endTime))
-
+      $scope.sprint.startTime = sprint.getStartTime()
+      $scope.sprint.endTime   = sprint.getEndTime()
 
       d = new Date()
       $scope.startMinDate = $filter('date')(d, "yyyy-MM-dd", null)
@@ -40,3 +42,21 @@ angular.module "crm"
 
       $scope.changeEnd = ()->
         $scope.startMaxDate = $filter('date')((new Date($scope.sprint.endTime)).valueOf() - 24 * 3600 *1000, "yyyy-MM-dd", null)
+
+      $scope.create = ()->
+        $scope.sprint.$update {}, (res)->
+        toastr.success "里程碑修改成功"
+        $location.path('/project/' + $scope.sprint.pid)
+
+
+
+
+  .controller 'SprintDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, SprintResource, $location, TaskResource, $stateParams, toastr) ->
+    SprintResource.get {id:$stateParams.sid}, (resource)->
+      $scope.sprint = UserService.createSprint resource
+      TaskResource.query {sid:$stateParams.sid}, (taskRes)->
+        $scope.tasks = (UserService.createTask task for task in taskRes)
+
+        console.log $scope.tasks
+
+

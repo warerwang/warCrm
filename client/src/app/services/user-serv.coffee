@@ -239,6 +239,31 @@ angular.module 'crm'
     getOwner: ()->
       userService.getUser @resource.ownerId
 
+  class Sprint
+    constructor: (options)->
+      @id = options.id
+      @resource = options
+    getName: ()->
+      @resource.name
+    getStartTime : ()->
+      new Date(@resource.startTime + '+0')
+    getEndTime : ()->
+      new Date(@resource.endTime + '+0')
+
+  class Task
+    constructor: (options)->
+      @id = options.id
+      @resource = options
+    getTitle: ()->
+      @resource.title
+    getOwner: ()->
+      return user for user in userService.getUsers() when user.id == @resource.ownerId
+    getCreator: ()->
+      return user for user in userService.getUsers() when user.id == @resource.createUid
+    getFollowers: ()->
+      followers = $.parseJSON @resource.followers
+      (user for user in userService.getUsers() when user.id in followers)
+
   userService.getUsers = ()->
     if !userService.users?
       userService.users = (new User num for num in WebService.preData.users)
@@ -263,7 +288,6 @@ angular.module 'crm'
   userService.setUsers = (users)->
     userService.users = users
 
-
   userService.createUser = (options)->
     new User options
 
@@ -275,6 +299,12 @@ angular.module 'crm'
 
   userService.createProject = (resource)->
     new Project resource
+
+  userService.createSprint = (resource)->
+    new Sprint resource
+
+  userService.createTask = (resource)->
+    new Task resource
 
   userService.addNewUser = (userData)->
     WebService.preData.users.push userData

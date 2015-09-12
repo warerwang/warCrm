@@ -1,0 +1,62 @@
+<div class="wrapper">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5 ng-if="isCreate">创建新的任务单</h5>
+            <h5 ng-if="isEdit">修改项目</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="post" class="form-horizontal" name="project-form">
+                <div class="form-group"><label class="col-sm-2 control-label">标题</label>
+                    <div class="col-sm-6"><input type="text" class="form-control" name="title" ng-model="task.title"></div>
+                </div>
+                <div class="form-group"><label class="col-sm-2 control-label">项目名</label>
+                    <div class="col-sm-6">
+                        <select ng-model="task.pid" class="form-control" ng-options="project.getName() for project in projects" ng-change="changeProject()"></select>
+
+                    <!--<select class="form-control" name="ownerId" ng-model="task.pid">-->
+                        <!--<option value="{{project.id}}" ng-repeat="project in projects">{{project.getName()}}</option>-->
+                    <!--</select>-->
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-sm-2 control-label">里程碑</label>
+                    <div class="col-sm-6">
+                    <select ng-model="task.sid" class="form-control" ng-options="sprint.getName() for sprint in sprints"></select>
+                    <!--<select class="form-control" name="ownerId" ng-model="task.sid">-->
+                        <!--<option value="{{sprint.id}}" ng-repeat="sprint in sprints">{{sprint.getName()}}</option>-->
+                    <!--</select>-->
+                    </div>
+                    <!--<div class="col-sm-6"><input type="text" class="form-control" name="name" ng-model="task.sid"></div>-->
+                </div>
+                <div class="form-group"><label class="col-sm-2 control-label">指派给</label>
+                    <div class="col-sm-6">
+                    <select class="form-control" name="ownerId" ng-model="task.ownerId">
+                        <option value="{{user.id}}" ng-repeat="user in users">{{user.getName()}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-sm-2 control-label">类型</label>
+                    <div class="col-sm-6"><input type="text" class="form-control" name="name" ng-model="task.type"></div>
+                </div>
+                <div class="form-group"><label class="col-sm-2 control-label">跟踪成员</label>
+                    <div class="col-sm-6">
+                        <select multiple chosen class="chosen-select form-control" data-placeholder="选择成员" ng-model="task.followers" ng-options="s.getName() for s in users">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-sm-2 control-label">详细内容</label>
+                    <div class="col-sm-10">
+                        <summernote height="300" ng-model="task.content"></summernote>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <button class="btn btn-primary" type="submit" ng-click="create()" ng-if="isCreate">创建</button>
+                        <button class="btn btn-primary" type="submit" ng-click="update()" ng-if="isEdit">修改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
