@@ -13,5 +13,14 @@ use app\models\base\CommentsBase;
 
 class Comment extends CommentsBase
 {
+    public function scenarios ()
+    {
+        return [
+            self::SCENARIO_CREATE => [
+                "content",
+                "relationId"
+            ]
+        ];
+    }
 
 }

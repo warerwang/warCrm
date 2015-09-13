@@ -12,10 +12,10 @@
     <tbody>
     <tr ng-repeat="task in tasks">
         <td>
-            <span class="label label-primary"><i class="fa fa-check"></i> Completed</span>
+            <span class="label label-primary">{{task.getStatus()}}</span>
         </td>
         <td>
-            {{task.getTitle()}}
+            <a ng-href="/task/{{task.id}}">{{task.getTitle()}}</a>
         </td>
         <td>
             {{task.resource.sid}}

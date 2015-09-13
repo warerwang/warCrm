@@ -2,7 +2,8 @@ angular.module "crm"
   .controller 'TaskAddCtrl', ($scope, UserService, TaskResource, WebService, EVENT_PREDATA_LOADED_SUCCESS, ProjectResource, SprintResource, $location) ->
     $scope.isCreate = true
     $scope.task = new TaskResource()
-
+    $scope.types = UserService.taskTypes
+    $scope.task.type = UserService.taskTypes[0]
 
     afterLoadPreData = ()->
       $scope.users = UserService.getUsers()
@@ -27,6 +28,9 @@ angular.module "crm"
     $scope.create = ()->
       $scope.task.pid = $scope.task.pid.id
       $scope.task.sid = $scope.task.sid.id
+      $scope.task.type = $scope.task.type.id
+      if !$scope.task.followers?
+        $scope.task.followers = []
       $scope.task.followers = JSON.stringify(u.id for u in $scope.task.followers)
       $scope.task.$save {}, (task)->
         $location.path('/task/' + task.id)
@@ -44,5 +48,21 @@ angular.module "crm"
 
 
 
-  .controller 'TaskDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location) ->
-    console.log 1
+  .controller 'TaskDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location, TaskResource, $stateParams, CommentResource) ->
+    afterLoadPreData = ()->
+      TaskResource.get {id:$stateParams.id,expand:'project,sprint'}, (taskRes)->
+        $scope.task = UserService.createTask taskRes
+        CommentResource.query {rid:taskRes.pid}, (commentRes)->
+          $scope.comments = (UserService.createComment comment for comment in commentRes)
+
+
+
+    if WebService.isLoadedPreData
+      afterLoadPreData()
+    $scope.$on EVENT_PREDATA_LOADED_SUCCESS, ()->
+      afterLoadPreData()
+    $scope.comment = new CommentResource
+    $scope.createComment = ()->
+      $scope.comment.relationId = $scope.task.resource.pid
+      $scope.comment.$save {}, (commentRes)->
+        $scope.comments.push (UserService.createComment commentRes)

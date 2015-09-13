@@ -263,7 +263,35 @@ angular.module 'crm'
     getFollowers: ()->
       followers = $.parseJSON @resource.followers
       (user for user in userService.getUsers() when user.id in followers)
+    getType: ()->
+      return type.name for type in userService.taskTypes when type.id == @resource.type
+    getStatus: ()->
+      return status.name for status in userService.taskStatus when status.id == @resource.status
+    getProject: ()->
+      @resource.project
+    getSprint: ()->
+      @resource.sprint
 
+  class Comment
+    constructor: (options)->
+      @id = options.id
+      @resource = options
+    getOwner: ()->
+      return user for user in userService.getUsers() when user.id == @resource.ownerId
+
+  userService.taskTypes = [
+    {id:1,name:'任务'},
+    {id:2,name:'错误'},
+    {id:3,name:'重构'},
+    {id:4,name:'调研'}
+  ]
+  userService.taskStatus = [
+    {id:0,name:'新建'},
+    {id:1,name:'解决中'},
+    {id:2,name:'已解决'},
+    {id:3,name:'已拒接'},
+    {id:4,name:'已关闭'},
+  ]
   userService.getUsers = ()->
     if !userService.users?
       userService.users = (new User num for num in WebService.preData.users)
@@ -305,6 +333,9 @@ angular.module 'crm'
 
   userService.createTask = (resource)->
     new Task resource
+
+  userService.createComment = (resource)->
+    new Comment resource
 
   userService.addNewUser = (userData)->
     WebService.preData.users.push userData

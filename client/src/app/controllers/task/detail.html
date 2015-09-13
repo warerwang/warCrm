@@ -1,0 +1,74 @@
+<div class="wrapper">
+    <div class="ibox float-e-margins article">
+        <div class="ibox-title">
+            <h5>[{{task.getType()}}] {{task.getTitle()}}</h5>
+        </div>
+        <div class="ibox-content">
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>状态:</dt>
+                    <dd><span class="label" ng-class="{'label-primary':task.resource.status == 0}">{{task.getStatus()}}</span></dd>
+                </dl>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-5">
+                    <dl class="dl-horizontal">
+                        <dt>创建者:</dt> <dd>{{task.getOwner().getName()}}</dd>
+                        <dt>指派给:</dt> <dd>{{task.getCreator().getName()}}</dd>
+                        <dt>项目:</dt> <dd><a ng-href="/project/{{task.resource.pid}}" class="text-navy">{{task.getProject().name}}</a></dd>
+                        <dt>里程碑:</dt> <dd><a ng-href="/project/{{task.resource.pid}}/{{task.resource.sid}}">{{task.getSprint().name}}</a></dd>
+                    </dl>
+                </div>
+                <div class="col-lg-7" id="cluster_info">
+                    <dl class="dl-horizontal">
+                        <dt>创建时间:</dt> <dd>{{task.resource.createTime}}</dd>
+                        <dt>最后更新时间:</dt> <dd>{{task.resource.lastModify}}</dd>
+                        <dt>跟踪者:</dt>
+                        <dd class="project-people">
+                            <a ng-href="/contact/{{user.id}}" ng-repeat="user in project.getFollowers()"><img alt="image" class="img-circle" ng-src="{{user.getAvatar()}}"></a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <hr>
+            <div>
+                {{task.resource.content}}
+            </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <h2>Comments:</h2>
+                    <div class="social-feed-box" ng-repeat="comment in comments">
+                        <div class="social-avatar">
+                            <a href="" class="pull-left">
+                                <img alt="image" ng-src="{{comment.getOwner().getAvatar()}}">
+                            </a>
+                            <div class="media-body">
+                                <a ng-href="/contact/{{comment.getOwner().id}}">
+                                    {{comment.getOwner().getName()}}
+                                </a>
+                                <small class="text-muted">{{comment.resource.createTime}}</small>
+                            </div>
+                        </div>
+                        <div class="social-body">
+                            <p>
+                                {{comment.resource.content}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t">
+                <div class="col-sm-12">
+                    <summernote height="150" ng-model="comment.content"></summernote>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit" ng-click="createComment()">回复</button>
+            </div>
+        </div>
+    </div>
+</div>

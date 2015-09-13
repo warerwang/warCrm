@@ -283,3 +283,8 @@
 .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
   height: 25px;
 }
+//修正评论样式
+.media-body {
+  display: block;
+  width: auto;
+}

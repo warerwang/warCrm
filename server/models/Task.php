@@ -33,4 +33,22 @@ class Task extends TasksBase
             ],
         ];
     }
+
+    public function extraFields ()
+    {
+        return [
+            'project',
+            'sprint'
+        ];
+    }
+
+    public function getProject()
+    {
+        return $this->hasOne(Project::className(), ['id' => 'pid']);
+    }
+
+    public function getSprint ()
+    {
+        return $this->hasOne(Sprint::className(), ['id' => 'sid']);
+    }
 }
