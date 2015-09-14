@@ -238,6 +238,10 @@ angular.module 'crm'
       @members
     getOwner: ()->
       userService.getUser @resource.ownerId
+    getCreateTime: ()->
+      new Date(@resource.createTime + '+0')
+    getLastModify: ()->
+      new Date(@resource.lastModify + '+0')
 
   class Sprint
     constructor: (options)->
@@ -271,6 +275,10 @@ angular.module 'crm'
       @resource.project
     getSprint: ()->
       @resource.sprint
+    getCreateTime: ()->
+      new Date(@resource.createTime + '+0')
+    getLastModify: ()->
+      new Date(@resource.lastModify + '+0')
 
   class Comment
     constructor: (options)->
@@ -278,7 +286,8 @@ angular.module 'crm'
       @resource = options
     getOwner: ()->
       return user for user in userService.getUsers() when user.id == @resource.ownerId
-
+    getCreateTime: ()->
+      new Date(@resource.createTime + '+0')
   userService.taskTypes = [
     {id:1,name:'任务'},
     {id:2,name:'错误'},
@@ -286,11 +295,11 @@ angular.module 'crm'
     {id:4,name:'调研'}
   ]
   userService.taskStatus = [
-    {id:0,name:'新建'},
-    {id:1,name:'解决中'},
-    {id:2,name:'已解决'},
-    {id:3,name:'已拒接'},
-    {id:4,name:'已关闭'},
+    {id:1,name:'新建'},
+    {id:2,name:'解决中'},
+    {id:3,name:'已解决'},
+    {id:4,name:'已拒接'},
+    {id:5,name:'已关闭'},
   ]
   userService.getUsers = ()->
     if !userService.users?

@@ -17,26 +17,30 @@ class TaskController extends RestController
 {
     public function actionIndex ($pid = null, $sid = null, $status = null, $ownerId = null, $createUid = null)
     {
-        if ($pid) {
-            $condition = ['pid' => $pid];
-        } elseif ($sid) {
-            $condition = ['sid' => $sid];
-        } else {
-            $condition = [];
+        $query = Task::find();
+        $query->andFilterWhere([
+            'pid' => $pid,
+            'sid' => $sid,
+            'ownerId' => $ownerId,
+            'createUserId' => $createUid
+        ]);
+        /**
+        {id:1,name:'新建'},
+        {id:2,name:'解决中'},
+        {id:3,name:'已解决'},
+        {id:4,name:'已拒接'},
+        {id:5,name:'已关闭'},
+         */
+        if($status > 0){
+            $query->andWhere(['status' => $status]);
+        }elseif($status < 0){
+            $query->andWhere(['NOT', ['status' => abs($status)]]);
         }
-        if($ownerId){
-            $condition['ownerId'] = $ownerId;
-        }elseif($createUid){
-            $condition['createUserId'] = $createUid;
-        }
-        if($status){
-            $condition['status'] = $status;
-        }
-        if(empty($condition)){
-            $condition = ['did' => Yii::$app->user->identity->did];
+        if(empty($query->where)){
+            $query->andWhere(['did' => Yii::$app->user->identity->did]);
         }
         $provider = new ActiveDataProvider([
-            'query'      => Task::find()->where($condition),
+            'query'      => $query,
             'pagination' => [
                 'pageSize' => 20,
             ],

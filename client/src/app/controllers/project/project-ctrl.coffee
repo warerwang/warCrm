@@ -38,13 +38,12 @@ angular.module "crm"
 
   .controller 'ProjectDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, ProjectResource, $stateParams, SprintResource, TaskResource, UtilsServ) ->
     afterLoadPreData = ()->
-      ProjectResource.get {id:$stateParams.id}, (project)->
+      ProjectResource.get {id:$stateParams.id,expand:'taskCount,sprintCount'}, (project)->
         $scope.project = UserService.createProject project
         SprintResource.query {pid:project.id}, (sprintsRes)->
           $scope.sprints = (UserService.createSprint sprint for sprint in sprintsRes)
 
-        TaskResource.query {pid:project.id}, (tasksRes)->
-          console.log 1111222
+        TaskResource.query {pid:project.id,status:-4}, (tasksRes)->
           $scope.tasks = (UserService.createTask task for task in tasksRes)
 
     if WebService.isLoadedPreData

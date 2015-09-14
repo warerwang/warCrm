@@ -24,10 +24,10 @@
             {{task.getOwner().getName()}}
         </td>
         <td>
-            {{task.resource.createTime}}
+            {{task.getCreateTime() | date: 'yyyy-MM-dd HH:mm:ss'}}
         </td>
         <td>
-            {{task.resource.lastModify}}
+            {{task.getLastModify() | date: 'yyyy-MM-dd HH:mm:ss'}}
         </td>
     </tr>
     </tbody>

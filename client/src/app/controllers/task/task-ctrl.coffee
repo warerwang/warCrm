@@ -52,7 +52,7 @@ angular.module "crm"
     afterLoadPreData = ()->
       TaskResource.get {id:$stateParams.id,expand:'project,sprint'}, (taskRes)->
         $scope.task = UserService.createTask taskRes
-        CommentResource.query {rid:taskRes.pid}, (commentRes)->
+        CommentResource.query {rid:taskRes.id}, (commentRes)->
           $scope.comments = (UserService.createComment comment for comment in commentRes)
 
 
@@ -63,6 +63,9 @@ angular.module "crm"
       afterLoadPreData()
     $scope.comment = new CommentResource
     $scope.createComment = ()->
-      $scope.comment.relationId = $scope.task.resource.pid
+      $scope.comment.relationId = $scope.task.id
+      $scope.comment.type = 'task'
       $scope.comment.$save {}, (commentRes)->
         $scope.comments.push (UserService.createComment commentRes)
+        $scope.task.resource.lastModify = (new Date()).toUTCString()
+        $scope.comment = new CommentResource

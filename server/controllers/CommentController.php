@@ -16,7 +16,7 @@ class CommentController extends RestController
 {
     public function actionIndex ($rid)
     {
-        return Comment::findAll(['relationId' => $rid]);
+        return Comment::find()->where(['relationId' => $rid])->all();
     }
 
     public function actionCreate ()
@@ -26,7 +26,6 @@ class CommentController extends RestController
         $comment = new Comment();
         $comment->ownerId = Yii::$app->user->id;
         $comment->did = Yii::$app->user->identity->did;
-//        $comment->relationId = Yii::$app->user->identity->did;
         $comment->setScenario(Comment::SCENARIO_CREATE);
         $comment->load($data, '');
         $comment->save();

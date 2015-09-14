@@ -9,12 +9,23 @@
 namespace app\models;
 
 
+use app\components\Tools;
 use app\models\base\ProjectsBase;
 
 class Project extends ProjectsBase
 {
-    const SCENARIO_CREATE = 'create';
-    const SCENARIO_EDIT = 'edit';
+    public function extraFields ()
+    {
+        return [
+            'taskCount' => function(){
+                return Task::find()->where(['pid' =>$this->id])->count();
+            },
+            'sprintCount' => function(){
+                return Sprint::find()->where(['pid' =>$this->id])->count();
+            }
+
+        ];
+    }
 
     public function scenarios ()
     {
@@ -32,5 +43,14 @@ class Project extends ProjectsBase
                 "type"
             ],
         ];
+    }
+
+    public function beforeValidate ()
+    {
+        if(parent::beforeValidate()){
+            $this->lastModify = Tools::getDateTime();
+            return true;
+        }
+        return false;
     }
 }

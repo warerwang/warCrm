@@ -11,8 +11,8 @@
                             <h2>{{project.getName()}}</h2>
                         </div>
                         <dl class="dl-horizontal">
-                            <dt>Status:</dt>
-                            <dd><span class="label label-primary">Active</span></dd>
+                            <dt>状态:</dt>
+                            <dd><span class="label label-primary">进行中</span></dd>
                         </dl>
                     </div>
                 </div>
@@ -22,19 +22,19 @@
                             <dt>创建者:</dt>
                             <dd>{{project.getOwner().getName()}}</dd>
                             <dt>任务数:</dt>
-                            <dd> 162</dd>
+                            <dd>{{project.resource.taskCount}}</dd>
                             <dt>里程碑数:</dt>
-                            <dd><a href="" class="text-navy"> Zender Company</a></dd>
+                            <dd>{{project.resource.sprintCount}}</dd>
                             <dt>当前里程碑:</dt>
                             <dd> v1.4.2</dd>
                         </dl>
                     </div>
                     <div class="col-lg-7" id="cluster_info">
                         <dl class="dl-horizontal">
-                            <dt>最后更新时间:</dt>
-                            <dd>{{project.resource.lastModify}}</dd>
                             <dt>创建时间:</dt>
-                            <dd>{{project.resource.createTime}}</dd>
+                            <dd>{{project.getCreateTime() | date:"yyyy-MM-dd"}}</dd>
+                            <dt>最后更新时间:</dt>
+                            <dd>{{project.getLastModify() | date:"yyyy-MM-dd"}}</dd>
                             <dt>成员:</dt>
                             <dd class="project-people">
                                 <a ng-href="/contact/{{user.id}}" ng-repeat="user in project.getMembers()"><img alt="image" class="img-circle" ng-src="{{user.getAvatar()}}"></a>

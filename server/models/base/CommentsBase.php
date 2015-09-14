@@ -14,6 +14,7 @@ use Yii;
  * @property string $createTime
  * @property string $lastModify
  * @property string $relationId
+ * @property string $type
  */
 class CommentsBase extends \app\components\Model
 {
@@ -31,10 +32,11 @@ class CommentsBase extends \app\components\Model
     public function rules()
     {
         return [
-            [['id', 'ownerId', 'did', 'content', 'relationId'], 'required'],
+            [['id', 'ownerId', 'did', 'content', 'relationId', 'type'], 'required'],
             [['content'], 'string'],
             [['createTime', 'lastModify'], 'safe'],
-            [['id', 'ownerId', 'did', 'relationId'], 'string', 'max' => 20]
+            [['id', 'ownerId', 'did', 'relationId'], 'string', 'max' => 20],
+            ['type', 'in', 'range' => ['task', 'article']]
         ];
     }
 
@@ -51,6 +53,7 @@ class CommentsBase extends \app\components\Model
             'createTime' => 'Create Time',
             'lastModify' => 'Last Modify',
             'relationId' => 'Relation ID',
+            'type' => 'type',
         ];
     }
 }
