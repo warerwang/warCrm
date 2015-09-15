@@ -7,6 +7,7 @@
  */
 
 ?>
+<div class="loginColumns animated fadeInDown">
 <div class="row">
     <div class="col-xs-6 col-xs-offset-3">
         <div>
@@ -28,4 +29,5 @@
         $form->end();
         ?>
     </div>
+</div>
 </div>

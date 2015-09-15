@@ -18,6 +18,7 @@ use yii\web\ForbiddenHttpException;
 
 class SiteController extends Controller
 {
+    public $navItems = [];
     public function actions()
     {
         return [
@@ -30,9 +31,16 @@ class SiteController extends Controller
             ],
         ];
     }
-
     public function actionIndex()
     {
+        $this->navItems = [
+            ['label' => '首页', 'url' => '#page-top', 'linkOptions' => ['class' => 'page-scroll']],
+            ['label' => '功能', 'url' => '#features', 'linkOptions' => ['class' => 'page-scroll']],
+            ['label' => '团队', 'url' => '#team', 'linkOptions' => ['class' => 'page-scroll']],
+            ['label' => '反馈', 'url' => '#testimonials', 'linkOptions' => ['class' => 'page-scroll']],
+            ['label' => '价格', 'url' => '#pricing', 'linkOptions' => ['class' => 'page-scroll']],
+            ['label' => '联系我们', 'url' => '#contact', 'linkOptions' => ['class' => 'page-scroll']],
+        ];
         $request = Yii::$app->request;
         $model = new CreateDomainForm();
         if($request->isPost){
@@ -47,7 +55,7 @@ class SiteController extends Controller
         return $this->render('index', ['model' => $model]);
     }
 
-    public function actionCreateDomain ($domain)
+    public function actionCreateDomain ($domain = null)
     {
         $model = new CreateDomainForm();
         $model->setScenario(CreateDomainForm::CREATE_STEP2);

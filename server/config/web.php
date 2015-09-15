@@ -94,6 +94,10 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
         'globalData' => [
             'class'  => 'app\components\GlobalData',
+        ],
+        'assetManager' => [
+            'linkAssets' => true,
+            'appendTimestamp' => true
         ]
     ],
     'params' => $params,
