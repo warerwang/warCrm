@@ -40,7 +40,7 @@
                 echo $form->field($model, 'description')->textarea(['placeholder' => $model->getAttributeLabel('description')]);
 
                 echo \yii\bootstrap\Button::widget([
-                    'label' => '提交',
+                    'label' => '创建',
                     'options' => ['class' => 'btn-primary pull-right'],
                 ]);
                 $form->end();

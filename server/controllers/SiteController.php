@@ -9,6 +9,7 @@ use app\models\form\CreateDomainForm;
 use app\models\User;
 use Yii;
 use yii\base\InvalidValueException;
+use yii\base\UserException;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -37,7 +38,7 @@ class SiteController extends Controller
             ['label' => '首页', 'url' => '#page-top', 'linkOptions' => ['class' => 'page-scroll']],
             ['label' => '功能', 'url' => '#features', 'linkOptions' => ['class' => 'page-scroll']],
             ['label' => '团队', 'url' => '#team', 'linkOptions' => ['class' => 'page-scroll']],
-            ['label' => '反馈', 'url' => '#testimonials', 'linkOptions' => ['class' => 'page-scroll']],
+//            ['label' => '反馈', 'url' => '#testimonials', 'linkOptions' => ['class' => 'page-scroll']],
             ['label' => '价格', 'url' => '#pricing', 'linkOptions' => ['class' => 'page-scroll']],
             ['label' => '联系我们', 'url' => '#contact', 'linkOptions' => ['class' => 'page-scroll']],
         ];
@@ -86,9 +87,9 @@ class SiteController extends Controller
         $model = ActiveUserForm::findOne(['did' => $did, 'email' => $email]);
         $model->password = '';
         if(empty($model)){
-            throw new InvalidValueException("无效的链接");
+            throw new UserException("无效的链接");
         }elseif($model->status == 1){
-            throw new InvalidValueException("用户已经处于激活状态,请直接登录");
+            throw new UserException("用户已经处于激活状态,请直接登录");
         }
 
         $model->setScenario(ActiveUserForm::SCENARIO_CREATE);

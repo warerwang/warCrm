@@ -1,7 +1,4 @@
 <?php
-
-
-
 ?>
 <div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -82,57 +79,122 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             <div class="navy-line"></div>
-            <h1>Over 40+ unique view<br/> <span class="navy"> with many custom components</span> </h1>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
+            <h1>功能介绍<br/> <span class="navy"> 即时沟通工具</span> </h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3 text-center wow fadeInLeft">
             <div>
                 <i class="fa fa-mobile features-icon"></i>
-                <h2>Full responsive</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
+                <h2>跨平台</h2>
+                <p>不管你是Windows, Mac, Linux只要你打开浏览器就可以无障碍的使用，手机上也有IOS,Android的App 下载。 </p>
             </div>
             <div class="m-t-lg">
                 <i class="fa fa-bar-chart features-icon"></i>
-                <h2>6 Charts Library</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
+                <h2>聊天消息同步</h2>
+                <p>无论你用什么客户端登录，都可以查看到完整的聊天记录。</p>
             </div>
         </div>
         <div class="col-md-6 text-center  wow zoomIn">
-            <img src="img/landing/perspective.png" alt="dashboard" class="img-responsive">
+            <img src="/img/landing/perspective.png" alt="dashboard" class="img-responsive">
         </div>
         <div class="col-md-3 text-center wow fadeInRight">
             <div>
                 <i class="fa fa-envelope features-icon"></i>
-                <h2>Mail pages</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
+                <h2>支持文件和代码的发送</h2>
+                <p>
+<!--                    开发的人都有这种场景，通过QQ发送一段代码，结果代码完全没有了格式，中间还参差着几个表情。-->
+                    可以发送各种文件，也支持同步的。
+                    还有发送代码片段的功能，发送的代码片段，格式优美，并且关键字高亮。是码农协作的好工具。
+                </p>
             </div>
             <div class="m-t-lg">
                 <i class="fa fa-google features-icon"></i>
-                <h2>AngularJS version</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
+                <h2>群组聊天</h2>
+                <p>方便快捷的群组聊天，让大家一起讨论，脑洞大开。</p>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12 text-center">
             <div class="navy-line"></div>
-            <h1>Discover great feautres</h1>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
+            <h1>方便的个人面板</h1>
+            <p>我的任务，我加入的项目，待办事项等等。</p>
         </div>
     </div>
     <div class="row features-block">
         <div class="col-lg-6 features-text wow fadeInLeft">
-            <small>INSPINIA</small>
-            <h2>Perfectly designed </h2>
-            <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-            <a href="" class="btn btn-primary">Learn more</a>
+            <p>
+                一目了然的查看到分配给我的任务，我的待办事项，项目内的公开资料，团队内部分享的文章。
+<!--            <a href="" class="btn btn-primary">Learn more</a>-->
         </div>
         <div class="col-lg-6 text-right wow fadeInRight">
-            <img src="img/landing/dashboard.png" alt="dashboard" class="img-responsive pull-right">
+            <img src="/img/landing/dashboard.png" alt="dashboard" class="img-responsive pull-right">
         </div>
     </div>
+</section>
+<section class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>项目管理</h1>
+                <p>项目的创建，里程碑的创建，任务的分发，已完成任务的索引. </p>
+            </div>
+        </div>
+        <div class="row features-block">
+            <div class="col-lg-3 features-text wow fadeInLeft">
+                <h2>项目的管理 </h2>
+                <p>项目管理，项目成员的管理，项目内分享文章，资料。</p>
+            </div>
+            <div class="col-lg-6 text-right m-t-n-lg wow zoomIn">
+                <img src="/img/landing/iphone.jpg" class="img-responsive" alt="dashboard">
+            </div>
+            <div class="col-lg-3 features-text text-right wow fadeInRight">
+                <h2>里程碑的管理 </h2>
+                <p>为项目设置分段式里程碑，阶段性的完成目标，里程碑的进度控制，任务和工时的燃尽图显示，更好的掌握开发进度。</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>更多的实用功能</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 features-text">
+                <h2>项目群组聊天 </h2>
+                <i class="fa fa-bolt big-icon pull-right"></i>
+                <p>项目创建之后，自动生成一个所有项目成员的聊天组，方便项目成员之间的交流。</p>
+            </div>
+            <div class="col-lg-5 features-text">
+                <h2>实时通知系统 </h2>
+                <i class="fa fa-bar-chart big-icon pull-right"></i>
+                <p>无论是项目的改变，任务单的分配，都有实时推送的通知，不会因此错过重要的改变.</p>
+            </div>
+        </div>
+<?php /*
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 features-text">
+                <h2>Perfectly designed </h2>
+                <i class="fa fa-clock-o big-icon pull-right"></i>
+                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
+            </div>
+            <div class="col-lg-5 features-text">
+                <h2>Perfectly designed </h2>
+                <i class="fa fa-users big-icon pull-right"></i>
+                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
+            </div>
+        </div>
+ */
+?>
+    </div>
+
 </section>
 <section id="team" class="gray-section team">
     <div class="container">
@@ -140,10 +202,10 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1>我们的团队</h1>
-                <p>拥有数年即时通讯开发经验以及敏捷开发经验的高级工程师.</p>
             </div>
         </div>
         <div class="row">
+<?php /*
             <div class="col-sm-4 wow fadeInLeft">
                 <div class="team-member">
                     <img src="img/landing/avatar3.jpg" class="img-responsive img-circle img-small" alt="">
@@ -159,11 +221,12 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-4">
+ */ ?>
+            <div class="col-sm-4 col-sm-offset-4">
                 <div class="team-member wow zoomIn">
                     <img src="https://avatars3.githubusercontent.com/u/4466538?v=3&s=150" class="img-responsive img-circle" alt="">
                     <h4><span class="navy">Drake</span> Wang</h4>
-                    <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.</p>
+                    <p>目前只有我一人，全栈工程师</p>
                     <ul class="list-inline social-icon">
                         <li><a target="_blank" href="http://weibo.com/warerwang"><i class="fa fa-weibo"></i></a>
                         </li>
@@ -174,6 +237,7 @@
                     </ul>
                 </div>
             </div>
+<?php /*
             <div class="col-sm-4 wow fadeInRight">
                 <div class="team-member">
                     <img src="img/landing/avatar2.jpg" class="img-responsive img-circle img-small" alt="">
@@ -189,50 +253,22 @@
                     </ul>
                 </div>
             </div>
+ */ ?>
         </div>
+
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                <p>希望有更多有能力又热情的的工程师加入我们。</p>
             </div>
         </div>
     </div>
-</section>
-<section class="features">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="navy-line"></div>
-                <h1>Even more great feautres</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-            </div>
-        </div>
-        <div class="row features-block">
-            <div class="col-lg-3 features-text wow fadeInLeft">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-                <a href="" class="btn btn-primary">Learn more</a>
-            </div>
-            <div class="col-lg-6 text-right m-t-n-lg wow zoomIn">
-                <img src="img/landing/iphone.jpg" class="img-responsive" alt="dashboard">
-            </div>
-            <div class="col-lg-3 features-text text-right wow fadeInRight">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-                <a href="" class="btn btn-primary">Learn more</a>
-            </div>
-        </div>
-    </div>
-
 </section>
 <section class="timeline gray-section">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
-                <h1>Our workflow</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
+                <h1>时间线</h1>
             </div>
         </div>
         <div class="row features-block">
@@ -245,11 +281,11 @@
                         </div>
 
                         <div class="vertical-timeline-content">
-                            <h2>Meeting</h2>
-                            <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
+                            <h2>正在继续</h2>
+                            <p>
+                                上线后，开始了正常的双周迭代。期待下一个增长点。
                             </p>
-                            <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                            <span class="vertical-date"> Today <br/> <small>Dec 24</small> </span>
+<!--                            <span class="vertical-date"> Today <br/> <small>Dec 24</small> </span>-->
                         </div>
                     </div>
 
@@ -259,10 +295,9 @@
                         </div>
 
                         <div class="vertical-timeline-content">
-                            <h2>Decision</h2>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
-                            <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                            <span class="vertical-date"> Tomorrow <br/> <small>Dec 26</small> </span>
+                            <h2>第一个版本的发布</h2>
+                            <p>经历了2周的编码（每天只有下班后才有时间），第一个版本上线了，虽然上线一天内就宕机了，但是这并影响他已经上线了。单聊，群聊，发送附件，发送代码片段都已经完成。</p>
+                            <span class="vertical-date"> 周二 <br/> <small>15年 八月十四日</small> </span>
                         </div>
                     </div>
 
@@ -272,13 +307,11 @@
                         </div>
 
                         <div class="vertical-timeline-content">
-                            <h2>Implementation</h2>
-                            <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>
-                            <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                            <span class="vertical-date"> Monday <br/> <small>Jan 02</small> </span>
+                            <h2>项目开始</h2>
+                            <p>一个无聊的晚上，终于无法忍受了难用的项目管理工具，心想为什么我不能自己做一个呢？于是开始这个项目。</p>
+                            <span class="vertical-date"> 周五 <br/> <small>15年 八月十四日</small> </span>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -286,6 +319,7 @@
     </div>
 
 </section>
+<?php /*
 <section id="testimonials" class="navy-section testimonials" style="margin-top: 0">
     <div class="container">
         <div class="row">
@@ -372,84 +406,43 @@
     </div>
 
 </section>
-<section class="features">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="navy-line"></div>
-                <h1>More and more extra great feautres</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-5 col-lg-offset-1 features-text">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <i class="fa fa-bar-chart big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-            </div>
-            <div class="col-lg-5 features-text">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <i class="fa fa-bolt big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-5 col-lg-offset-1 features-text">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <i class="fa fa-clock-o big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-            </div>
-            <div class="col-lg-5 features-text">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <i class="fa fa-users big-icon pull-right"></i>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-            </div>
-        </div>
-    </div>
-
-</section>
+ */
+?>
 <section id="pricing" class="pricing">
     <div class="container">
         <div class="row m-b-lg">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
-                <h1>App Pricing</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
+                <h1>价格服务</h1>
+                <p>不同价格以及不同版本之间的区别.</p>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-4 wow zoomIn">
                 <ul class="pricing-plan list-unstyled">
                     <li class="pricing-title">
-                        Basic
+                        免费版
                     </li>
                     <li class="pricing-desc">
-                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+                        人数限制为20人，免费储存附件大小为300M.
                     </li>
                     <li class="pricing-price">
-                        <span>$16</span> / month
+                        <span>免费</span>
                     </li>
                     <li>
-                        Dashboards
+                        单聊，群聊
                     </li>
                     <li>
-                        Projects view
+                        项目管理
                     </li>
                     <li>
-                        Contacts
+                        任务单管理
                     </li>
                     <li>
-                        Calendar
+                        提供邮件支持
                     </li>
                     <li>
-                        AngularJs
-                    </li>
-                    <li>
-                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+                        <a class="btn btn-primary btn-xs" href="<?= \yii\helpers\Url::to(['site/create-domain']); ?>" role="button">创建账户</a>
                     </li>
                 </ul>
             </div>
@@ -457,34 +450,28 @@
             <div class="col-lg-4 wow zoomIn">
                 <ul class="pricing-plan list-unstyled selected">
                     <li class="pricing-title">
-                        Standard
+                        标准版
                     </li>
                     <li class="pricing-desc">
-                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+                        人数限制为100人，免费储存附件大小为5G.
                     </li>
                     <li class="pricing-price">
-                        <span>$22</span> / month
+                        <span>99元</span> / 月
                     </li>
                     <li>
-                        Dashboards
+                        单聊，群聊
                     </li>
                     <li>
-                        Projects view
+                        项目管理
                     </li>
                     <li>
-                        Contacts
+                        任务单管理
                     </li>
                     <li>
-                        Calendar
-                    </li>
-                    <li>
-                        AngularJs
-                    </li>
-                    <li>
-                        <strong>Support platform</strong>
+                        提供邮件支持, QQ , 电话支持.
                     </li>
                     <li class="plan-action">
-                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+                        <a class="btn btn-primary btn-xs" href="<?= \yii\helpers\Url::to(['site/create-domain']); ?>" role="button">创建账户</a>
                     </li>
                 </ul>
             </div>
@@ -492,40 +479,37 @@
             <div class="col-lg-4 wow zoomIn">
                 <ul class="pricing-plan list-unstyled">
                     <li class="pricing-title">
-                        Premium
+                        旗舰版
                     </li>
                     <li class="pricing-desc">
-                        Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
+                        人数限制为100人，免费储存附件大小为1T. 另外支持安装到你们自己的服务器中。
                     </li>
                     <li class="pricing-price">
-                        <span>$160</span> / month
+                        <span>499元</span> / 月
                     </li>
                     <li>
-                        Dashboards
+                        单聊，群聊
                     </li>
                     <li>
-                        Projects view
+                        项目管理
                     </li>
                     <li>
-                        Contacts
+                        任务单管理
                     </li>
                     <li>
-                        Calendar
+                        提供邮件支持, QQ , 电话支持.（7×24小时支持）
                     </li>
                     <li>
-                        AngularJs
-                    </li>
-                    <li>
-                        <a class="btn btn-primary btn-xs" href="#">Signup</a>
+                        <a class="btn btn-primary btn-xs" href="<?= \yii\helpers\Url::to(['site/create-domain']); ?>" role="button">创建账户</a>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="row m-t-lg">
-            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg">
-                <p>*Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. <span class="navy">Various versions</span>  have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-            </div>
-        </div>
+<!--        <div class="row m-t-lg">-->
+<!--            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg">-->
+<!--                <p></p>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 
 </section>
@@ -534,44 +518,44 @@
         <div class="row m-b-lg">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
-                <h1>联系我们</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
+                <h1>联系我</h1>
             </div>
         </div>
         <div class="row m-b-lg">
             <div class="col-lg-3 col-lg-offset-3">
                 <address>
-                    <strong><span class="navy">Company name, Inc.</span></strong><br/>
-                    795 Folsom Ave, Suite 600<br/>
-                    San Francisco, CA 94107<br/>
-                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                    QQ: 373299607<br/>
+                    Email: Drake@warphp.com<br/>
                 </address>
             </div>
             <div class="col-lg-4">
                 <p class="text-color">
-                    Consectetur adipisicing elit. Aut eaque, totam corporis laboriosam veritatis quis ad perspiciatis, totam corporis laboriosam veritatis, consectetur adipisicing elit quos non quis ad perspiciatis, totam corporis ea,
+                    这个家伙很懒，什么都没有留下。
                 </p>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12 text-center">
-                <a href="mailto:test@email.com" class="btn btn-primary">Send us mail</a>
+                <a href="mailto:drake@warphp.com" class="btn btn-primary">发送邮件</a>
                 <p class="m-t-sm">
-                    Or follow us on social platform
+                    或者关注我的社交账号
                 </p>
                 <ul class="list-inline social-icon">
-                    <li><a href="#"><i class="fa fa-twitter"></i></a>
+                    <li><a target="_blank" href="http://weibo.com/warerwang"><i class="fa fa-weibo"></i></a>
                     </li>
-                    <li><a href="#"><i class="fa fa-facebook"></i></a>
+                    <li><a target="_blank" href="https://github.com/warerwang"><i class="fa fa-github"></i></a>
                     </li>
-                    <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                    <li><a target="_blank" href="http://blog.warphp.com"><i class="fa fa-home"></i></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                <p><strong>&copy; 2015 Company Name</strong><br/> consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                <p>
+                    <strong>&copy; <?= date('Y'); ?> WarPhp</strong><br/>
+                    目前这个项目只是我出于兴趣的个人项目
+                </p>
             </div>
         </div>
     </div>
