@@ -39,9 +39,9 @@ class User extends UsersBase implements IdentityInterface
             'avatar' => function(){
                   if(empty($this->avatar)){
                       return [
-                                                    '36' => '/assets/images/default-36.png',
-                                                    '48' => '/assets/images/default-48.png',
-                                                    '150' => '/assets/images/default-150.png',
+                            '36' => '/assets/images/default-36.png',
+                            '48' => '/assets/images/default-48.png',
+                            '150' => '/assets/images/default-150.png',
 //                          '36'  => Yii::$app->params['webUrl'] . '/images/default-36.png',
 //                          '48'  => Yii::$app->params['webUrl'] . '/images/default-48.png',
 //                          '150' => Yii::$app->params['webUrl'] . '/images/default-150.png',
@@ -130,7 +130,7 @@ class User extends UsersBase implements IdentityInterface
                 $this->accessToken = md5(microtime(true) . $this->salt);
                 $this->lastActivity = (new \DateTime())->format("Y-m-d H:i:s");
             }else{
-                if(!empty($this->password)){
+                if(!empty($this->password) && strlen($this->password) <= 20){
                     $this->salt = strval(rand(100000, 999999));
                     $this->password = md5($this->password . $this->salt);
                 }else{

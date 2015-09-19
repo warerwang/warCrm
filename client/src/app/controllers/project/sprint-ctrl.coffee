@@ -1,5 +1,16 @@
 angular.module "crm"
-  .controller 'SprintAddCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, SprintResource, $location, $filter, $stateParams, toastr) ->
+  .controller 'SprintAddCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, SprintResource, $location, $filter, $stateParams, toastr, ProjectResource) ->
+
+    ProjectResource.get {id:$stateParams.id}, (project)->
+      $scope.setBreadcrumbs [
+        {name:"首页", link:"/"},
+        {name:"项目列表", link:"/project/list"},
+        {name:project.name, link:"/project/" + project.id},
+        {name:"创建里程碑", link:""},
+      ]
+    , ()->
+      $location.path('project/list')
+
     $scope.isCreate = true
     $scope.sprint = new SprintResource()
     $scope.sprint.pid = $stateParams.id
@@ -26,6 +37,12 @@ angular.module "crm"
   .controller 'SprintEditCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, SprintResource, $location, $filter, $stateParams, toastr) ->
     $scope.isEdit = true
     SprintResource.get {id:$stateParams.sid}, (resource)->
+      $scope.setBreadcrumbs [
+        {name:"首页", link:"/"},
+        {name:"项目列表", link:"/project/list"},
+        {name:resource.name, link:"/project/" + resource.pid + '/' + resource.id},
+        {name:"修改里程碑", link:""},
+      ]
       sprint = UserService.createSprint resource
       $scope.sprint = resource
       $scope.sprint.startTime = sprint.getStartTime()
@@ -53,10 +70,14 @@ angular.module "crm"
 
   .controller 'SprintDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, SprintResource, $location, TaskResource, $stateParams, toastr) ->
     SprintResource.get {id:$stateParams.sid}, (resource)->
+      $scope.setBreadcrumbs [
+        {name:"首页", link:"/"},
+        {name:"项目列表", link:"/project/list"},
+        {name:resource.name, link:""}
+      ]
+
       $scope.sprint = UserService.createSprint resource
       TaskResource.query {sid:$stateParams.sid}, (taskRes)->
         $scope.tasks = (UserService.createTask task for task in taskRes)
-
-        console.log $scope.tasks
 
 

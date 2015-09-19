@@ -65,7 +65,7 @@ angular.module('crm',[
   .state "project",
     url: "/project",
     abstract: true,
-    templateUrl: "app/controllers/project/base.html"
+    templateUrl: "app/controllers/base.html"
   .state "project.list",
     url: "/list",
     templateUrl: "app/controllers/project/list.html"
@@ -101,7 +101,7 @@ angular.module('crm',[
   .state "task",
     url: "/task",
     abstract: true,
-    templateUrl: "app/controllers/task/base.html"
+    templateUrl: "app/controllers/base.html"
   .state "task.add",
     url: "/:oid/:uid/:pid/:sid/add",
     controller: "TaskAddCtrl",

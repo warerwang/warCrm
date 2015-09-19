@@ -7,13 +7,19 @@ angular.module "crm"
 
     afterLoadPreData = ()->
       $scope.users = UserService.getUsers()
-      ProjectResource.query {}, (projectResources)->
-        $scope.projects = (UserService.createProject project for project in projectResources)
+      ProjectResource.query {}, (projectRes)->
+        $scope.projects = (UserService.createProject project for project in projectRes)
         $scope.task.pid = $scope.projects[0]
 
         SprintResource.query {pid:$scope.task.pid.id}, (sprintRes)->
           $scope.sprints = (UserService.createSprint sprint for sprint in sprintRes)
           $scope.task.sid = $scope.sprints[0]
+
+        $scope.setBreadcrumbs [
+          {name:"首页", link:"/"},
+          {name:"项目列表", link:"/project/list"},
+          {name:"创建新任务"}
+        ]
 
     if WebService.isLoadedPreData
       afterLoadPreData()
@@ -54,8 +60,12 @@ angular.module "crm"
         $scope.task = UserService.createTask taskRes
         CommentResource.query {rid:taskRes.id}, (commentRes)->
           $scope.comments = (UserService.createComment comment for comment in commentRes)
-
-
+        $scope.setBreadcrumbs [
+          {name:"首页", link:"/"},
+          {name:"项目列表", link:"/project/list"},
+          {name:taskRes.project.name, link:"/project/" + taskRes.project.id},
+          {name:taskRes.title}
+        ]
 
     if WebService.isLoadedPreData
       afterLoadPreData()

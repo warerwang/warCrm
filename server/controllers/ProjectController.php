@@ -45,7 +45,11 @@ class ProjectController extends RestController
 
     public function actionView ($id)
     {
-        return Project::findOne($id);
+        $project = Project::findOne($id);
+        if(empty($project)){
+            throw new yii\web\NotFoundHttpException("不存在");
+        }
+        return $project;
     }
 
     public function actionUpdate ($id)

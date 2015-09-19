@@ -1,31 +1,21 @@
-<div class="wrapper">
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h5 ng-if="isCreate">创建里程碑</h5>
-            <h5 ng-if="isEdit">修改里程碑</h5>
-        </div>
-        <div class="ibox-content">
-            <form method="post" class="form-horizontal" name="sprint-form">
-                <div class="form-group"><label class="col-sm-2 control-label">里程碑名</label>
-                    <div class="col-sm-6"><input type="text" class="form-control" name="name" ng-model="sprint.name">
-                    </div>
-                </div>
-                <div class="form-group"><label class="col-sm-2 control-label">起始时间</label>
-
-                    <div class="col-sm-3">
-                        <input type="date" class="form-control" min="{{startMinDate}}" max="{{startMaxDate}}" ng-model="sprint.startTime" ng-required="true" ng-change="changeStart()" />
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="date" class="form-control" min="{{endMinDate}}" max="{{endMaxDate}}" ng-model="sprint.endTime" ng-required="true" ng-change="changeEnd()"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-4 col-sm-offset-2">
-                        <button class="btn btn-primary" type="submit" ng-click="create()" ng-if="isCreate">创建</button>
-                        <button class="btn btn-primary" type="submit" ng-click="update()" ng-if="isEdit">修改</button>
-                    </div>
-                </div>
-            </form>
+<form method="post" class="form-horizontal" name="sprint-form">
+    <div class="form-group"><label class="col-sm-2 control-label">里程碑名</label>
+        <div class="col-sm-6"><input type="text" class="form-control" name="name" ng-model="sprint.name">
         </div>
     </div>
-</div>
+    <div class="form-group"><label class="col-sm-2 control-label">起始时间</label>
+
+        <div class="col-sm-3">
+            <input type="date" class="form-control" min="{{startMinDate}}" max="{{startMaxDate}}" ng-model="sprint.startTime" ng-required="true" ng-change="changeStart()" />
+        </div>
+        <div class="col-sm-3">
+            <input type="date" class="form-control" min="{{endMinDate}}" max="{{endMaxDate}}" ng-model="sprint.endTime" ng-required="true" ng-change="changeEnd()"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">
+            <button class="btn btn-primary" type="submit" ng-click="create()" ng-if="isCreate">创建</button>
+            <button class="btn btn-primary" type="submit" ng-click="update()" ng-if="isEdit">修改</button>
+        </div>
+    </div>
+</form>

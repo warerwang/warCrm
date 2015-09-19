@@ -17,6 +17,11 @@ angular.module "crm"
   $scope.currentUser = null
   $scope.absUrl = $location.absUrl()
 
+  $scope.setBreadcrumbs = (breadcrumbs)->
+    $scope.breadcrumbs = breadcrumbs
+
+  $scope.setTools = (tools)->
+    $scope.tools = tools;
   WebService.loadWebConfig().then (res)->
     $scope.domainExist = true
     config = res.data
