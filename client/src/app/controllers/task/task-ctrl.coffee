@@ -55,9 +55,15 @@ angular.module "crm"
 
 
   .controller 'TaskDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location, TaskResource, $stateParams, CommentResource) ->
+    $scope.taskStatus = UserService.taskStatus
     afterLoadPreData = ()->
+      $scope.users = UserService.getUsers()
+
       TaskResource.get {id:$stateParams.id,expand:'project,sprint'}, (taskRes)->
         $scope.task = UserService.createTask taskRes
+        $scope.owner  = UserService.getUser taskRes.ownerId
+        $scope.status = s for s in UserService.taskStatus when s.id == taskRes.status
+
         CommentResource.query {rid:taskRes.id}, (commentRes)->
           $scope.comments = (UserService.createComment comment for comment in commentRes)
         $scope.setBreadcrumbs [
@@ -72,10 +78,16 @@ angular.module "crm"
     $scope.$on EVENT_PREDATA_LOADED_SUCCESS, ()->
       afterLoadPreData()
     $scope.comment = new CommentResource
+
     $scope.createComment = ()->
-      $scope.comment.relationId = $scope.task.id
-      $scope.comment.type = 'task'
-      $scope.comment.$save {}, (commentRes)->
-        $scope.comments.push (UserService.createComment commentRes)
-        $scope.task.resource.lastModify = (new Date()).toUTCString()
-        $scope.comment = new CommentResource
+      $scope.task.resource.status = $scope.status.id
+      $scope.task.resource.ownerId = $scope.owner.id
+      $scope.task.resource.$update {id:$scope.task.id}, (resource)->
+        $scope.task.resource = resource
+
+      if $scope.comment.content
+        $scope.comment.relationId = $scope.task.id
+        $scope.comment.type = 'task'
+        $scope.comment.$save {}, (commentRes)->
+          $scope.comments.push (UserService.createComment commentRes)
+          $scope.comment = new CommentResource

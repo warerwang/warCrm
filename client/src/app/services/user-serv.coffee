@@ -263,7 +263,7 @@ angular.module 'crm'
     getProgress : ()->
       taskCount = @resource.totalTask - @resource.pauseTask
       if(taskCount != 0)
-        Math.round((@resource.finishTask / taskCount) * 100 )
+        Math.round((@resource.closeTask / taskCount) * 100 )
       else
         0
 
@@ -318,6 +318,7 @@ angular.module 'crm'
     {id:3,name:'已解决'},
     {id:4,name:'已拒绝'},
     {id:5,name:'已关闭'},
+    {id:6,name:'已停止'},
   ]
   userService.getUsers = ()->
     if !userService.users?

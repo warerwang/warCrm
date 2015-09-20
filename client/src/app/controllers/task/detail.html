@@ -1,7 +1,12 @@
 <div>
     <dl class="dl-horizontal">
         <dt>状态:</dt>
-        <dd><span class="label" ng-class="{'label-primary':task.resource.status == 0}">{{task.getStatus()}}</span></dd>
+        <dd><span class="label" ng-class="{
+        'label-warning':task.resource.status == 1,
+        'label-info':task.resource.status == 2,
+        'label-primary':task.resource.status == 3,
+        'label-success':task.resource.status == 5,
+        }">{{task.getStatus()}}</span></dd>
     </dl>
 </div>
 <div class="row">
@@ -33,7 +38,6 @@
 <hr>
 <div class="row">
     <div class="col-lg-12">
-
         <h2>回复:</h2>
         <div ng-if="comments.length == 0">没有回复</div>
         <div class="social-feed-box" ng-repeat="comment in comments">
@@ -53,6 +57,21 @@
                     {{comment.resource.content}}
                 </p>
             </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row m-t">
+    <div class="col-sm-6">
+        <label class="col-sm-3 control-label">状态</label>
+        <div class="col-sm-9">
+            <select class="form-control" name="ownerId" ng-model="status" ng-options="s.name for s in taskStatus"></select>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <label class="col-sm-3 control-label">指派给</label>
+        <div class="col-sm-9">
+            <select class="form-control" name="ownerId" ng-model="owner" ng-options="s.getName() for s in users"></select>
         </div>
     </div>
 </div>

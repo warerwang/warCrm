@@ -8,11 +8,21 @@
 
 namespace app\controllers;
 
+use app\components\Tools;
+use app\models\Project;
+use app\models\Sprint;
 use yii;
 use app\components\RestController;
 use app\models\Task;
 use yii\data\ActiveDataProvider;
 
+/**
+{id:1,name:'新建'},
+{id:2,name:'解决中'},
+{id:3,name:'已解决'},
+{id:4,name:'已拒接'},
+{id:5,name:'已关闭'},
+ */
 class TaskController extends RestController
 {
     public function actionIndex ($pid = null, $sid = null, $status = null, $ownerId = null, $createUid = null)
@@ -24,13 +34,6 @@ class TaskController extends RestController
             'ownerId' => $ownerId,
             'createUserId' => $createUid
         ]);
-        /**
-        {id:1,name:'新建'},
-        {id:2,name:'解决中'},
-        {id:3,name:'已解决'},
-        {id:4,name:'已拒接'},
-        {id:5,name:'已关闭'},
-         */
         if($status > 0){
             $query->andWhere(['status' => $status]);
         }elseif($status < 0){
@@ -57,11 +60,24 @@ class TaskController extends RestController
         $task->load($data, '');
         $task->did       = Yii::$app->user->identity->did;
         $task->createUid = Yii::$app->user->identity->id;
+        /** @var Project $project */
+        $project = Project::findOne($task->pid);
+        if(empty($project)){
+            throw new yii\web\NotFoundHttpException("project");
+        }
+        if($task->sid){
+            /** @var Sprint $sprint */
+            $sprint = Sprint::findOne($task->sid);
+            if(empty($sprint)){
+                throw new yii\web\NotFoundHttpException("sprint");
+            }
+        }
         if ($task->save()) {
+//            $project->updateAttributes(['lastModify' => Tools::getDateTime()]);
+//            isset($sprint) && $sprint->updateCounters(['totalTask' => 1]);
             return $task;
         } else {
             Yii::$app->response->statusCode = 500;
-
             return $task->getFirstErrors();
         }
     }
@@ -74,7 +90,33 @@ class TaskController extends RestController
         $task->setScenario(Task::SCENARIO_EDIT);
         $data = json_decode($request->rawBody, true);
         $task->load($data, '');
+        /** @var Project $project */
+        $project = Project::findOne($task->pid);
+        if(empty($project)){
+            throw new yii\web\NotFoundHttpException("");
+        }
+        if($task->sid){
+            /** @var Sprint $sprint */
+            $sprint = Sprint::findOne($task->sid);
+            if(empty($sprint)){
+                throw new yii\web\NotFoundHttpException("");
+            }
+        }
         if ($task->save()) {
+//            if(isset($sprint)){
+//                if($task->isAttributeChanged('status')){
+//                    if($task->status == Task::STATUS_PAUSED){
+//                        $sprint->updateCounters(['pauseTask' => 1]);
+//                    }elseif($task->status == Task::STATUS_CLOSED){
+//                        $sprint->updateCounters(['closeTask' => 1]);
+//                    }
+//                    if($task->oldAttributes['status'] == Task::STATUS_PAUSED){
+//                        $sprint->updateCounters(['pauseTask' => -1]);
+//                    }elseif($task->oldAttributes['status'] == Task::STATUS_CLOSED){
+//                        $sprint->updateCounters(['closeTask' => -1]);
+//                    }
+//                }
+//            }
             return $task;
         } else {
             Yii::$app->response->statusCode = 500;
