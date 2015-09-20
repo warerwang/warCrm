@@ -18,6 +18,10 @@ use app\models\base\SprintsBase;
  */
 class Sprint extends SprintsBase
 {
+//    public function getProgress()
+//    {
+//        $this->$this->totalTask - $this->pauseTask
+//    }
     public function scenarios ()
     {
         return [

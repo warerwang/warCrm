@@ -242,6 +242,13 @@ angular.module 'crm'
       new Date(@resource.createTime + '+0')
     getLastModify: ()->
       new Date(@resource.lastModify + '+0')
+    getCurrentSprint: ()->
+      if @resource.currentSprint
+        userService.createSprint @resource.currentSprint
+      else
+        null
+    getStatus: ()->
+      return status.name for status in userService.projectStatus when status.id == @resource.status
 
   class Sprint
     constructor: (options)->
@@ -253,6 +260,12 @@ angular.module 'crm'
       new Date(@resource.startTime + '+0')
     getEndTime : ()->
       new Date(@resource.endTime + '+0')
+    getProgress : ()->
+      taskCount = @resource.totalTask - @resource.pauseTask
+      if(taskCount != 0)
+        Math.round((@resource.finishTask / taskCount) * 100 )
+      else
+        0
 
   class Task
     constructor: (options)->
@@ -288,6 +301,11 @@ angular.module 'crm'
       return user for user in userService.getUsers() when user.id == @resource.ownerId
     getCreateTime: ()->
       new Date(@resource.createTime + '+0')
+  userService.projectStatus = [
+    {id:1,name:'进行中'},
+    {id:2,name:'暂停中'},
+    {id:3,name:'完成维护中'}
+  ]
   userService.taskTypes = [
     {id:1,name:'任务'},
     {id:2,name:'错误'},
@@ -298,7 +316,7 @@ angular.module 'crm'
     {id:1,name:'新建'},
     {id:2,name:'解决中'},
     {id:3,name:'已解决'},
-    {id:4,name:'已拒接'},
+    {id:4,name:'已拒绝'},
     {id:5,name:'已关闭'},
   ]
   userService.getUsers = ()->

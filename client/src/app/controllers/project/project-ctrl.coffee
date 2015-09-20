@@ -34,7 +34,7 @@ angular.module "crm"
       {name:"创建新的项目", link:"/project/add"}
     ]
     afterLoadPreData = ()->
-      ProjectResource.query {}, (projects)->
+      ProjectResource.query {expand:'currentSprint'}, (projects)->
         $scope.projects = (UserService.createProject project for project in projects)
 
     if WebService.isLoadedPreData
@@ -50,7 +50,7 @@ angular.module "crm"
   .controller 'ProjectDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, ProjectResource, $stateParams, SprintResource, TaskResource, UtilsServ) ->
     $scope.setTools []
     afterLoadPreData = ()->
-      ProjectResource.get {id:$stateParams.id,expand:'taskCount,sprintCount'}, (project)->
+      ProjectResource.get {id:$stateParams.id,expand:'taskCount,sprintCount,currentSprint'}, (project)->
         $scope.setBreadcrumbs [
           {name:"首页", link:"/"},
           {name:"项目列表", link:"/project/list"},

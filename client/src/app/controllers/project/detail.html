@@ -1,110 +1,108 @@
 <div class="col-lg-9">
     <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="ibox">
-            <div class="ibox-content">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="m-b-md">
-                            <a ng-href="/project/{{project.id}}/edit" class="btn btn-white btn-xs pull-right">修改项目</a>
-                            <a ng-href="/project/{{project.id}}/sprint-add" class="btn btn-white btn-xs pull-right">创建里程碑</a>
-                            <a ng-href="/task///{{project.id}}//add" class="btn btn-white btn-xs pull-right">添加任务单</a>
-                            <h2>{{project.getName()}}</h2>
-                        </div>
-                        <dl class="dl-horizontal">
-                            <dt>状态:</dt>
-                            <dd><span class="label label-primary">进行中</span></dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-5">
-                        <dl class="dl-horizontal">
-                            <dt>创建者:</dt>
-                            <dd>{{project.getOwner().getName()}}</dd>
-                            <dt>任务数:</dt>
-                            <dd>{{project.resource.taskCount}}</dd>
-                            <dt>里程碑数:</dt>
-                            <dd>{{project.resource.sprintCount}}</dd>
-                            <dt>当前里程碑:</dt>
-                            <dd> v1.4.2</dd>
-                        </dl>
-                    </div>
-                    <div class="col-lg-7" id="cluster_info">
-                        <dl class="dl-horizontal">
-                            <dt>创建时间:</dt>
-                            <dd>{{project.getCreateTime() | date:"yyyy-MM-dd"}}</dd>
-                            <dt>最后更新时间:</dt>
-                            <dd>{{project.getLastModify() | date:"yyyy-MM-dd"}}</dd>
-                            <dt>成员:</dt>
-                            <dd class="project-people">
-                                <a ng-href="/contact/{{user.id}}" ng-repeat="user in project.getMembers()"><img alt="image" class="img-circle" ng-src="{{user.getAvatar()}}"></a>
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <dl class="dl-horizontal">
-                            <dt>项目进度:</dt>
-                            <dd>
-                                <div class="progress progress-striped active m-b-sm">
-                                    <div style="width: 60%;" class="progress-bar"></div>
-                                </div>
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
 
-                <div class="row m-t-sm">
-                    <div class="col-lg-12">
-                        <div class="panel blank-panel ui-tab">
-                            <tabset>
-                                <tab heading="未关闭的任务" active="tab.active" class="dsads">
-                                    <ng-include src="'app/controllers/project/task-list.html'"></ng-include>
-                                </tab>
-                                <tab heading="里程碑">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th>名称</th>
-                                            <th>开始时间</th>
-                                            <th>结束时间</th>
-                                            <th>总任务数</th>
-                                            <th>未关闭的任务数</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="sprint in sprints">
-                                            <td>
-                                                <a ng-href="/project/{{project.id}}/{{sprint.id}}">{{sprint.getName()}}</a>
-                                            </td>
-                                            <td>
-                                                {{sprint.getStartTime() | date:"yyyy-MM-dd"}}
-                                            </td>
-                                            <td>
-                                                {{sprint.getEndTime() | date:"yyyy-MM-dd"}}
-                                            </td>
-                                            <td>
-                                                1
-                                            </td>
-                                            <td>
-                                                1
-                                            </td>
-                                            <td>
-                                                <a ng-href="/project/{{project.id}}/{{sprint.id}}/edit" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 修改 </a>
-                                                <a href="#" class="btn btn-white btn-sm" ng-click="delete($index)"><i class="fa fa-remove"></i> 删除 </a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </tab>
-                            </tabset>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="m-b-md">
+                    <a ng-href="/project/{{project.id}}/edit" class="btn btn-white btn-xs pull-right">修改项目</a>
+                    <a ng-href="/project/{{project.id}}/sprint-add" class="btn btn-white btn-xs pull-right">创建里程碑</a>
+                    <a ng-href="/task///{{project.id}}//add" class="btn btn-white btn-xs pull-right">添加任务单</a>
+                    <h2>{{project.getName()}}</h2>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>状态:</dt>
+                    <dd><span class="label label-primary">{{project.getStatus()}}</span></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5">
+                <dl class="dl-horizontal">
+                    <dt>创建者:</dt>
+                    <dd>{{project.getOwner().getName()}}</dd>
+                    <dt>任务数:</dt>
+                    <dd>{{project.resource.taskCount}}</dd>
+                    <dt>里程碑数:</dt>
+                    <dd>{{project.resource.sprintCount}}</dd>
+                    <dt>当前里程碑:</dt>
+                    <dd>{{project.getCurrentSprint().getName()}}</dd>
+                </dl>
+            </div>
+            <div class="col-lg-7" id="cluster_info">
+                <dl class="dl-horizontal">
+                    <dt>创建时间:</dt>
+                    <dd>{{project.getCreateTime() | date:"yyyy-MM-dd"}}</dd>
+                    <dt>最后更新时间:</dt>
+                    <dd>{{project.getLastModify() | date:"yyyy-MM-dd"}}</dd>
+                    <dt>成员:</dt>
+                    <dd class="project-people">
+                        <a ng-href="/contact/{{user.id}}" ng-repeat="user in project.getMembers()"><img alt="image" class="img-circle" ng-src="{{user.getAvatar()}}"></a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <dl class="dl-horizontal">
+                    <dt>项目进度:</dt>
+                    <dd>
+                        <div class="progress progress-striped active m-b-sm">
+                            <div style="width: {{project.getCurrentSprint().getProgress()}}%;" class="progress-bar"></div>
                         </div>
-                    </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="row m-t-sm">
+            <div class="col-lg-12">
+                <div class="panel blank-panel ui-tab">
+                    <tabset>
+                        <tab heading="未关闭的任务" active="tab.active" class="dsads">
+                            <ng-include src="'app/controllers/project/task-list.html'"></ng-include>
+                        </tab>
+                        <tab heading="里程碑">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>开始时间</th>
+                                    <th>结束时间</th>
+                                    <th>总任务数</th>
+                                    <th>未关闭的任务数</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="sprint in sprints">
+                                    <td>
+                                        <a ng-href="/project/{{project.id}}/{{sprint.id}}">{{sprint.getName()}}</a>
+                                    </td>
+                                    <td>
+                                        {{sprint.getStartTime() | date:"yyyy-MM-dd"}}
+                                    </td>
+                                    <td>
+                                        {{sprint.getEndTime() | date:"yyyy-MM-dd"}}
+                                    </td>
+                                    <td>
+                                        {{sprint.resource.totalTask}}
+                                    </td>
+                                    <td>
+                                        {{sprint.resource.totalTask - sprint.resource.finishTask}}
+                                    </td>
+                                    <td>
+                                        <a ng-href="/project/{{project.id}}/{{sprint.id}}/edit" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 修改 </a>
+                                        <a href="#" class="btn btn-white btn-sm" ng-click="delete($index)"><i class="fa fa-remove"></i> 删除 </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </tab>
+                    </tabset>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 <div class="col-lg-3">

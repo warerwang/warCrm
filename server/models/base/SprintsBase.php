@@ -11,6 +11,9 @@ use Yii;
  * @property string $pid
  * @property string $did
  * @property string $name
+ * @property integer $totalTask
+ * @property integer $finishTask
+ * @property integer $pauseTask
  * @property string $createTime
  * @property string $startTime
  * @property string $endTime
@@ -51,6 +54,9 @@ class SprintsBase extends \app\components\Model
             'createTime' => 'Create Time',
             'startTime' => 'Start Time',
             'endTime' => 'End Time',
+            'totalTask' => 'totalTask',
+            'finishTask' => 'finishTask',
+            'pauseTask' => 'pauseTask',
         ];
     }
 }

@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\behaviors\ProjectListExtendBehavior;
 use yii;
 use app\components\RestController;
 use app\models\Project;
@@ -19,11 +20,12 @@ class ProjectController extends RestController
     {
         $did = Yii::$app->user->identity->did;
         if($did){
-            return Project::findAll(['did' => $did]);
+            $projects = Project::findAll(['did' => $did]);
         }else{
             $uid = Yii::$app->user->identity->id;
-            return Project::findAll("members like '%$uid%'");
+            $projects = Project::findAll("members like '%$uid%'");
         }
+        return Project::expandFields($projects, Yii::$app->request->get('expand'));
     }
 
     public function actionCreate ()
