@@ -23,5 +23,6 @@ class ReloadController extends Controller
     {
         Yii::$app->db->createCommand("set wait_timeout=2592000")->execute();
         Worker::runAll();
+        Worker::$stdoutFile = Yii::$app->runtimePath. '/logs/' . date("Y_m_d").'.log';
     }
 }

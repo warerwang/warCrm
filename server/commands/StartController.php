@@ -27,6 +27,7 @@ class StartController extends Controller
         {
             require_once $start_file;
         }
+        Worker::$stdoutFile = Yii::$app->runtimePath. '/logs/' . date("Y_m_d").'.log';
         Worker::runAll();
     }
 }
