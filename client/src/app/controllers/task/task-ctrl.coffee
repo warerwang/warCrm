@@ -54,7 +54,7 @@ angular.module "crm"
 
 
 
-  .controller 'TaskDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location, TaskResource, $stateParams, CommentResource) ->
+  .controller 'TaskDetailCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location, TaskResource, $stateParams, CommentResource, toastr) ->
     $scope.taskStatus = UserService.taskStatus
     afterLoadPreData = ()->
       $scope.users = UserService.getUsers()
@@ -84,6 +84,7 @@ angular.module "crm"
       $scope.task.resource.ownerId = $scope.owner.id
       $scope.task.resource.$update {id:$scope.task.id}, (resource)->
         $scope.task.resource = resource
+        toastr.success "更新成功"
 
       if $scope.comment.content
         $scope.comment.relationId = $scope.task.id

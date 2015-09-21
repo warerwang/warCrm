@@ -1,12 +1,12 @@
 <div>
     <dl class="dl-horizontal">
-        <dt>状态:</dt>
+        <dt>标题:</dt>
         <dd><span class="label" ng-class="{
         'label-warning':task.resource.status == 1,
         'label-info':task.resource.status == 2,
         'label-primary':task.resource.status == 3,
         'label-success':task.resource.status == 5,
-        }">{{task.getStatus()}}</span></dd>
+        }">{{task.getStatus()}}</span> {{task.getTitle()}}</dd>
     </dl>
 </div>
 <div class="row">
@@ -63,14 +63,14 @@
 <hr />
 <div class="row m-t">
     <div class="col-sm-6">
-        <label class="col-sm-3 control-label">状态</label>
-        <div class="col-sm-9">
+        <label class="col-sm-2 control-label p-xs">状态</label>
+        <div class="col-sm-10">
             <select class="form-control" name="ownerId" ng-model="status" ng-options="s.name for s in taskStatus"></select>
         </div>
     </div>
     <div class="col-sm-6">
-        <label class="col-sm-3 control-label">指派给</label>
-        <div class="col-sm-9">
+        <label class="col-sm-2 control-label p-xs">指派给</label>
+        <div class="col-sm-10">
             <select class="form-control" name="ownerId" ng-model="owner" ng-options="s.getName() for s in users"></select>
         </div>
     </div>
@@ -81,5 +81,5 @@
     </div>
 </div>
 <div>
-    <button class="btn btn-primary" type="submit" ng-click="createComment()">回复</button>
+    <button id="edit-btn" class="btn btn-primary" type="submit" ng-click="createComment()">更新</button>
 </div>

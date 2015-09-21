@@ -8,7 +8,7 @@
 
 namespace app\models;
 
-
+use yii;
 use app\components\Tools;
 use app\models\base\TasksBase;
 
@@ -115,10 +115,9 @@ class Task extends TasksBase
                 }elseif($this->status == self::STATUS_CLOSED){
                     $updateAttrs['closeTask'] = ++$sprint->closeTask;
                 }
-
-                if($this->oldAttributes['status'] == Task::STATUS_PAUSED){
+                if($changedAttributes['status'] == Task::STATUS_PAUSED){
                     $updateAttrs['pauseTask'] = --$sprint->pauseTask;
-                }elseif($this->oldAttributes['status'] == Task::STATUS_CLOSED){
+                }elseif($changedAttributes['status'] == Task::STATUS_CLOSED){
                     $updateAttrs['closeTask'] = --$sprint->closeTask;
                 }
             }
