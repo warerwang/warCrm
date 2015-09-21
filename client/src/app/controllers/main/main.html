@@ -1,12 +1,12 @@
 <div id="page-wrapper" class="gray-bg wrapper-scroll">
-<div class="alert alert-warning alert-dismissible fade in" role="alert" ng-if="!domainExist">
+<div class="m-t alert alert-warning alert-dismissible fade in" role="alert" ng-if="!domainExist">
     <h4>你访问的域名不存在</h4>
     <p>请检查你输入的域名是否正确, 你也可以创建这个域名.<p>
     <p>
         <a class="btn btn-danger" href="{{API_BASE_URL}}/site/create-domain?domain={{subDomain}}">创建</a>
     </p>
 </div>
-<div class="row">
+<div class="row" ng-if="domainExist">
     <div class="col-lg-12">
         <div class="wrapper wrapper-content">
             <div class="row">
