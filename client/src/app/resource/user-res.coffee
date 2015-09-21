@@ -7,8 +7,9 @@ angular.module 'crm'
       updateAvatar : {method:'POST', url:API_BASE_URL + '/user/update-avatar?access-token=:token'}
       inviteUser : {method:'POST', url:API_BASE_URL + '/user/invite-user?access-token=:token'}
       getCurrent : {method: "GET", url:API_BASE_URL + '/user/current?access-token=:token'}
+      getDashboard: {method: "GET", url:API_BASE_URL + '/user/dashboard?access-token=:token'}
     }
-    actions = ['get','update', 'delete', 'query', 'save', 'updatePassword', 'updateAvatar', 'inviteUser', 'getCurrent']
+    actions = ['get','update', 'delete', 'query', 'save', 'updatePassword', 'updateAvatar', 'inviteUser', 'getCurrent', 'getDashboard']
     resource = SessionService.wrapActions( resource, actions )
     resource
 
