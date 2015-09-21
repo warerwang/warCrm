@@ -6,6 +6,8 @@ use app\components\RestController;
 use app\components\Tools;
 use app\exceptions\UserException;
 use app\models\Domain;
+use app\models\Project;
+use app\models\Task;
 use app\models\User;
 use DateTimeZone;
 use Yii;
@@ -18,6 +20,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use DateTime;
+
 /**
  * Swagger Annotations
  * @SWG\Resource(
@@ -40,10 +43,7 @@ use DateTime;
  * @SWG\Property(name="access_token",type="string"),
  * @SWG\Property(name="expire_time",type="string"),
  * )
-
  */
-
-
 class UserController extends RestController
 {
     public $safeActions = ['view', 'create', 'access-token'];
@@ -63,10 +63,10 @@ class UserController extends RestController
     public function actionIndex ($did, $status = 1)
     {
         //status 返回所有的
-        if($status == 0){
+        if ($status == 0) {
             return User::find()->where(['did' => $did])->all();
-        //返回对应状态的
-        }else{
+            //返回对应状态的
+        } else {
             return User::find()->where(['did' => $did, 'status' => $status])->all();
         }
     }
@@ -114,34 +114,35 @@ class UserController extends RestController
     {
         $user = $this->findModel($id);
         $this->checkAccess($user);
-        if(!empty($status) && $user->status != $status){
+        if (!empty($status) && $user->status != $status) {
             throw new NotFoundHttpException("没找到用户");
         }
+
         return $user;
     }
 
     public function actionUpdate ($id)
     {
-        $request  = Yii::$app->request;
-        $user     = $this->findModel($id);
+        $request = Yii::$app->request;
+        $user    = $this->findModel($id);
         $this->checkAccess($user);
         $user->setScenario(User::SCENARIO_EDIT);
         $data = json_decode($request->rawBody, true);
         $user->load($data, '');
-        if(!Yii::$app->user->identity->isAdmin && $id != Yii::$app->user->identity->id){
+        if (!Yii::$app->user->identity->isAdmin && $id != Yii::$app->user->identity->id) {
             throw new ForbiddenHttpException("权限不足.");
         }
-        if(Yii::$app->user->identity->isAdmin){
+        if (Yii::$app->user->identity->isAdmin) {
             isset($data['status']) && $user->status = $data['status'];
             isset($data['isAdmin']) && $user->isAdmin = $data['isAdmin'];
         }
-        if($user->save()){
+        if ($user->save()) {
             return $user;
-        }else{
+        } else {
             Yii::$app->response->statusCode = 500;
+
             return $user->getFirstErrors();
         }
-
     }
 
     /**
@@ -181,20 +182,21 @@ class UserController extends RestController
 
     public function actionCreate ()
     {
-        $request  = Yii::$app->request;
-        $data = json_decode($request->rawBody, true);
-        $user = new User();
+        $request = Yii::$app->request;
+        $data    = json_decode($request->rawBody, true);
+        $user    = new User();
         $user->setScenario(User::SCENARIO_CREATE);
         $user->load($data, '');
         $user->did = $request->get('did');
-        if(!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin){
-            $user->status = 1;
+        if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
+            $user->status  = 1;
             $user->isAdmin = $data['isAdmin'];
         }
-        if($user->save()){
+        if ($user->save()) {
             return $user;
-        }else{
+        } else {
             Yii::$app->response->statusCode = 500;
+
             return $user->getFirstErrors();
         }
     }
@@ -228,7 +230,7 @@ class UserController extends RestController
     public function actionAccessToken ($email, $password)
     {
         /** @var User $user */
-        $user     = User::findOne(['email' => $email]);
+        $user = User::findOne(['email' => $email]);
         $this->checkAccess($user);
         if (!$user->validatePassword($password)) {
             throw new UserException(UserException::PASSWORD_IS_INVALID, UserException::PASSWORD_IS_INVALID_CODE);
@@ -261,115 +263,124 @@ class UserController extends RestController
 
     public function actionInviteUser ()
     {
-        $rawBody = Yii::$app->request->rawBody;
+        $rawBody     = Yii::$app->request->rawBody;
         $rawBodyData = json_decode($rawBody, true);
-        if(empty($rawBodyData) || !isset($rawBodyData['emails']) || !is_array($rawBodyData['emails'])){
+        if (empty($rawBodyData) || !isset($rawBodyData['emails']) || !is_array($rawBodyData['emails'])) {
             throw new InvalidValueException("缺少参数");
         }
         $emails = $rawBodyData['emails'];
-        $emails = array_filter($emails, function($item){
-           if(empty($item)){
-               return false;
-           }elseif(!Tools::isEmail($item)){
-               return false;
-           }else{
-               return true;
-           }
+        $emails = array_filter($emails, function ($item) {
+            if (empty($item)) {
+                return false;
+            } elseif (!Tools::isEmail($item)) {
+                return false;
+            } else {
+                return true;
+            }
         });
-        if(empty($emails)) throw new InvalidValueException("缺少参数");
+        if (empty($emails)) {
+            throw new InvalidValueException("缺少参数");
+        }
         /** @var Domain $domain */
-        $domain = Domain::findOne(Yii::$app->user->identity->did);
-        $subject = Yii::$app->user->identity->name . "邀请你加入" . $domain->name;
+        $domain      = Domain::findOne(Yii::$app->user->identity->did);
+        $subject     = Yii::$app->user->identity->name . "邀请你加入" . $domain->name;
         $expiredTime = Tools::getDateTime(true) + 7 * 24 * 3600;
-        foreach($emails as $email){
+        foreach ($emails as $email) {
             User::createInActiveUser($domain->id, $email);
-            $code = md5($expiredTime . Yii::$app->id . $email . $domain->id);
+            $code   = md5($expiredTime . Yii::$app->id . $email . $domain->id);
             $params = [
                 'senderName' => Yii::$app->user->identity->name,
-                'teamName' => $domain->name,
-                'link'  => Url::to(['/site/active-account', 'did' => $domain->id, 'email' => $email, 'c' => $code, 'e' => $expiredTime], true)
+                'teamName'   => $domain->name,
+                'link'       => Url::to([
+                    '/site/active-account',
+                    'did'   => $domain->id,
+                    'email' => $email,
+                    'c'     => $code,
+                    'e'     => $expiredTime
+                ], true)
             ];
             Yii::$app->mailer->sendMail($email, $subject, 'invite-user', $params);
         }
     }
 
-    public function actionUpdatePassword($oldPassword, $newPassword)
+    public function actionUpdatePassword ($oldPassword, $newPassword)
     {
         /** @var User $current */
         $current = Yii::$app->user->identity;
-        if(!$current->validatePassword($oldPassword))
+        if (!$current->validatePassword($oldPassword)) {
             throw new ForbiddenHttpException("密码不正确");
+        }
 
         $current->password = $newPassword;
         $current->setScenario(User::SCENARIO_EDIT_PASSWORD);
-        if(!$current->save()){
+        if (!$current->save()) {
             throw new Exception($current->getFirstErrorContent());
-        }else{
+        } else {
             return $current;
         }
     }
 
-    public function actionUpdateAvatar($avatar)
+    public function actionUpdateAvatar ($avatar)
     {
         /** @var User $current */
         $current = Yii::$app->user->identity;
         $current->setScenario(User::SCENARIO_EDIT_AVATAR);
         $current->avatar = $avatar;
-        if(!$current->save()){
+        if (!$current->save()) {
             throw new Exception($current->getFirstErrorContent());
-        }else{
+        } else {
             return $current;
         }
     }
 
     public function actionGetResetPasswordCode ($email)
     {
-
     }
 
     public function actionUpdatePasswordByResetCode ($email, $code, $password)
     {
-
     }
 
     public function actionDelete ($id)
     {
         $model = $this->findModel($id);
         $this->checkAccess($model);
-        if(Yii::$app->user->identity->isAdmin){
+        if (Yii::$app->user->identity->isAdmin) {
             $model->delete();
+
             return true;
-        }else{
+        } else {
             throw new ForbiddenHttpException("权限不足.");
         }
     }
 
-    public function actionFileToken ( $key = null)
+    public function actionFileToken ($key = null)
     {
         $timeStamp = (new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600;
-        if($key){
+        if ($key) {
             $data = [
-                'scope' => Yii::$app->params['scope'] . ':' . $key,
+                'scope'    => Yii::$app->params['scope'] . ':' . $key,
                 'deadline' => $timeStamp,
             ];
             $json = json_encode($data);
-        }else{
-            $json = '{"scope":"'.Yii::$app->params['scope'].'","deadline":'.$timeStamp.'}';
+        } else {
+            $json = '{"scope":"' . Yii::$app->params['scope'] . '","deadline":' . $timeStamp . '}';
         }
         $jsonBase64 = Tools::base64_urlSafeEncode($json);
-        $sha1 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $jsonBase64, Yii::$app->params['qiNiuSk'], true));
+        $sha1       = Tools::base64_urlSafeEncode(hash_hmac('sha1', $jsonBase64, Yii::$app->params['qiNiuSk'], true));
+
         return Yii::$app->params['qiNiuAk'] . ':' . $sha1 . ':' . $jsonBase64;
     }
-//
-//    public function actionImageUrl ($url)
-//    {
-//        $file = urldecode($url);
-//        $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
-//        $sha1Base64 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $url, Yii::$app->params['qiNiuSk'], true));
-//        $token = Yii::$app->params['qiNiuAk'] . ':' . $sha1Base64;
-//        $url .= '&token='.$token;
-//        echo $url;
-//    }
+    //
+    //    public function actionImageUrl ($url)
+    //    {
+    //        $file = urldecode($url);
+    //        $url = Yii::$app->params['qiNiuUrl'] . "/{$file}?e=" . ((new DateTime('now', new DateTimeZone('UTC')))->getTimestamp() + 3600);
+    //        $sha1Base64 = Tools::base64_urlSafeEncode(hash_hmac('sha1', $url, Yii::$app->params['qiNiuSk'], true));
+    //        $token = Yii::$app->params['qiNiuAk'] . ':' . $sha1Base64;
+    //        $url .= '&token='.$token;
+    //        echo $url;
+    //    }
 
     /**
      * @param $idOrEmail
@@ -383,5 +394,27 @@ class UserController extends RestController
         } else {
             return User::findOne(['email' => $idOrEmail]);
         }
+    }
+
+    public function actionDashboard ()
+    {
+        $dashBoardData = [];
+        $tasks = Task::find()->where([
+            'ownerId' => Yii::$app->user->id,
+            'status'  => [
+                Task::STATUS_NEW,
+                Task::STATUS_FINISHING,
+                Task::STATUS_FINISHED,
+                Task::STATUS_REJECTED
+            ]
+        ])->with(['project', 'sprint'])->all();
+
+        $dashBoardData['tasks'] = array_map(function($task){
+            /** @var Task $task */
+            return $task->toArray([], ['project', 'sprint']);
+        }, $tasks);
+        $projects = Project::find()->where("did = '".Yii::$app->user->identity->did."' and status in (1,3) and members like '%\"".Yii::$app->user->id."\"%'")->all();
+        $dashBoardData['projects'] = Project::expandFields($projects, 'currentSprint');
+        return $dashBoardData;
     }
 }

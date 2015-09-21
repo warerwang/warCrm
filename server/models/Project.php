@@ -20,6 +20,10 @@ class Project extends ProjectsBase
     public $sprintCount;
     public $currentSprint;
 
+    const STATUS_NORMAL = 1;
+    const STATUS_PAUSED = 2;
+    const STATUS_FINISHED = 3;
+
     public function extraFields ()
     {
         //这些方法不能在list中使用，否则会有性能问题。

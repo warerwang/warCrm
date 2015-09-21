@@ -13,7 +13,7 @@ class m150830_080137_first extends Migration
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-09-12 00:12:17
+-- Generation Time: 2015-09-22 00:05:06
 -- 服务器版本： 5.6.19-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.6
 
@@ -101,6 +101,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `lastModify` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `relationId` char(20) NOT NULL,
+  `type` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `relationId` (`relationId`),
   KEY `did` (`did`)
@@ -187,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `content` longblob NOT NULL,
   `ownerId` char(20) NOT NULL,
   `members` varchar(500) NOT NULL,
-  `status` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
   `type` tinyint(4) NOT NULL,
   `did` char(20) NOT NULL,
   `createTime` timestamp NULL DEFAULT NULL,
@@ -207,6 +208,9 @@ CREATE TABLE IF NOT EXISTS `sprints` (
   `pid` char(20) NOT NULL,
   `did` char(20) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `totalTask` tinyint(3) NOT NULL DEFAULT '0',
+  `closeTask` tinyint(3) NOT NULL DEFAULT '0',
+  `pauseTask` tinyint(3) NOT NULL DEFAULT '0',
   `createTime` timestamp NULL DEFAULT NULL,
   `startTime` timestamp NULL DEFAULT NULL,
   `endTime` timestamp NULL DEFAULT NULL,
@@ -225,14 +229,15 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `pid` char(20) NOT NULL,
   `sid` char(20) NOT NULL,
   `did` char(20) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '1',
   `title` varchar(255) NOT NULL,
-  `content` date NOT NULL,
+  `content` text NOT NULL,
   `createUid` char(20) NOT NULL,
   `ownerId` char(20) NOT NULL,
   `followers` text NOT NULL,
   `createTime` timestamp NULL DEFAULT NULL,
   `lastModify` timestamp NULL DEFAULT NULL,
-  `status` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`),
   KEY `sid` (`sid`),
