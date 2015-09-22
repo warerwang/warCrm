@@ -21,12 +21,13 @@ class StartController extends Controller
 {
     public function actionIndex()
     {
-        Yii::$app->db->createCommand("set wait_timeout=2592000")->execute();
         // 加载所有Applications/*/start.php，以便启动所有服务
         foreach(glob(dirname(__DIR__).'/WorkerApp/start*.php') as $start_file)
         {
             require_once $start_file;
         }
+        Worker::$stdoutFile = Yii::$app->runtimePath. '/logs/' . date("Y_m_d").'.log';
         Worker::runAll();
+        Yii::$app->db->createCommand("set global wait_timeout=2592000")->execute();
     }
 }

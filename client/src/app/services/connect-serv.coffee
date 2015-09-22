@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
   .factory 'ConnectService', (SessionService, $location, AuthService)->
     wsServer = 'ws://'+$location.host()+':2345'
     retryTime = 1000
@@ -15,7 +15,7 @@ angular.module 'crm'
           current.resource.$update()
           setTimeout ()->
             console.log "重连" + retryTime
-            retryTime = Math.max 20000, 2 * retryTime
+            retryTime = Math.min 20000, 2 * retryTime
             connect.retry()
           ,
             retryTime

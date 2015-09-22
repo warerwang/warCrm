@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
 .factory 'UserService', (UserResource,
                          ChatResource,
                          AuthService,
@@ -65,6 +65,8 @@ angular.module 'crm'
       else
         ''
     getLastMessage: ()->
+      if !@resource.lastSenderUid?
+        return ''
       if @resource.lastSenderUid == AuthService.currentUser.id
         @resource.lastMessage
       else

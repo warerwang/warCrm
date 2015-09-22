@@ -6,7 +6,7 @@
         <a class="btn btn-danger" href="{{API_BASE_URL}}/site/create-domain?domain={{subDomain}}">创建</a>
     </p>
 </div>
-<div class="row" ng-if="domainExist">
+<div class="row" ng-if="domainExist && getIsAuthorized()">
     <div class="col-lg-12">
         <div class="wrapper wrapper-content">
             <div class="row">

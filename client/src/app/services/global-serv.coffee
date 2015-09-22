@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
   .service 'GlobalService', ()->
     this.config = null
     this.setConfig = (config)->

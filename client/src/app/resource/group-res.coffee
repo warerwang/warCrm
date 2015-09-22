@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
 .service 'GroupResource', ($resource, API_BASE_URL, SessionService)->
   resource = $resource API_BASE_URL + '/group/:id?access-token=:token', {id: '@id', token:'@token'}, {
     update : {method:'PUT'}

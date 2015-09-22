@@ -90,8 +90,7 @@
 .online,.offline,.busy{
   width: 10px;
   height: 10px;
-  //-moz-border-radius: 50px;
-  //-webkit-border-radius: 50px;
+  vertical-align: middle;
   border-radius: 50px;
   display: inline-block;
 }
@@ -164,7 +163,7 @@
     vertical-align: middle;
     width: 100%;
     margin-left: -53px;
-    padding-left: 50px;
+    padding-left: 53px;
     div{
       text-overflow: ellipsis;
       overflow: hidden;

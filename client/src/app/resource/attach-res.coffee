@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
   .service 'AttachResource', ($resource, API_BASE_URL, SessionService)->
     resource = $resource API_BASE_URL + '/attach/:id?access-token=:token&cid=:cid', {id: '@id', token:'@token', cid:'@cid'}, {
       update : {method:'PUT'}

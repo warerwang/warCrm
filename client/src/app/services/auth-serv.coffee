@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
   .factory 'AuthService', ($http, SessionService, API_BASE_URL, UserResource)->
     authService = {}
     authService.currentUser = null
