@@ -65,6 +65,8 @@ angular.module 'crm'
       else
         ''
     getLastMessage: ()->
+      if !@resource.lastSenderUid?
+        return ''
       if @resource.lastSenderUid == AuthService.currentUser.id
         @resource.lastMessage
       else
