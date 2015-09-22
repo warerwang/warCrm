@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
 .service 'SprintResource', ($resource, API_BASE_URL, SessionService)->
   resource = $resource API_BASE_URL + '/sprint/:id?access-token=:token&pid=:pid', {id: '@id', token:'@token', pid:'@pid'}, {
     update : {method:'PUT'}

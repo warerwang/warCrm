@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
 .factory 'WebService', ($http,
                         API_BASE_URL,
                         $location,

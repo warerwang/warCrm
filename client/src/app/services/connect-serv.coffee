@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
   .factory 'ConnectService', (SessionService, $location, AuthService)->
     wsServer = 'ws://'+$location.host()+':2345'
     retryTime = 1000

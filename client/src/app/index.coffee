@@ -1,4 +1,4 @@
-angular.module('crm',[
+window.WARPHP_starter = angular.module('crm',[
   'ngAnimate',
    'ngCookies',
    'ngTouch',

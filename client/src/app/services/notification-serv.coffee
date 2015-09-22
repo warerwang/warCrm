@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
   .factory 'NotificationService', ()->
     n = {
       send: (title, content, icon, callback)->

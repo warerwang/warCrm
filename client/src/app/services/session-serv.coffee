@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
 .service 'SessionService', ($cookieStore)->
   this.tokenWrapper = ( resource, action )->
     _this = this

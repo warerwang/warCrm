@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
   .factory 'UserResource', ($http, SessionService, API_BASE_URL, $resource)->
     resource = $resource API_BASE_URL + '/user/:id?did=:did&access-token=:token', {id:'@id', did:'@did', token:'@token'}, {
       save : {method:'POST', url:API_BASE_URL + '/user?did=:did&access-token=:token'},

@@ -1,4 +1,4 @@
-angular.module 'crm'
+WARPHP_starter
 .factory 'UserService', (UserResource,
                          ChatResource,
                          AuthService,
