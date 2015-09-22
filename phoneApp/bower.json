@@ -1,0 +1,10 @@
+{
+  "name": "HelloIonic",
+  "private": "true",
+  "devDependencies": {
+    "angular-cookies": "~1.4.3",
+    "angular-resource": "~1.4.3",
+    "ionic": "driftyco/ionic-bower#1.1.0",
+    "jquery": "~2.1.4"
+  }
+}
