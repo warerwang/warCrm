@@ -1,6 +1,6 @@
 WARPHP_starter
-  .factory 'ConnectService', (SessionService, $location, AuthService)->
-    wsServer = 'ws://'+$location.host()+':2345'
+  .factory 'ConnectService', (SessionService, $location, AuthService, BASE_DOMAIN)->
+    wsServer = 'ws://'+BASE_DOMAIN+':2345'
     retryTime = 1000
     connect = {
       init: ()->

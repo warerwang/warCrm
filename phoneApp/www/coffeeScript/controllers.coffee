@@ -15,11 +15,9 @@ WARPHP_starter
 
 
 
-  .controller 'ChatsCtrl', ($scope)->
-    console.log 111
-#    $scope.chats = Chats.all()
-#    $scope.remove = (chat)->
-#      Chats.remove(chat)
+  .controller 'ChatsCtrl', ($scope, UserService)->
+    UserService.getChats().then (chats)->
+      $scope.chats = chats
 
 
 
@@ -32,8 +30,8 @@ WARPHP_starter
       enableFriends: true
     }
 
-  .controller 'ContactsCtrl', ($scope)->
-    console.log '22222'
+  .controller 'ContactsCtrl', ($scope, UserService)->
+    $scope.users = UserService.getUsers()
 
 
   .controller 'SignInCtrl', ($scope, AuthService, UserResource, UserService, $location)->
