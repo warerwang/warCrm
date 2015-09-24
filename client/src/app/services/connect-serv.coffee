@@ -1,8 +1,8 @@
 WARPHP_starter
   .factory 'ConnectService', (SessionService, $location, AuthService)->
     wsServer = 'ws://'+$location.host()+':2345'
-    retryTime = 1000
     connect = {
+      retryTime: 1000
       init: ()->
         websocket = new WebSocket(wsServer)
         websocket.onopen = (evt)->
@@ -11,14 +11,15 @@ WARPHP_starter
 
         websocket.onclose = (evt)->
           current = AuthService.currentUser
-          current.resource.loginStatus = 0
-          current.resource.$update()
-          setTimeout ()->
-            console.log "重连" + retryTime
-            retryTime = Math.min 20000, 2 * retryTime
-            connect.retry()
-          ,
-            retryTime
+          if current
+            current.resource.loginStatus = 0
+            current.resource.$update()
+            setTimeout ()->
+              console.log "重连" + connect.retryTime
+              connect.retryTime = Math.min 20000, 2 * connect.retryTime
+              connect.retry()
+            ,
+              connect.retryTime
 
         websocket.onerror = (evt)->
           console.log evt

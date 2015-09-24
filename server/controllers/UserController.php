@@ -227,10 +227,15 @@ class UserController extends RestController
      *   ),
      * )
      */
-    public function actionAccessToken ($email, $password)
+
+    public function actionAccessToken ($domain, $email, $password)
     {
+        $domain = Domain::findOne(['domain' => $domain]);
+        if(empty($domain)){
+            throw new NotFoundHttpException("用户不存在！");
+        }
         /** @var User $user */
-        $user = User::findOne(['email' => $email]);
+        $user = User::findOne(['email' => $email, 'did' => $domain->id]);
         $this->checkAccess($user);
         if (!$user->validatePassword($password)) {
             throw new UserException(UserException::PASSWORD_IS_INVALID, UserException::PASSWORD_IS_INVALID_CODE);
@@ -239,6 +244,7 @@ class UserController extends RestController
         return [
             'id'          => $user->id,
             'name'        => $user->name,
+            'did'         => $domain->id,
             'accessToken' => $user->accessToken,
             'expireTime'  => date('Y-m-d H:i:s', time() + User::EXPIRE_TIME)
         ];

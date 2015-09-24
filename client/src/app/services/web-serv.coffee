@@ -11,9 +11,6 @@ WARPHP_starter
                         AuthService,
                         ConnectService
 )->
-  host = $location.$$host
-  index = host.length - BASE_DOMAIN.length - 1
-  preDomain = host.substr(0, index).toLowerCase()
   loadedCount = 0
   preDataCount = 1
   web = {
@@ -22,9 +19,8 @@ WARPHP_starter
     preData:{
       users : null
     }
-    preDomain: preDomain
     loadWebConfig: ()->
-      $http.get(API_BASE_URL + '/config/'+ preDomain)
+      $http.get(API_BASE_URL + '/config/'+ GlobalService.preDomain)
     loadData: ()->
       _this = this
       #加载用户信息

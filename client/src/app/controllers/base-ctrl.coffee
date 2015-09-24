@@ -22,6 +22,7 @@ angular.module "crm"
 
   $scope.setTools = (tools)->
     $scope.tools = tools;
+
   WebService.loadWebConfig().then (res)->
     $scope.domainExist = true
     config = res.data
@@ -40,7 +41,7 @@ angular.module "crm"
   ,
   ()->
     $scope.domainExist = false
-    $scope.subDomain = WebService.preDomain
+    $scope.subDomain = GlobalService.preDomain
     $scope.API_BASE_URL = API_BASE_URL
     $location.path('/')
 
