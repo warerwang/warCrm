@@ -1,4 +1,4 @@
-window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngResource'])
+window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngResource', 'ui.bootstrap'])
   .run ($ionicPlatform)->
     $ionicPlatform.ready ()->
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard)
@@ -38,7 +38,7 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
         }
       })
       .state('tab.chat-detail', {
-        url: '/chats/:chatId',
+        url: '/chats/:id',
         views: {
           'tab-chats': {
             templateUrl: 'templates/chat-detail.html',

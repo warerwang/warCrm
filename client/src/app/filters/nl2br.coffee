@@ -1,4 +1,4 @@
-angular.module "crm"
+WARPHP_starter
   .filter 'nl2br', ()->
     span = document.createElement('span')
     return (input)->

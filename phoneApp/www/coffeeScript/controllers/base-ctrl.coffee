@@ -14,6 +14,19 @@ WARPHP_starter.controller "BaseCtrl", ($scope,
                            ) ->
   $scope.currentUser = null
   $scope.absUrl = $location.absUrl()
+  $scope.tab = 'default'
+  $scope.setTab = (tab)->
+    $scope.tab = tab
+  if AuthService.isAuthenticated()
+    UserResource.getCurrent {}, (userResource)->
+      console.log userResource
+      $scope.afterSignIn userResource
+    ,
+    ()->
+      SessionService.destroy()
+  else
+    $location.path('/auth')
+
 
 #  WebService.loadWebConfig().then (res)->
 #    $scope.domainExist = true
@@ -21,15 +34,7 @@ WARPHP_starter.controller "BaseCtrl", ($scope,
 #    GlobalService.setConfig config
 #    WebService.isLoadConfig = true
 #    $scope.$broadcast EVENT_CONFIG_LOADED_SUCCESS, config
-#  if $scope.getIsAuthorized()
-#    UserResource.getCurrent {}, (userResource)->
-#      $scope.afterSignIn userResource
-#    ,
-#    ()->
-#      SessionService.destroy()
-    #重定向到sign-in
-#    else
-#      $location.path('/')
+#
 #  ,
 #  ()->
 #    $scope.domainExist = false
@@ -105,3 +110,9 @@ WARPHP_starter.controller "BaseCtrl", ($scope,
         regiesterOnMessage()
         WebService.isLoadedPreData = true
         $scope.$broadcast EVENT_PREDATA_LOADED_SUCCESS, currentUser
+
+  $scope.signOut = ()->
+    SessionService.destroy()
+    AuthService.currentUser = null
+    $location.path('/')
+    WebService.resetSystem()
