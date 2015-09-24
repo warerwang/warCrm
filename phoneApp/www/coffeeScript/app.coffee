@@ -14,6 +14,11 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
         controller:'SignInCtrl',
         templateUrl: 'templates/sign-in.html'
       }
+      .state 'chat', {
+        url: '/chat/:id',
+        templateUrl: 'templates/chat-detail.html',
+        controller: 'ChatDetailCtrl'
+      }
       .state 'tab', {
         url: '/tab',
         abstract: true,

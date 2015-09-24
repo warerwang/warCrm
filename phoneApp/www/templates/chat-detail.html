@@ -26,4 +26,12 @@
       </div>
     </div>
   </ion-content>
+  <ion-footer-bar>
+      <label class="item-input-wrapper">
+          <input type="search" placeholder="内容" ng-model="message" />
+      </label>
+      <button class="button button-clear" ng-click="sendMessage()">
+          发送
+      </button>
+  </ion-footer-bar>
 </ion-view>

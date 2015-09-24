@@ -23,14 +23,10 @@ WARPHP_starter
 
 
   .controller 'ChatDetailCtrl', ($scope, $stateParams, UserService, UtilsServ, AuthService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location)->
-    $scope.submit = ()->
-      console.log 111111111
-    $scope.setTab 'chat-detail'
     afterLoadPreData = ()->
       id = $stateParams.id
       $scope.currentUser.lastChatId = id
       $scope.chat = UserService.getChat id
-      console.log $scope.chat
       if !$scope.chat?
         $location.path('/')
         return false
@@ -53,7 +49,21 @@ WARPHP_starter
             $scope.chat._recipient.resource.$update()
 
 
+    $scope.$on 'new-message', (event, message)->
+      if $scope.chat? && message.cid == $scope.chat.getCid()
+        $scope.messages.push(message)
+        $scope.$apply()
+      else
+        #其他窗口的消息, 把消息置顶, 并提示未读消息.
 
+
+    $scope.sendMessage = ()->
+      console.log $scope.message
+      if $scope.message == ''
+
+      else
+        $scope.chat.sendMessage($scope.message)
+        $scope.message = ''
 
     if WebService.isLoadedPreData
       afterLoadPreData()
