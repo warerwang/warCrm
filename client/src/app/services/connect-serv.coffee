@@ -1,12 +1,11 @@
 WARPHP_starter
-  .factory 'ConnectService', (SessionService, $location, AuthService)->
-    wsServer = 'ws://'+$location.host()+':2345'
+  .factory 'ConnectService', (SessionService, $location, AuthService, BASE_DOMAIN)->
+    wsServer = 'ws://'+BASE_DOMAIN+':2345'
     connect = {
       retryTime: 1000
       init: ()->
         websocket = new WebSocket(wsServer)
         websocket.onopen = (evt)->
-          retryTime = 1000
           console.log("Connected to WebSocket server.")
 
         websocket.onclose = (evt)->
