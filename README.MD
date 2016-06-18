@@ -3,6 +3,11 @@
 * 使用websocket协议 实现了浏览器与服务器全双工通信.
 * 使用php 做消息的服务端. 使用Yii2框架  运用 WorkerMan来实现服务端的websocket.
 * 前端使用AngularJs, 并且使用了一个语法糖工具CoffeeScript来写js代码
+* 启动/停止命令
+1. php worker.php start -d
+2. php worker.php status
+3. php worker.php stop
+4. php worker.php reload
 
 ##Todo
 

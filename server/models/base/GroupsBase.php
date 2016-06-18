@@ -34,7 +34,8 @@ class GroupsBase extends \app\components\Model
     {
         return [
             [['id', 'did', 'createUid', 'members', 'name'], 'required'],
-            [['createTime', 'lastActivity', 'avatar'], 'safe'],
+            [['avatar'], 'string'],
+            [['createTime', 'lastActivity'], 'safe'],
             [['id', 'did', 'createUid'], 'string', 'max' => 20],
             [['members', 'description'], 'string', 'max' => 256],
             [['name'], 'string', 'max' => 50]
@@ -52,6 +53,7 @@ class GroupsBase extends \app\components\Model
             'createUid' => 'Create Uid',
             'members' => 'Members',
             'name' => 'Name',
+            'avatar' => 'Avatar',
             'description' => 'Description',
             'createTime' => 'Create Time',
             'lastActivity' => 'Last Activity',
