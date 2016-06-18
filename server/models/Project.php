@@ -55,10 +55,10 @@ class Project extends ProjectsBase
         ]);
     }
 
-    public function expandFields($projects, $expand)
+    public static function expandFields($projects, $expand)
     {
         $expand = trim($expand);
-        if(empty($expand)){
+        if(empty($expand) || empty($project)){
             return $projects;
         }else{
             $expands = explode(',' , $expand);
