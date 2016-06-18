@@ -32,7 +32,7 @@ class GlobalData extends Component
         $user = $this->getIdentity($client_id);
         if(!empty($user)){
             $cache->delete('identities' . $client_id);
-            $clients = $this->getClientsByUserId($client_id);
+            $clients = $this->getClientsByUserId($user->id);
             unset($clients[array_search($client_id, $clients)]);
             $cacheKey = 'userConnectionMap_' . $user->id;
             if(count($clients) > 0){
