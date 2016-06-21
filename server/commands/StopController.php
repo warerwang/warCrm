@@ -6,6 +6,7 @@
  */
 
 namespace app\commands;
+use app\models\User;
 use yii;
 use yii\console\Controller;
 use Workerman\Worker;
@@ -21,6 +22,7 @@ class StopController extends Controller
 {
     public function actionIndex()
     {
+        User::updateAll(['loginStatus' => User::OFFLINE]);
         Worker::runAll();
     }
 }
