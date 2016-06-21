@@ -62,7 +62,7 @@ var errorHandler = function(title) {
 	};
 };
 gulp.task('scripts', function () {
-	return gulp.src('./www/coffeeScript/**/*.coffee')
+	return gulp.src('./www/coffeeScript/**/**/*.coffee')
 		.pipe($.sourcemaps.init())
 		.pipe($.coffeelint())
 		.pipe($.coffeelint.reporter())

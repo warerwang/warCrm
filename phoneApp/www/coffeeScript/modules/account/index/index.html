@@ -1,0 +1,10 @@
+<ion-view view-title="Account">
+  <ion-content>
+    <div class="text-center">
+      <img ng-src="{{currentUser.getAvatar(150)}}" />
+      <p>{{currentUser.getName()}}</p>
+    </div>
+
+    <button class="button button-block button-positive" ng-click="signOut()">退出</button>
+  </ion-content>
+</ion-view>

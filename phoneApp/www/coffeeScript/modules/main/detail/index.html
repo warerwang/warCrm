@@ -1,0 +1,37 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view view-title="{{chat.getName()}}">
+  <ion-content class="padding">
+    <div class="chat-element" ng-repeat="message in messages">
+      <a href="" class="pull-left">
+        <img alt="image" class="img-circle" ng-src="{{message.getSender().getAvatar(36)}}">
+      </a>
+      <strong class="pull-left">{{message.getSender().getName()}}</strong>
+      <small class="text-navy pull-right">{{message.createTime}}</small>
+      <div class="media-body ">
+        <p class="m-b-xs" ng-if="message.isImg()">
+          <img style="max-width: 100%;" ng-src="{{message.content}}" />
+        </p>
+        <p class="m-b-xs" ng-if="message.isAttach() && !message.isImg()">
+          <a ng-href="{{message.content}}">{{message.content}}</a>
+        </p>
+        <!--<p class="m-b-xs" ng-if="message.isCode()">-->
+        <pre class="m-b-xs" ng-if="message.isCode()"><code class="{{message.getCodeType()}}" hight-light="" >{{message.content}}</code></pre>
+        <!--</p>-->
+        <p class="m-b-xs" ng-if="!message.isAttach() && !message.isImg() && !message.isCode()" ng-bind-html="message.content | nl2br"></p>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar>
+    <label class="item-input-wrapper">
+      <input type="search" placeholder="内容" ng-model="message" />
+    </label>
+    <button class="button button-clear" ng-click="sendMessage()">
+      发送
+    </button>
+  </ion-footer-bar>
+</ion-view>
