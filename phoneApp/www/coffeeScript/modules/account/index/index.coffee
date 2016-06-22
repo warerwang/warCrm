@@ -7,7 +7,5 @@ angular.module('starter.modules.account.index', [])
     controller: 'AccountCtrl'
   })
 
-.controller 'AccountCtrl', ($scope)->
-  $scope.settings = {
-    enableFriends: true
-  }
+.controller 'AccountCtrl', ($scope, $ionicNavBarDelegate)->
+  $ionicNavBarDelegate.showBackButton(false);

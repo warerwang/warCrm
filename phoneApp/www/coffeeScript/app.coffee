@@ -35,15 +35,17 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
     $scope.tab = 'default'
     $scope.setTab = (tab)->
       $scope.tab = tab
-    if AuthService.isAuthenticated()
-      UserResource.getCurrent {}, (userResource)->
-        console.log userResource
-        $scope.afterSignIn userResource
-      ,
-        ()->
-          SessionService.destroy()
-    else
-      $location.path('/auth')
+    $scope.checkAuth = ()->
+      if AuthService.isAuthenticated()
+        UserResource.getCurrent {}, (userResource)->
+          console.log userResource
+          $scope.afterSignIn userResource
+        ,
+          ()->
+            SessionService.destroy()
+      else
+        $location.path('/auth')
+    $scope.checkAuth()
 
 
     #  WebService.loadWebConfig().then (res)->
@@ -68,12 +70,12 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
     $scope.getIsAuthorized = ()->
       AuthService.isAuthenticated()
 
-    if $scope.getIsAuthorized()
-      UserResource.getCurrent {}, (userResource)->
-        $scope.afterSignIn userResource
-      ,
-        ()->
-          SessionService.destroy()
+#    if $scope.getIsAuthorized()
+#      UserResource.getCurrent {}, (userResource)->
+#        $scope.afterSignIn userResource
+#      ,
+#        ()->
+#          SessionService.destroy()
 
     handleNewMessage = (message)->
       cid = message.getChatId()
@@ -132,5 +134,5 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
     $scope.signOut = ()->
       SessionService.destroy()
       AuthService.currentUser = null
-      $location.path('/')
+      $location.path('/auth')
       WebService.resetSystem()

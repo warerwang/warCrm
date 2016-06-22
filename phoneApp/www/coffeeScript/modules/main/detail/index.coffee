@@ -6,7 +6,8 @@ angular.module('starter.modules.main.detail', [])
     templateUrl: 'coffeeScript/modules/main/detail/index.html',
     controller: 'ChatDetailCtrl'
   })
-.controller 'ChatDetailCtrl', ($scope, $stateParams, UserService, UtilsServ, AuthService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location)->
+.controller 'ChatDetailCtrl', ($scope, $stateParams, UserService, UtilsServ, AuthService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location, $ionicNavBarDelegate)->
+  $ionicNavBarDelegate.showBackButton(true);
   afterLoadPreData = ()->
     id = $stateParams.id
     $scope.currentUser.lastChatId = id

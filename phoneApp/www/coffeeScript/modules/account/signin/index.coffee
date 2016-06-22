@@ -1,12 +1,13 @@
 angular.module('starter.modules.account.signin', [])
 
 .config ($stateProvider, $urlRouterProvider)->
-  $stateProvider.state('tab.signin', {
+  $stateProvider.state('signin', {
     url: '/auth',
     templateUrl: 'coffeeScript/modules/account/signin/index.html',
     controller: 'SignInCtrl'
   })
-.controller 'SignInCtrl', ($scope, AuthService, UserResource, UserService, $location)->
+.controller 'SignInCtrl', ($scope, AuthService, UserResource, UserService, $location, $ionicNavBarDelegate)->
+  $ionicNavBarDelegate.showBackButton(false);
   $scope.user = {}
   $scope.error = ''
   $scope.submit = ()->

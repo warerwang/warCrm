@@ -6,7 +6,8 @@ angular.module('starter.modules.main.list', [])
     templateUrl: 'coffeeScript/modules/main/list/index.html',
     controller: 'ChatsCtrl'
   })
-.controller 'ChatsCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS)->
+.controller 'ChatsCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $ionicNavBarDelegate)->
+  $ionicNavBarDelegate.showBackButton(false);
   afterLoadPreData = ()->
     UserService.getChats().then (chats)->
       $scope.chats = chats
