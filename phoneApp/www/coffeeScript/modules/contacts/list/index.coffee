@@ -6,8 +6,15 @@ angular.module('starter.modules.contacts.list', [])
     templateUrl: 'coffeeScript/modules/contacts/list/index.html',
     controller: 'ContactsCtrl'
   })
-.controller 'ContactsCtrl', ($scope, UserService, $ionicNavBarDelegate, WebService, EVENT_PREDATA_LOADED_SUCCESS)->
+.controller 'ContactsCtrl', ($scope, UserService, $ionicNavBarDelegate, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location)->
   $ionicNavBarDelegate.showBackButton(false)
+  $scope.chat = (user)->
+    UserService.openChat(
+      user.id
+    ,
+      (chat)->
+        $location.path("/main/"+chat.id)
+    )
   afterLoadPreData = ()->
     $scope.users = UserService.getUsers()
 

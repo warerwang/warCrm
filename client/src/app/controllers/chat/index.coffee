@@ -7,7 +7,7 @@ angular.module "crm"
   WebService,
   toastr,
   $location,
-  $modal,
+  $uibModal,
   $http,
   API_BASE_URL,
   SessionService,
@@ -88,7 +88,7 @@ angular.module "crm"
       #其他窗口的消息, 把消息置顶, 并提示未读消息.
 
   $scope.addMembers = (chat)->
-    modalInstance = $modal.open {
+    modalInstance = $uibModal.open {
       templateUrl: 'add-members-modal.html',
       controller: 'addMembersModalCtrl'
       resolve: {
@@ -126,7 +126,7 @@ angular.module "crm"
       fileToken = token
 
   $scope.openCodeModal = ()->
-    $modal.open {
+    $uibModal.open {
       templateUrl: 'code-modal.html',
       controller: 'CodeModalCtrl'
       resolve: {

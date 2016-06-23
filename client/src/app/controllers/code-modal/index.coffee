@@ -1,5 +1,5 @@
 angular.module "crm"
-.controller 'CodeModalCtrl', ($scope, $http, AuthService, $modalInstance, chat) ->
+.controller 'CodeModalCtrl', ($scope, $http, AuthService, $uibModalInstance, chat) ->
   $scope.languages = [
     'java'
     'javascript'
@@ -23,6 +23,6 @@ angular.module "crm"
         language    : $scope.language
       }
     })
-    $modalInstance.close()
+    $uibModalInstance.close()
   $scope.close = ()->
-    $modalInstance.dismiss('cancel')
+    $uibModalInstance.dismiss('cancel')

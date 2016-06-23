@@ -3,7 +3,6 @@ angular.module "crm"
                          AuthService,
                          $location,
                          SessionService,
-                         $modal,
                          ConnectService,
                          UserService,
                          WebService,

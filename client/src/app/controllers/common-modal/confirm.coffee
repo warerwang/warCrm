@@ -1,7 +1,7 @@
 angular.module "crm"
-  .controller 'ConfirmModalCtrl', ($scope, $http, AuthService, $modalInstance, content) ->
+  .controller 'ConfirmModalCtrl', ($scope, $http, AuthService, $uibModalInstance, content) ->
     $scope.content = content
     $scope.confirm = ()->
-      $modalInstance.close()
+      $uibModalInstance.close()
     $scope.close = ()->
-      $modalInstance.dismiss('cancel')
+      $uibModalInstance.dismiss('cancel')

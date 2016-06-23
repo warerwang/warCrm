@@ -1,5 +1,5 @@
 angular.module "crm"
-  .controller "ContactCtrl", ($scope, UserService, $location, $modal) ->
+  .controller "ContactCtrl", ($scope, UserService, $location, $uibModal) ->
     $scope.query = ''
     $scope.order = 'resource.name'
     $scope.chat = (user)->
@@ -7,7 +7,7 @@ angular.module "crm"
         $location.path '/chat/'+chat.id
 
     $scope.inviteMember = ()->
-      modalInstance = $modal.open {
+      modalInstance = $uibModal.open {
         templateUrl: 'invite-modal.html',
         controller: 'inviteModalCtrl'
       }

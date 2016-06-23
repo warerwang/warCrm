@@ -2,7 +2,7 @@ angular.module "crm"
   .controller 'inviteModalCtrl', ($scope,
                                   $http,
                                   AuthService,
-                                  $modalInstance,
+                                  $uibModalInstance,
                                   toastr,
                                   UserResource) ->
     $scope.inviteMembers = [{email:''}]
@@ -22,7 +22,7 @@ angular.module "crm"
       emails = (item.email for item in $scope.inviteMembers)
       UserResource.inviteUser {emails:emails}, (res)->
         console.log res
-      $modalInstance.close()
+      $uibModalInstance.close()
 
     $scope.close = ()->
-      $modalInstance.dismiss('cancel')
+      $uibModalInstance.dismiss('cancel')

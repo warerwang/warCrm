@@ -1,5 +1,5 @@
 angular.module "crm"
-  .controller "addMembersModalCtrl", ($scope, UserService, members, chat, $location, $modalInstance)->
+  .controller "addMembersModalCtrl", ($scope, UserService, members, chat, $location, $uibModalInstance)->
     $scope.users = UserService.getUsers()
     $scope.oldMembersUid = (user.id for user in members)
 
@@ -11,10 +11,10 @@ angular.module "crm"
           group = UserService.createGroup groupRes
           
           UserService.openGroupChat group.id, (chat)->
-            $modalInstance.close()
+            $uibModalInstance.close()
             $location.path('/chat/' + chat.id)
         else
-          $modalInstance.close()
+          $uibModalInstance.close()
 
     $scope.isDisabled = (uid)->
       index = $scope.oldMembersUid.indexOf(uid)
@@ -41,4 +41,4 @@ angular.module "crm"
         $scope.members.push(user)
 
     $scope.close = ()->
-      $modalInstance.dismiss('cancel')
+      $uibModalInstance.dismiss('cancel')

@@ -2,7 +2,7 @@ angular.module "crm"
 .controller "NavbarCtrl", ($scope,
                            GlobalService,
                            EVENT_CONFIG_LOADED_SUCCESS,
-                           $modal,
+                           $uibModal,
                            SessionService,
                            AuthService,
                            NotificationService,
@@ -20,7 +20,7 @@ angular.module "crm"
 
 
   $scope.showSignModal = ()->
-    modalInstance = $modal.open {
+    modalInstance = $uibModal.open {
       templateUrl: 'sign-in-modal.html',
       controller: 'SigninmodalCtrl'
     }

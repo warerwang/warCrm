@@ -1,5 +1,5 @@
 WARPHP_starter
-  .factory 'UtilsServ', ($modal)->
+  .factory 'UtilsServ', ($uibModal)->
     timer = {}
     Utils = {
       DATE_FORMAT_MMDDYYY : 1,
@@ -8,7 +8,7 @@ WARPHP_starter
       htmlDecode : (str)->
         $('<div/>').html(str).text()
       confirm : (content, callback)->
-        modalInstance = $modal.open {
+        modalInstance = $uibModal.open {
           templateUrl: 'confirm-modal.html'
           controller: 'ConfirmModalCtrl'
           resolve: {

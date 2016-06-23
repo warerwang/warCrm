@@ -1,11 +1,11 @@
 angular.module "crm"
-  .controller 'SigninmodalCtrl', ($scope, $http, AuthService, $modalInstance, UserResource) ->
+  .controller 'SigninmodalCtrl', ($scope, $http, AuthService, $uibModalInstance, UserResource) ->
     $scope.submit = ()->
       AuthService.login $scope.email, $scope.password
       .then (res)->
         AuthService.saveAccessToken(res.data.accessToken)
         UserResource.getCurrent {}, (userResource)->
-          $modalInstance.close(userResource)
+          $uibModalInstance.close(userResource)
       ,
       (res)->
         $scope.userForm.password.$invalid = true
@@ -13,4 +13,4 @@ angular.module "crm"
         $scope.userForm.password.error = res.data.message
 
     $scope.close = ()->
-      $modalInstance.dismiss('cancel')
+      $uibModalInstance.dismiss('cancel')

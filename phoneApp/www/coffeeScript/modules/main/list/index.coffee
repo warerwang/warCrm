@@ -8,6 +8,19 @@ angular.module('starter.modules.main.list', [])
   })
 .controller 'ChatsCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $ionicNavBarDelegate)->
   $ionicNavBarDelegate.showBackButton(false);
+
+  $scope.remove = (chat)->
+#    chat = UserService.getChat id
+    index = $scope.chats.indexOf(chat)
+    $scope.chats.splice index,1
+    chat.resource.$delete()
+    if chat.isActive()
+      if $scope.chats[0]?
+        cid = $scope.chats[0].id
+        $location.path('/chat/'+cid)
+      else
+        $location.path('/chat/')
+
   afterLoadPreData = ()->
     UserService.getChats().then (chats)->
       $scope.chats = chats
