@@ -121,8 +121,8 @@ window.WARPHP_starter = angular.module('crm',[
 
   $locationProvider.html5Mode true
   $urlRouterProvider.otherwise '/'
-.constant('API_BASE_URL', 'http://www.warcrm.com')
-.constant('BASE_DOMAIN', 'warcrm.com')
+.constant('API_BASE_URL', 'http://www.local.gwork.cc')
+.constant('BASE_DOMAIN', 'local.gwork.cc')
 .constant('PRE_PAGE_COUNT', 10)
 .constant('EVENT_CONFIG_LOADED_SUCCESS', 'config-loaded-success')
 .constant('EVENT_SIGN_IN_SUCCESS', 'sign-in-success')
