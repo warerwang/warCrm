@@ -29,6 +29,7 @@ angular.module "crm"
         $scope.currentUser.lastChatId = id
         $scope.chat = UserService.getChat id
         if !$scope.chat?
+          $scope.currentUser.lastChatId = null
           $location.path('/')
           return false
         if !$scope.chat.tabActive?

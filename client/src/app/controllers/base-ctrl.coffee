@@ -20,7 +20,8 @@ angular.module "crm"
     $scope.breadcrumbs = breadcrumbs
 
   $scope.setTools = (tools)->
-    $scope.tools = tools;
+    $scope.tools = tools
+
 
   WebService.loadWebConfig().then (res)->
     $scope.domainExist = true

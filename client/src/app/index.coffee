@@ -13,10 +13,11 @@ window.WARPHP_starter = angular.module('crm',[
    'summernote',
    'localytics.directives'
 ]).config ($stateProvider, $urlRouterProvider, $locationProvider) ->
-  $stateProvider.state "home",
-    url: "/",
-    templateUrl: "app/controllers/main/main.html",
-    controller: "MainCtrl"
+  $stateProvider
+#  .state "home",
+#    url: "/",
+#    templateUrl: "app/controllers/main/main.html",
+#    controller: "MainCtrl"
   .state "chat",
     url: '/chat/:id',
     templateUrl: "app/controllers/chat/index.html",
@@ -120,7 +121,7 @@ window.WARPHP_starter = angular.module('crm',[
     templateUrl: "app/controllers/task/add.html"
 
   $locationProvider.html5Mode true
-  $urlRouterProvider.otherwise '/'
+  $urlRouterProvider.otherwise '/chat/'
 .constant('API_BASE_URL', 'http://www.local.gwork.cc')
 .constant('BASE_DOMAIN', 'local.gwork.cc')
 .constant('PRE_PAGE_COUNT', 10)
