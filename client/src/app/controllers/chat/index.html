@@ -48,12 +48,10 @@
                     </div>
                 </div>
             </div>
-
-            <div id="messages-input-container" class="chat-footer dropup" dropdown>
-                <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" dropdown-toggle>
-
-                </a>
-                <ul class="dropdown-menu">
+            <a id="new-message" ng-click="scrollToBottom()" ng-show="haveNewMessage">新消息</a>
+            <div id="messages-input-container" class="chat-footer dropup" uib-dropdown>
+                <a id="primary_file_button" class="file_upload_btn fa fa-upload cursor-pointer" uib-dropdown-toggle></a>
+                <ul class="dropdown-menu" uib-dropdown-menu>
                     <li><a href="#" ng-click="openFilePicker()">发送图片</a></li>
                     <li><a href="#" ng-click="openCodeModal()">代码片段</a></li>
                 </ul>

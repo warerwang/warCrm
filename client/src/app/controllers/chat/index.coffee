@@ -20,7 +20,7 @@ angular.module "crm"
   else
     $scope.showRight = true
   $scope.orderBy = '-getSort()'
-
+  $scope.haveNewMessage = false
   afterLoadPreData = ()->
     UserService.getChats().then (chats)->
       $scope.chats = chats
@@ -70,10 +70,11 @@ angular.module "crm"
     else
       $scope.chat.sendMessage($scope.message)
       $scope.message = ''
+      $scope.scrollToBottom()
 
   $scope.enterSubmit = (event)->
 #    不清楚是10 还是 13了。晕
-    if event.keyCode == 10 && event.ctrlKey
+    if event.keyCode == 13 && event.ctrlKey
       $scope.message += "\n"
       event.preventDefault()
     else if event.keyCode == 13
@@ -83,6 +84,8 @@ angular.module "crm"
   $scope.$on 'new-message', (event, message)->
     if $scope.chat? && message.cid == $scope.chat.getCid()
       $scope.messages.push(message)
+      if message.sender != $scope.currentUser.id
+        $scope.haveNewMessage = true
       $scope.$apply()
     else
       #其他窗口的消息, 把消息置顶, 并提示未读消息.
@@ -173,3 +176,10 @@ angular.module "crm"
         $scope.$broadcast 'load-history-success'
 #        ,
 #          0
+
+  $scope.scrollToBottom = ()->
+    $scope.haveNewMessage = false
+    $timeout ()->
+      $('.chat-activity-list').scrollTop($('.chat-activity-list')[0].scrollHeight)
+    ,
+      0

@@ -22,22 +22,21 @@ angular.module "crm"
   $scope.setTools = (tools)->
     $scope.tools = tools;
 
-  if AuthService.isAuthenticated()
-    UserResource.getCurrent {}, (userResource)->
-      $scope.afterSignIn userResource
-    ,
-    ()->
-      SessionService.destroy()
-  #重定向到sign-in
-  else
-    $location.path('/')
-
   WebService.loadWebConfig().then (res)->
     $scope.domainExist = true
     config = res.data
     GlobalService.setConfig config
     WebService.isLoadConfig = true
     $scope.$broadcast EVENT_CONFIG_LOADED_SUCCESS, config
+    if AuthService.isAuthenticated()
+      UserResource.getCurrent {}, (userResource)->
+        $scope.afterSignIn userResource
+      ,
+        ()->
+          SessionService.destroy()
+    #重定向到sign-in
+    else
+      $location.path('/')
 #    if $scope.getIsAuthorized()
 #      UserResource.getCurrent {}, (userResource)->
 #        $scope.afterSignIn userResource
