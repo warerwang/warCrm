@@ -98,7 +98,7 @@ angular.module "crm"
         chat.sort = ++UserService.maxChatSort
       $scope.$apply()
     else
-      UserService.createChat(
+      UserService.newMessageChat(
         cid,
         message.isGroupMessage(),
         (chat)->

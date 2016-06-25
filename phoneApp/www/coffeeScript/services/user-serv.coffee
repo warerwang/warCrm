@@ -405,17 +405,17 @@ WARPHP_starter
         userService.chats.push(chat)
         callback(chat)
 
-  userService.newMessageChat = (id, isGroup)->
+  userService.newMessageChat = (id, isGroup, callback)->
     chat = userService.getChat id
-    if chat?
-      if !chat.isActive()
-        chat.resource.unReadCount++
-        chat.sort = ++userService.maxChatSort
-    else
+    if !chat?
       type = if isGroup then 2 else 1
       ChatResource.get {id:id, type:type}, (res)->
         chat = new Chat res
+        chat.sort = ++userService.maxChatSort
         userService.chats.push(chat)
+        callback && callback(chat)
+    else
+      callback && callback(chat)
 
   userService.getUser = (uid)->
     return user for user in userService.getUsers() when user.id == uid
