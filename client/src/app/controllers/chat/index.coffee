@@ -83,27 +83,7 @@ angular.module "crm"
       event.preventDefault()
 
   $scope.$on 'new-message', (event, message)->
-    cid = message.getChatId()
-    chat = UserService.getChat cid
-    #会话存在.
-    if chat?
-      chat.messages.push(message) if chat.messages != null
-      chat.resource.lastSenderUid = message.sender
-      chat.resource.lastMessage = message.content
-      if chat.isActive()
-        if message.sender != $scope.currentUser.id
-          $scope.haveNewMessage = true
-      else
-        chat.resource.unReadCount++
-        chat.sort = ++UserService.maxChatSort
-      $scope.$apply()
-    else
-      UserService.newMessageChat(
-        cid,
-        message.isGroupMessage(),
-        (chat)->
 
-      )
 
   $scope.addMembers = (chat)->
     modalInstance = $uibModal.open {

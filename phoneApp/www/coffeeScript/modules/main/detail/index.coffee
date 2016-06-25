@@ -2,7 +2,7 @@ angular.module('starter.modules.main.detail', [])
 
 .config ($stateProvider, $urlRouterProvider)->
   $stateProvider.state('chat-detail', {
-    url: '/main/:id',
+    url: '/chat/:id',
     templateUrl: 'coffeeScript/modules/main/detail/index.html',
     controller: 'ChatDetailCtrl'
   })
@@ -33,13 +33,7 @@ angular.module('starter.modules.main.detail', [])
           $scope.chat._recipient.resource.avatar = groupAvatar
           $scope.chat._recipient.resource.$update()
 
-
   $scope.$on 'new-message', (event, message)->
-    if $scope.chat? && message.cid == $scope.chat.getCid()
-      $scope.messages.push(message)
-      $scope.$apply()
-    else
-#其他窗口的消息, 把消息置顶, 并提示未读消息.
 
 
   $scope.sendMessage = ()->

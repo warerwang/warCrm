@@ -8,7 +8,7 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
       if (window.StatusBar)
         StatusBar.styleLightContent()
   .config ($stateProvider, $urlRouterProvider)->
-    $urlRouterProvider.otherwise('/main')
+    $urlRouterProvider.otherwise('/chat')
   .constant('API_BASE_URL', 'http://www.local.gwork.cc')
   .constant('BASE_DOMAIN', 'local.gwork.cc')
   .constant('PRE_PAGE_COUNT', 10)
@@ -38,7 +38,6 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
     $scope.checkAuth = ()->
       if AuthService.isAuthenticated()
         UserResource.getCurrent {}, (userResource)->
-          console.log userResource
           $scope.afterSignIn userResource
         ,
           ()->
@@ -79,10 +78,28 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
 
     handleNewMessage = (message)->
       cid = message.getChatId()
-      UserService.newMessageChat cid, message.isGroupMessage()
-      $scope.$apply()
+      chat = UserService.getChat cid
+      #会话存在.
+      if chat?
+        chat.messages.push(message) if chat.messages != null
+        chat.resource.lastSenderUid = message.sender
+        chat.resource.lastMessage = message.content
+        if chat.isActive()
+          if message.sender != $scope.currentUser.id
+            $scope.haveNewMessage = true
+        else
+          chat.resource.unReadCount++
+          chat.sort = ++UserService.maxChatSort
+        $scope.$apply()
+      else
+        UserService.newMessageChat(
+          cid,
+          message.isGroupMessage(),
+          (chat)->
+
+        )
       $scope.$broadcast('new-message', message)
-      WebService.checkIfSendNotification(message)
+#      WebService.checkIfSendNotification(message)
 
     regiesterOnMessage = ()->
       ConnectService.websocket.onmessage = (messageEvent)->
@@ -92,7 +109,7 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
           handleNewMessage(message)
 
         else if data.type == ConnectService.BROADCAST_TYPE
-  #处理广播的消息
+          #处理广播的消息
           broadcast = 'server-' + data.message
           $scope.$broadcast(broadcast, data.data)
           if !WebService.isLoadedPreData

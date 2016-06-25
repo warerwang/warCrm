@@ -2,7 +2,7 @@ angular.module('starter.modules.main.list', [])
 
 .config ($stateProvider, $urlRouterProvider)->
   $stateProvider.state('tab.main', {
-    url: '/main',
+    url: '/chat',
     templateUrl: 'coffeeScript/modules/main/list/index.html',
     controller: 'ChatsCtrl'
   })
