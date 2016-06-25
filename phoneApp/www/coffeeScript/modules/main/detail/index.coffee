@@ -6,7 +6,7 @@ angular.module('starter.modules.main.detail', [])
     templateUrl: 'coffeeScript/modules/main/detail/index.html',
     controller: 'ChatDetailCtrl'
   })
-.controller 'ChatDetailCtrl', ($scope, $stateParams, UserService, UtilsServ, AuthService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location, $ionicNavBarDelegate)->
+.controller 'ChatDetailCtrl', ($scope, $stateParams, UserService, UtilsServ, AuthService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $location, $ionicNavBarDelegate, $ionicScrollDelegate, $timeout)->
   $ionicNavBarDelegate.showBackButton(true);
   afterLoadPreData = ()->
     id = $stateParams.id
@@ -18,6 +18,7 @@ angular.module('starter.modules.main.detail', [])
 
     $scope.chat.getHistoryMessage().then (messages)->
       $scope.messages = messages
+      $ionicScrollDelegate.scrollBottom()
 
     $scope.chat.resource.unReadCount = 0
     $scope.chat.resource.$update (res)->
@@ -37,12 +38,9 @@ angular.module('starter.modules.main.detail', [])
 
 
   $scope.sendMessage = ()->
-    console.log $scope.message
-    if $scope.message == ''
-
-    else
+    if $scope.message
       $scope.chat.sendMessage($scope.message)
-      $scope.message = ''
+    $scope.message = ''
 
   if WebService.isLoadedPreData
     afterLoadPreData()

@@ -3,3 +3,9 @@ $RobotoDraftFontName: "RobotoDraft";
 $RobotoDraftFontVersion: "1.0.0";
 
 @import "../www/lib/robotodraft/sass/robotodraft.scss";    // REMINDER: edit as appropriate!
+
+#message-div{
+  width: 100%;
+  border: none;
+  padding: 0;
+}

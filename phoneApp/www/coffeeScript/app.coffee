@@ -29,6 +29,7 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
     EVENT_PREDATA_LOADED_SUCCESS,
     API_BASE_URL,
     UserResource
+    $ionicScrollDelegate
   ) ->
     $scope.currentUser = null
     $scope.absUrl = $location.absUrl()
@@ -87,6 +88,8 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
         if chat.isActive()
           if message.sender != $scope.currentUser.id
             $scope.haveNewMessage = true
+          else
+            $ionicScrollDelegate.scrollBottom()
         else
           chat.resource.unReadCount++
           chat.sort = ++UserService.maxChatSort
