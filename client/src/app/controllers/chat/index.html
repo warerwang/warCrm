@@ -11,7 +11,7 @@
                 </a>
                 <div class="chat-action">
                     <i class="cursor-pointer fa fa-remove" ng-click="removeChat(chat.id, $event)"></i>
-                    <span class="badge label label-warning" ng-show="{{chat.getUnReadCount()>0}}">{{chat.getUnReadCount()}}</span>
+                    <span class="badge label label-warning" ng-show="chat.getUnReadCount()>0">{{chat.getUnReadCount()}}</span>
                 </div>
             </li>
         </ul>

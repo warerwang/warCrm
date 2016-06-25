@@ -63,9 +63,6 @@ angular.module "crm"
     AuthService.isAuthenticated()
 
   handleNewMessage = (message)->
-    cid = message.getChatId()
-    UserService.newMessageChat cid, message.isGroupMessage()
-    $scope.$apply()
     $scope.$broadcast('new-message', message)
     WebService.checkIfSendNotification(message)
 
