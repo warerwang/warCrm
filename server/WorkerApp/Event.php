@@ -131,6 +131,11 @@ class Event
 
        $globalData->removeIdentity($client_id);
        $clients = $globalData->getClientsByUserId($user->id);
+       foreach($clients as $client){
+           if(!Gateway::isOnline($client)){
+               $globalData->removeIdentity($client_id);
+           }
+       }
        if(empty($clients)){
            $user->changeLoginStatus(0);
            self::sendBroadCast($user->did, self::BROADCAST_LOGOUT, $user->toArray());
