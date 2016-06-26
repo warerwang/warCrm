@@ -85,21 +85,15 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
         chat.messages.push(message) if chat.messages != null
         chat.resource.lastSenderUid = message.sender
         chat.resource.lastMessage = message.content
-        if chat.isActive()
-          if message.sender != $scope.currentUser.id
-            $scope.haveNewMessage = true
-          else
-            $ionicScrollDelegate.scrollBottom()
-        else
-          chat.resource.unReadCount++
-          chat.sort = ++UserService.maxChatSort
+        chat.resource.unReadCount++
+        chat.sort = ++UserService.maxChatSort
         $scope.$apply()
       else
         UserService.newMessageChat(
           cid,
           message.isGroupMessage(),
           (chat)->
-
+#            console.log chat
         )
       $scope.$broadcast('new-message', message)
 #      WebService.checkIfSendNotification(message)

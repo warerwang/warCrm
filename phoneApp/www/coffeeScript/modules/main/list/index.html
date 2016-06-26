@@ -1,12 +1,12 @@
 <ion-view view-title="会话">
-  <ion-content class="has-footer">
+  <ion-content class="has-footer" id="chat-list">
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/chat/{{chat.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats | orderBy:orderBy" type="item-text-wrap" href="#/chat/{{chat.id}}">
         <img class="item-avatar" ng-src="{{chat.getAvatar()}}">
         <h2>{{chat.getName()}}</h2>
         <p>{{chat.getLastMessage()}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-
+        <span class="badge badge-assertive" ng-show="chat.getUnReadCount() > 0">{{chat.getUnReadCount()}}</span>
         <ion-option-button class="button-assertive" ng-click="remove(chat)">
           Delete
         </ion-option-button>

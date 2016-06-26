@@ -8,7 +8,7 @@ angular.module('starter.modules.main.list', [])
   })
 .controller 'ChatsCtrl', ($scope, UserService, WebService, EVENT_PREDATA_LOADED_SUCCESS, $ionicNavBarDelegate)->
   $ionicNavBarDelegate.showBackButton(false);
-
+  $scope.orderBy = '-getSort()'
   $scope.remove = (chat)->
 #    chat = UserService.getChat id
     index = $scope.chats.indexOf(chat)
