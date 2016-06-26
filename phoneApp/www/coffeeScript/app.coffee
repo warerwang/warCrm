@@ -7,8 +7,9 @@ window.WARPHP_starter = angular.module('starter', ['ionic', 'ngCookies', 'ngReso
 
       if (window.StatusBar)
         StatusBar.styleLightContent()
-  .config ($stateProvider, $urlRouterProvider)->
+  .config ($ionicConfigProvider, $urlRouterProvider)->
     $urlRouterProvider.otherwise('/chat')
+    $ionicConfigProvider.views.maxCache(0)
   .constant('API_BASE_URL', 'http://www.local.gwork.cc')
   .constant('BASE_DOMAIN', 'local.gwork.cc')
   .constant('PRE_PAGE_COUNT', 10)

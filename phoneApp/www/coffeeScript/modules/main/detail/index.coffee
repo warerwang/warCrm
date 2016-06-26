@@ -2,7 +2,6 @@ angular.module('starter.modules.main.detail', [])
 
 .config ($stateProvider, $urlRouterProvider)->
   $stateProvider.state('chat-detail', {
-    cache: false
     url: '/chat/:id',
     templateUrl: 'coffeeScript/modules/main/detail/index.html',
     controller: 'ChatDetailCtrl'
