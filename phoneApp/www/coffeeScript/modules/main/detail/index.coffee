@@ -34,7 +34,10 @@ angular.module('starter.modules.main.detail', [])
           $scope.chat._recipient.resource.avatar = groupAvatar
           $scope.chat._recipient.resource.$update()
 
-  $scope.$on 'new-message', (event, message)->
+#  $scope.$on 'new-message', (event, message)->
+  $scope.showMore = ()->
+    $scope.chat.loadMoreMessage().then (messages)->
+      $scope.messages = messages
 
 
   $scope.sendMessage = ()->

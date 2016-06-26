@@ -6,6 +6,11 @@
 -->
 <ion-view view-title="{{chat.getName()}}">
   <ion-content class="padding">
+    <ion-refresher on-refresh="showMore()"
+                   pulling-text="加载之前的消息"
+                   refreshing-text="加载中..."
+                   refreshing-icon="ion-loading-b">
+    </ion-refresher>
     <div class="chat-element" ng-repeat="message in messages">
       <a href="" class="pull-left">
         <img alt="image" class="img-circle" ng-src="{{message.getSender().getAvatar(36)}}">
