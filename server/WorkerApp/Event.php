@@ -124,9 +124,10 @@ class Event
        $globalData = Yii::$app->globalData;
        $user = $globalData->getIdentity($client_id);
        echo "一个连接关闭了" . $client_id ;
-       echo "用户名： " . $user->name . PHP_EOL;
        if(empty($user)){
            Yii::warning("onClose, 没有Identity, Client_id:" . $client_id);
+       }else{
+           echo "用户名： " . $user->name . PHP_EOL;
        }
 
        $globalData->removeIdentity($client_id);
