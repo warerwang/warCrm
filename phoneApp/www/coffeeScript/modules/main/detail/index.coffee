@@ -65,6 +65,9 @@ angular.module('starter.modules.main.detail', [])
       $scope.chat.sendMessage($scope.message)
     $scope.message = ''
 
+  $scope.isSelf = (message)->
+    message.sender == $scope.currentUser.id
+
   if WebService.isLoadedPreData
     afterLoadPreData()
   $scope.$on EVENT_PREDATA_LOADED_SUCCESS, ()->

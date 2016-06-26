@@ -11,23 +11,28 @@
                    refreshing-text="加载中..."
                    refreshing-icon="ion-loading-b">
     </ion-refresher>
-    <div class="chat-element" ng-repeat="message in messages">
-      <a href="" class="pull-left">
-        <img alt="image" class="img-circle" ng-src="{{message.getSender().getAvatar(36)}}">
-      </a>
-      <strong class="pull-left">{{message.getSender().getName()}}</strong>
-      <small class="text-navy pull-right">{{message.createTime}}</small>
-      <div class="media-body ">
-        <p class="m-b-xs" ng-if="message.isImg()">
-          <img style="max-width: 100%;" ng-src="{{message.content}}" />
-        </p>
-        <p class="m-b-xs" ng-if="message.isAttach() && !message.isImg()">
-          <a ng-href="{{message.content}}">{{message.content}}</a>
-        </p>
-        <!--<p class="m-b-xs" ng-if="message.isCode()">-->
-        <pre class="m-b-xs" ng-if="message.isCode()"><code class="{{message.getCodeType()}}" hight-light="" >{{message.content}}</code></pre>
-        <!--</p>-->
-        <p class="m-b-xs" ng-if="!message.isAttach() && !message.isImg() && !message.isCode()" ng-bind-html="message.content | nl2br"></p>
+    <div class="chat-element" ng-repeat="message in messages" ng-class="{'self':isSelf(message)}">
+      <div class="avatar">
+        <a href="" class="pull-left">
+          <img alt="image" class="img-circle" ng-src="{{message.getSender().getAvatar(36)}}">
+        </a>
+      </div>
+      <div class="chat-main-content">
+        <div class="media-header">
+          <strong class="name">{{message.getSender().getName()}}</strong>
+          <small class="time">{{message.createTime}}</small>
+          <div style="clear:both"></div>
+        </div>
+        <div class="media-body">
+          <p class="m-b-xs" ng-if="message.isImg()">
+            <img style="max-width: 100%;" ng-src="{{message.content}}" />
+          </p>
+          <p class="m-b-xs" ng-if="message.isAttach() && !message.isImg()">
+            <a ng-href="{{message.content}}">{{message.content}}</a>
+          </p>
+          <pre class="m-b-xs" ng-if="message.isCode()"><code class="{{message.getCodeType()}}" hight-light="" >{{message.content}}</code></pre>
+          <p class="m-b-xs" ng-if="!message.isAttach() && !message.isImg() && !message.isCode()" ng-bind-html="message.content | nl2br"></p>
+        </div>
       </div>
     </div>
   </ion-content>

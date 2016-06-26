@@ -14,3 +14,54 @@ $RobotoDraftFontVersion: "1.0.0";
     margin: 10px;
   }
 }
+
+.chat-element{
+  .name{
+    float: left;
+  }
+  .time{
+    float: right;
+  }
+  .avatar{
+    float: left;
+    width: 36px;
+  }
+  .chat-main-content{
+    padding-left: 10px;
+    margin-left: 36px;
+  }
+  .media-header{
+    height: 20px;
+  }
+  .media-body p{
+    color: #001E00;
+    display: inline-block;
+    background: #ECECEC;
+    border-radius: 5px;
+    padding: 5px;
+  }
+}
+.chat-element.self{
+  .name{
+    float: right;
+  }
+  .time{
+    float: left;
+  }
+  .avatar{
+    float: right;
+    width: 36px;
+  }
+  .chat-main-content{
+    padding-left: 0;
+    margin-left: 0;
+    padding-right: 10px;
+    margin-right: 36px;
+  }
+  .media-body{
+    text-align: right;
+    p{
+      background: #91CF54;
+    }
+  }
+}
