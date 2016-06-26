@@ -70,12 +70,8 @@ angular.module "crm"
       chat.messages.push(message) if chat.messages != null
       chat.resource.lastSenderUid = message.sender
       chat.resource.lastMessage = message.content
-      if chat.isActive()
-        if message.sender != $scope.currentUser.id
-          $scope.haveNewMessage = true
-      else
-        chat.resource.unReadCount++
-        chat.sort = ++UserService.maxChatSort
+      chat.resource.unReadCount++
+      chat.sort = ++UserService.maxChatSort
       $scope.$apply()
     else
       UserService.newMessageChat(

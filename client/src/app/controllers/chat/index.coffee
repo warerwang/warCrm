@@ -83,6 +83,18 @@ angular.module "crm"
       event.preventDefault()
 
   $scope.$on 'new-message', (event, message)->
+    cid = message.getChatId()
+    chat = UserService.getChat cid
+    if !chat
+      return
+    if chat.isActive()
+      if message.sender != $scope.currentUser.id
+        scroll = $('.chat-activity-list').height() + $('.chat-activity-list').scrollTop()
+        height = $('.chat-activity-list')[0].scrollHeight
+        if (height - scroll > 50 )
+          $scope.haveNewMessage = true
+      chat.resource.unReadCount = 0
+      $scope.$apply()
 
 
   $scope.addMembers = (chat)->
