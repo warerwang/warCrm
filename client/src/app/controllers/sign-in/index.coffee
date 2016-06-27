@@ -1,5 +1,5 @@
 angular.module "crm"
-  .controller 'SigninmodalCtrl', ($scope, $http, AuthService, $uibModalInstance, UserResource) ->
+  .controller 'SigninmodalCtrl', ($scope, $http, AuthService, $uibModalInstance, UserResource, GlobalService) ->
     $scope.submit = ()->
       AuthService.login $scope.email, $scope.password
       .then (res)->
@@ -14,3 +14,7 @@ angular.module "crm"
 
     $scope.close = ()->
       $uibModalInstance.dismiss('cancel')
+
+    $scope.inputUser = (user)->
+      $scope.email = user + '@' + GlobalService.preDomain + '.com'
+      $scope.password = '111111'
