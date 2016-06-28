@@ -1,5 +1,10 @@
 <?php
 ?>
+<style type="text/css">
+    .landing-page .btn-default{
+        font-size: 14px;
+    }
+</style>
 <div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#inSlider" data-slide-to="0" class="active"></li>
@@ -16,6 +21,7 @@
                     <p>简洁高效的用户体验，一切都是那么的自然。</p>
                     <p>
                         <a class="btn btn-lg btn-primary" href="<?= \yii\helpers\Url::to(['site/create-domain']); ?>" role="button">创建账户</a>
+                        <a class="btn btn-lg btn-default" href="http://<?= 'demo1' . Yii::$app->params['base_client'] ?>" role="button">测试账号</a>
                     </p>
                 </div>
                 <div class="carousel-image wow zoomIn">
@@ -32,6 +38,7 @@
                     <h1>敏捷开发的管理工具 <br/> 显著的提升团队工作效率.</h1>
                     <p>任务分发，错误追踪，燃尽图，项目Wiki，等等</p>
                     <a class="btn btn-lg btn-primary" href="<?= \yii\helpers\Url::to(['site/create-domain']); ?>" role="button">创建账户</a>
+                    <a class="btn btn-lg btn-default" href="http://<?= 'demo1' . Yii::$app->params['base_client'] ?>" role="button">测试账号</a>
                 </div>
             </div>
             <!-- Set background for slide in css -->
