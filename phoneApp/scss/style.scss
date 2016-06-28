@@ -4,6 +4,13 @@ $RobotoDraftFontVersion: "1.0.0";
 
 @import "../www/lib/robotodraft/sass/robotodraft.scss";    // REMINDER: edit as appropriate!
 
+.img-circle{
+  border-radius: 50%;
+}
+.contact-box.center-version{
+  text-align: center;
+  padding: 20px;
+}
 #message-div{
   width: 100%;
   border: none;

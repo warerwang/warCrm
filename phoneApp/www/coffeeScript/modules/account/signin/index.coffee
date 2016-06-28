@@ -6,8 +6,10 @@ angular.module('starter.modules.account.signin', [])
     templateUrl: 'coffeeScript/modules/account/signin/index.html',
     controller: 'SignInCtrl'
   })
-.controller 'SignInCtrl', ($scope, AuthService, UserResource, UserService, $location, $ionicNavBarDelegate, GlobalService)->
+.controller 'SignInCtrl', ($scope, AuthService, UserResource, UserService, $location, $ionicNavBarDelegate, $state)->
   $ionicNavBarDelegate.showBackButton(false);
+  if AuthService.isAuthenticated()
+    $state.go('tab.main');
   $scope.user = {}
   $scope.error = ''
   $scope.submit = ()->

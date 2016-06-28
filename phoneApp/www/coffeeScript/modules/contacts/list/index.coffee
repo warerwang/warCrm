@@ -13,7 +13,7 @@ angular.module('starter.modules.contacts.list', [])
       user.id
     ,
       (chat)->
-        $location.path("/main/"+chat.id)
+        $location.path("/chat/"+chat.id)
     )
   afterLoadPreData = ()->
     $scope.users = UserService.getUsers()

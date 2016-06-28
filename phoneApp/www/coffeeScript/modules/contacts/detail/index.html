@@ -1,5 +1,27 @@
 <ion-view view-title="Profile">
   <ion-content>
+    <div class="contact-box center-version">
+      <!--<a href="profile.html">-->
+        <img alt="image" class="img-circle" ng-src="{{user.getAvatar(48)}}">
+        <h3 class="m-b-xs"><strong>{{user.getName()}}</strong></h3>
 
+        <div class="font-bold">{{user.resource.title}}</div>
+        <address class="m-t-md">
+          <strong>邮箱:</strong><br>
+          {{user.resource.email}}<br>
+          <strong>自我介绍:</strong><br>
+          {{user.resource.description}}<br>
+          <abbr title="Phone">P:</abbr> {{user.resource.phone}}
+        </address>
+
+      <!--</a>-->
+      <div class="contact-box-footer">
+        <div class="m-t-xs btn-group">
+          <a ng-if="user.id != currentUser.id" class="button icon-left ion-chatbubble-working" ng-click="chat(user)">聊天</a>
+          <a class="button icon-left ion-ios-telephone" ng-href="tel:{{user.resource.phone}}">电话</a>
+          <a class="button icon-left ion-email" ng-href="mailto:{{user.resource.email}}">发邮件</a>
+        </div>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
