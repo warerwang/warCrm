@@ -193,6 +193,12 @@
 //    min-height:100%;
   }
 }
+@media (max-width: 767px) {
+  #page-wrapper{
+    top:119px;
+  }
+}
+
 .chat-container{
   height: 1000px;
   .chat-element{

@@ -1,12 +1,12 @@
-<div class="wrapper border-bottom white-bg page-heading col-md-12" style="padding-top: 10px;">
+<div class="wrapper border-bottom white-bg page-heading col-xs-12" style="padding-top: 10px;">
     <div class="col-xs-3">
         <input type="search" class="form-control" placeholder="搜索" ng-model="query">
     </div>
-    <div class="col-xs-2 col-xs-offset-6" style="text-align: right;">
+    <div class="col-xs-3 col-xs-offset-4" style="text-align: right;">
         <button class="btn btn-primary" style="margin-right: 20px;" ng-click="inviteMember()">邀请用户</button>
         <label class="control-label" style="padding-top: 9px;">排序</label>
     </div>
-    <div class="col-xs-1">
+    <div class="col-xs-2">
         <select class="form-control" ng-model="order">
             <option value="resource.name">姓名</option>
             <option value="-resource.lastActivity">在线状态</option>
@@ -14,7 +14,8 @@
         </select>
     </div>
 </div>
-<div class="wrapper wrapper-content animated fadeInRight col-md-12" ng-controller="ContactProfileCtrl">
+<div class="wrapper wrapper-content animated fadeInRight col-xs-12" ng-controller="ContactProfileCtrl" style="padding: 20px 0;">
+    <div class="row">
     <div class="col-md-3 col-sm-6" ng-repeat="user in users | filter:query | orderBy:order">
         <div class="contact-box center-version">
             <a ng-href="/contact/{{user.id}}">
@@ -37,6 +38,7 @@
             </div>
 
         </div>
+    </div>
     </div>
 </div>
 
