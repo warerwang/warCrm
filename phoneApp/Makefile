@@ -1,8 +1,8 @@
 build-prod:
-	mv www/coffeeScript/app.coffee www/coffeeScript/app.coffee.old
-	sed 's/local.gwork.cc/gwork.cc/g' www/coffeeScript/app.coffee.old > www/coffeeScript/app.coffee
+	mv www/js/app.js www/js/app.js.old
+	sed 's/local.gwork.cc/gwork.cc/g' www/js/app.js.old > www/js/app.js
 	ionic build
-	mv www/coffeeScript/app.coffee.old www/coffeeScript/app.coffee
+	mv www/js/app.js.old www/js/app.js
 
 build:
 	ionic build

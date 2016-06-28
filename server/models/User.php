@@ -39,9 +39,9 @@ class User extends UsersBase implements IdentityInterface
             'avatar' => function(){
                   if(empty($this->avatar)){
                       return [
-                            '36' => '/assets/images/default-36.png',
-                            '48' => '/assets/images/default-48.png',
-                            '150' => '/assets/images/default-150.png',
+                            '36' => Yii::$app->params['webUrl']  . '/assets/images/default-36.png',
+                            '48' => Yii::$app->params['webUrl']  . '/assets/images/default-48.png',
+                            '150' => Yii::$app->params['webUrl'] . '/assets/images/default-150.png',
 //                          '36'  => Yii::$app->params['webUrl'] . '/images/default-36.png',
 //                          '48'  => Yii::$app->params['webUrl'] . '/images/default-48.png',
 //                          '150' => Yii::$app->params['webUrl'] . '/images/default-150.png',
