@@ -6,7 +6,7 @@ angular.module('starter.modules.contacts.detail', [])
     templateUrl: 'coffeeScript/modules/contacts/detail/index.html',
     controller: 'ContactProfileCtrl'
   })
-.controller 'ContactProfileCtrl', ($scope, UserService, $ionicNavBarDelegate, $stateParams)->
+.controller 'ContactProfileCtrl', ($scope, UserService, $ionicNavBarDelegate, $stateParams, $location)->
   $ionicNavBarDelegate.showBackButton(true)
   id = $stateParams.id
   $scope.user = UserService.getUser id

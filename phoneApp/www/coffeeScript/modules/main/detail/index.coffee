@@ -65,6 +65,12 @@ angular.module('starter.modules.main.detail', [])
       $scope.chat.sendMessage($scope.message)
     $scope.message = ''
 
+  $scope.enterSubmit = (event)->
+    console.log event.keyCode
+    if event.keyCode == 13
+      $scope.sendMessage()
+      event.preventDefault()
+
   $scope.isSelf = (message)->
     message.sender == $scope.currentUser.id
 

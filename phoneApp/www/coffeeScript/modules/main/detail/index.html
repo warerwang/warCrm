@@ -38,12 +38,12 @@
   </ion-content>
   <ion-footer-bar>
     <div id="message-div" class="item item-input-inset">
-      <form>
+      <form class="col" style="padding: 0;">
       <label class="item-input-wrapper">
-        <input type="text" placeholder="内容" ng-model="message">
+        <input type="text" placeholder="内容" ng-model="message" ng-keypress="enterSubmit($event)">
       </label>
       </form>
-      <button class="button button-small" ng-click="sendMessage()">发送</button>
+      <!--<button class="button button-small" ng-click="sendMessage()">发送</button>-->
     </div>
   </ion-footer-bar>
 </ion-view>
