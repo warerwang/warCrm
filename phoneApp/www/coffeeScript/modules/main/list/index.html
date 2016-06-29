@@ -2,7 +2,7 @@
   <ion-content class="has-footer" id="chat-list">
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats | orderBy:orderBy" type="item-text-wrap" href="#/chat/{{chat.id}}">
-        <img class="item-avatar" ng-src="{{chat.getAvatar()}}">
+        <img ng-src="{{chat.getAvatar()}}">
         <h2>{{chat.getName()}}</h2>
         <p>{{chat.getLastMessage()}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
