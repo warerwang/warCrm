@@ -4,8 +4,9 @@ user=`php -r 'echo parse_ini_file("./server.conf")["user"];'`
 port=`php -r 'echo parse_ini_file("./server.conf")["port"];'`
 path=`php -r 'echo parse_ini_file("./server.conf")["port"];'`
 rm -rf .tmp/*
-mv src/app/index.coffee src/app/index.coffee.old
-sed 's/local.gwork.cc/gwork.cc/g' src/app/index.coffee.old > src/app/index.coffee
+cp src/app/index.coffee src/app/index.coffee.old
+sed -i "" 's/:888//g' src/app/index.coffee
+sed -i "" 's/docker.gwork.cc/gwork.cc/g' src/app/index.coffee
 gulp build
 tar czf client_upload.tar.gz dist
 cp -r src/app/index.coffee.old src/app/index.coffee

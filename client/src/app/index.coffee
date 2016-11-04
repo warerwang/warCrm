@@ -122,8 +122,8 @@ window.WARPHP_starter = angular.module('crm',[
 
   $locationProvider.html5Mode true
   $urlRouterProvider.otherwise '/chat/'
-.constant('API_BASE_URL', 'http://www.local.gwork.cc')
-.constant('BASE_DOMAIN', 'local.gwork.cc')
+.constant('API_BASE_URL', 'http://www.docker.gwork.cc:888')
+.constant('BASE_DOMAIN', 'docker.gwork.cc')
 .constant('PRE_PAGE_COUNT', 10)
 .constant('EVENT_CONFIG_LOADED_SUCCESS', 'config-loaded-success')
 .constant('EVENT_SIGN_IN_SUCCESS', 'sign-in-success')
